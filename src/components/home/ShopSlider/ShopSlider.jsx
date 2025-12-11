@@ -1,10 +1,12 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-export default function ProfileHeader() {
+const ShopSlider = () => {
   return (
     <View>
-      <Text>ProfileHeader</Text>
+      <Text>ShopSlider</Text>
     </View>
   )
 }
+
+export default ShopSlider
