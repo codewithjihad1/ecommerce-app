@@ -2,7 +2,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import ProfileHeader from "../../src/components/profile/ProfileHeader";
 
 
-export default function profile() {
+export default function Profile() {
   return (
     <SafeAreaView>
       {/* This is profile header  */}

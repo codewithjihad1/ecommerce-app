@@ -1,5 +1,5 @@
 import { FlatList, Image, Text, TouchableOpacity, View } from "react-native";
-import product from "../../../assets/recentlyViewProduct/kurta.png";
+import product from "../../../../assets/recentlyViewProduct/kurta.png";
 const recentlyViewedProduct = [
   {
     title: "ProductOne",
