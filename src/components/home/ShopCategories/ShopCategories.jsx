@@ -53,7 +53,9 @@ const ShopCategories = () => {
           keyExtractor={(item) => item.id.toString()}
           numColumns={2}
           columnWrapperStyle={{ gap: 10, margin: 7 }}
-          renderItem={({ item }) => <CategoryCard category={item} />}
+          renderItem={({ item, index }) => (
+            <CategoryCard category={item} index={index} />
+          )}
         ></FlatList>
       </View>
     </View>
