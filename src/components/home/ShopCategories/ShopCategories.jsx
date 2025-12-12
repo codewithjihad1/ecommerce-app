@@ -1,6 +1,6 @@
 import { View, FlatList } from 'react-native';
 import React from 'react';
-import watchImg from '../../../../assets/images/watch.png';
+import watchImg from '../../../../assets/shopCategoriesImage/watch.png';
 import CategoryCard from './CategoryCard';
 import ShopCategoriesHeader from './ShopCategoriesHeader';
 const categories = [
