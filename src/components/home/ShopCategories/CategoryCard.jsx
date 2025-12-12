@@ -3,31 +3,38 @@ import React from 'react';
 
 const CategoryCard = ({ category }) => {
   return (
-    <View className="flex-1 rounded-lg p-2">
-      <View className="flex-row flex-wrap gap-1">
+    <View className="flex-1 rounded-xl p-2 bg-[#FFFFFF] shadow-md">
+      <View className="flex-row flex-wrap gap-2">
         <Image
           source={category.img1}
-          className="w-[48%] h-20 rounded-md"
+          className="w-[45%] h-20 rounded-md"
           resizeMode="cover"
         />
         <Image
           source={category.img2}
-          className="w-[48%] h-20 rounded-md"
+          className="w-[45%] h-20 rounded-md"
           resizeMode="cover"
         />
         <Image
           source={category.img3}
-          className="w-[48%] h-20 rounded-md"
+          className="w-[45%] h-20 rounded-md"
           resizeMode="cover"
         />
         <Image
           source={category.img4}
-          className="w-[48%] h-20 rounded-md"
+          className="w-[45%] h-20 rounded-md"
           resizeMode="cover"
         />
       </View>
-      <Text className="text-center font-semibold mt-2">{category.name}</Text>
-      <Text className="text-center text-gray-600">{category.count} items</Text>
+
+      <View className="flex-row justify-between items-center mt-1">
+        <Text className="text-center font-bold mt-2">
+          {category.name}
+        </Text>
+        <View className='bg-[#dfe9ff] px-2 py-1 rounded-lg'>
+          <Text className="text-sm">{category.count} items</Text>
+        </View>
+      </View>
     </View>
   );
 };
