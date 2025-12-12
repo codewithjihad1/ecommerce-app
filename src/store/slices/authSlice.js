@@ -6,7 +6,12 @@ const supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL;
 const supabaseAnonKey = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY;
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
-// Async thunks for auth operations
+/**
+ * @param1 {string} Email
+ * @param2 {string} Password
+ * @param3 {Object} metadata (Optional)
+ * @returns {Object} authenticated user data
+ */
 export const signUp = createAsyncThunk(
     'auth/signUp',
     async ({ email, password, metadata = {} }, { rejectWithValue }) => {
@@ -27,6 +32,11 @@ export const signUp = createAsyncThunk(
     }
 );
 
+/**
+ * @param1 {string} email
+ * @param2 {string} password
+ * @returns {Object} User data
+ */
 export const signIn = createAsyncThunk('auth/signIn', async ({ email, password }, { rejectWithValue }) => {
     try {
         const { data, error } = await supabase.auth.signInWithPassword({

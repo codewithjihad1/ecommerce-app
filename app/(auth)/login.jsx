@@ -3,12 +3,25 @@ import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { Image, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useDispatch } from 'react-redux';
+import { signIn } from '../../src/store/slices/authSlice';
 
 export default function LoginScreen() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const router = useRouter();
+    const dispatch = useDispatch();
+
+    //  handle Login
+    const handleLogin = async () => {
+        try {
+            await dispatch(signIn({ email, password }));
+            router.push('/');
+        } catch (error) {
+            console.log(error?.message);
+        }
+    };
 
     return (
         <SafeAreaView className="flex-1 justify-center">
@@ -58,8 +71,10 @@ export default function LoginScreen() {
                 </View>
 
                 {/* Done Button */}
-                <TouchableOpacity className="bg-[#0066FF] rounded-xl py-4 items-center mb-4 shadow-lg">
-                    <Text className="text-white text-lg font-semibold">Signup</Text>
+                <TouchableOpacity
+                    className="bg-[#0066FF] rounded-xl py-4 items-center mb-4 shadow-lg"
+                    onPress={handleLogin}>
+                    <Text className="text-white text-lg font-semibold">Login</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
