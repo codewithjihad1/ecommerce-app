@@ -4,10 +4,10 @@ import menu from "../../../assets/profile/menu.png";
 import profileImage from "../../../assets/profile/profile.png";
 import settings from "../../../assets/profile/Settings.png";
 import vouchers from "../../../assets/profile/Vouchers.png";
+import MostPopular from "./mostpopular/MostPopular";
+import NewItem from "./newitem/NewProducts";
 import RecentlyViewProduct from "./recentViewProduct/RecentlyViewProduct";
 import Stories from "./stories/Stories";
-import NewItem from "./newitem/NewProducts";
-import MostPopular from "./mostpopular/MostPopular";
 
 const profileData = {
   img: profileImage,
@@ -20,7 +20,7 @@ const myOrdersCategoryButtons = ["To Pay", "To Receive", "To Review"];
 
 export default function ProfileHeader() {
   return (
-    <View className="px-5 py-5 my-5 bg-white">
+    <View className="px-5 py-5 my-5 bg-white h-[100%] ">
       <ScrollView showsVerticalScrollIndicator={false}>
         <View className="flex-row justify-between items-center">
           {/* Left side  */}
@@ -33,7 +33,7 @@ export default function ProfileHeader() {
             <TouchableOpacity>
               <Text
                 style={{ fontFamily: "Poppins" }}
-                className="bg-blue-700 text-lg text-white py-3 px-5 rounded-full font-semibold">
+                className="bg-[#004CFF] text-lg text-white py-3 px-5 rounded-full font-semibold">
                 My Activity
               </Text>
             </TouchableOpacity>
@@ -66,7 +66,7 @@ export default function ProfileHeader() {
                 exercitationem temporibus dolor mollitia optio dolorem quod.
               </Text>
             </View>
-            <View className="bg-blue-700 p-2 rounded-full">
+            <View className="bg-[#004CFF] p-2 rounded-full">
               <Ionicons name="arrow-forward" size={20} color="white" />
             </View>
           </TouchableOpacity>
@@ -97,7 +97,7 @@ export default function ProfileHeader() {
         <NewItem />
 
         {/* Most popular */}
-        <MostPopular/>
+        <MostPopular />
       </ScrollView>
     </View>
   );

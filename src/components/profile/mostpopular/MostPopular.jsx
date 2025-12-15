@@ -28,7 +28,7 @@ export default function MostPopular() {
           }
           className="flex-row items-center gap-4">
           <Text className="text-xl font-semibold">See all</Text>
-          <Ionicons className="bg-blue-700 px-2 py-2 rounded-full" name="arrow-forward" size={24} color="white" />
+          <Ionicons className="bg-[#004CFF] px-2 py-2 rounded-full" name="arrow-forward" size={24} color="white" />
         </TouchableOpacity>
       </View>
       <FlatList
@@ -40,7 +40,7 @@ export default function MostPopular() {
             <Image source={item.img} className="w-[130px] h-[150px]" resizeMode="contain" />
             <View className="flex-row items-center justify-between">
               <Text style={{ fontFamily: "RalewayBold" }}>{item.totalProducts} items </Text>
-              {/* <Text className="bg-blue-700 px-3 py-1 text-white">{item.category}</Text> */}
+              {/* <Text className="bg-[#004CFF] px-3 py-1 text-white">{item.category}</Text> */}
             </View>
           </TouchableOpacity>
         )}
