@@ -7,15 +7,16 @@ import { ScrollView, View } from 'react-native';
 
 export default function HomeScreen() {
   return (
-    <SafeAreaView className="bg-[#FFFFFF] flex-1">
-      <ScrollView showsVerticalScrollIndicator={false}>
-      <View className="pt-4 px-6 pb-2">
-        <ShopHeader></ShopHeader>
-        <ShopSlider></ShopSlider>
-        <ShopCategories></ShopCategories>
+    <ScrollView showsVerticalScrollIndicator={false}>
+      <SafeAreaView className="bg-[#FFFFFF]">
+        <View className="pt-4 px-6 pb-2">
+          <ShopHeader></ShopHeader>
+          <ShopSlider></ShopSlider>
+          <ShopCategories></ShopCategories>
+
           <TopProducts></TopProducts>
-      </View>
-      </ScrollView>
-    </SafeAreaView>
+        </View>
+      </SafeAreaView>
+    </ScrollView>
   );
 }
