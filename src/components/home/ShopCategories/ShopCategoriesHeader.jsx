@@ -1,10 +1,9 @@
 import React from 'react';
-import { View, Text, Pressable, ScrollView } from 'react-native';
+import { View, Text, Pressable } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 
 const ShopCategoriesHeader = ({ headerName }) => {
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
       <View className="flex-row justify-between items-center">
         <Text className="text-2xl font-bold" style={{ fontFamily: 'RalewayBold' }}>{headerName}</Text>
 
@@ -15,7 +14,6 @@ const ShopCategoriesHeader = ({ headerName }) => {
           </Pressable>
         </View>
       </View>
-    </ScrollView>
   );
 };
 

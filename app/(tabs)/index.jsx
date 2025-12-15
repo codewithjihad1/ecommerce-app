@@ -6,6 +6,8 @@ import TopProducts from '../../src/components/home/TopProducts/TopProducts';
 import { FlatList, View } from 'react-native';
 import NewItems from '../../src/components/profile/newitem/NewProducts';
 import FlashSale from '../../src/components/home/FlashSale/FlashSale';
+import MostPopular from '../../src/components/profile/mostpopular/MostPopular';
+import JustForYou from '../../src/components/home/JustForYou/JustForYou';
 
 export default function HomeScreen() {
   const sections = [{ id: 'main' }];
@@ -29,9 +31,25 @@ export default function HomeScreen() {
             <TopProducts />
             <NewItems />
             <FlashSale />
+            <MostPopular />
+            <JustForYou />
           </View>
         )}
       />
     </SafeAreaView>
   );
+  // return (
+  //   <SafeAreaView className="bg-[#FFFFFF] px-6 pb-2 pt-4">
+  //     <View>
+  //       <ScrollView>
+  //         <ShopHeader />
+  //         <ShopSlider />
+  //         <ShopCategories />
+  //         <TopProducts />
+  //         <NewItems />
+  //         <FlashSale />
+  //       </ScrollView>
+  //     </View>
+  //   </SafeAreaView>
+  // );
 }

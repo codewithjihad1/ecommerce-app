@@ -4,9 +4,9 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 
 const ShopHeader = () => {
   return (
-    <View className="">
+    <View>
       <View className="flex-row items-center gap-x-6">
-        <Text className="text-3xl font-bold">Shop</Text>
+        <Text className="text-3xl" style={{ fontFamily: 'RalewayBold' }}>Shop</Text>
 
         <View className="flex-1 relative">
           <TextInput
