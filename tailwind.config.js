@@ -1,14 +1,18 @@
-/** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    './App.{js,jsx,ts,tsx}',
-    './app/**/*.{js,jsx,ts,tsx}',
-    './src/**/*.{js,jsx,ts,tsx}', // ← add this if your components are here
-    './components/**/*.{js,jsx,ts,tsx}',
+    "./App.{js,jsx,ts,tsx}",
+    "./app/**/*.{js,jsx,ts,tsx}",
+    "./src/**/*.{js,jsx,ts,tsx}", // ← add this if your components are here
+    "./components/**/*.{js,jsx,ts,tsx}",
   ],
-  presets: [require('nativewind/preset')],
+  presets: [require("nativewind/preset")],
   theme: {
-    extend: {},
+    fontFamily:{
+      'raleway':[]
+    },
+    extend: {
+      
+    },
   },
   plugins: [],
 };

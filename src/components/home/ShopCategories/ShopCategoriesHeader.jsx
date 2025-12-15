@@ -6,7 +6,7 @@ const ShopCategoriesHeader = ({ headerName }) => {
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View className="flex-row justify-between items-center">
-        <Text className="text-2xl font-bold">{headerName}</Text>
+        <Text className="text-2xl font-bold" style={{ fontFamily: 'RalewayBold' }}>{headerName}</Text>
 
         <View className="flex-row gap-x-3 items-center">
           <Text className="text-lg font-bold">See All</Text>
