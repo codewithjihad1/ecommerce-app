@@ -80,6 +80,14 @@ export default function ProductDescription() {
             <Text className="text-2xl font-bold text-gray-900 mb-2">Product not found</Text>
           </View>
         )}
+
+        <View className='mx-5'>
+          <TouchableOpacity className='w-full'>
+            <Text className='bg-[#004CFF] text-center py-4 text-white' style={{fontFamily:'Poppins'}}>
+              Add to cart
+            </Text>
+          </TouchableOpacity>
+        </View>
       </ScrollView>
     </SafeAreaView>
   );

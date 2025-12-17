@@ -1,7 +1,7 @@
 import { Feather, Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import { Image, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Alert, Image, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch } from 'react-redux';
 import { signIn } from '../../src/store/slices/authSlice';
@@ -16,10 +16,10 @@ export default function LoginScreen() {
     //  handle Login
     const handleLogin = async () => {
         try {
-            await dispatch(signIn({ email, password }));
-            router.push('/');
+            await dispatch(signIn({ email, password })).unwrap();
+            router.push('/(tabs)');
         } catch (error) {
-            console.log(error?.message);
+            Alert.alert(error);
         }
     };
 
