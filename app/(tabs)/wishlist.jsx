@@ -30,6 +30,8 @@ export default function Wishlist() {
 
   return (
     <SafeAreaView className="flex-1 bg-white">
+
+      {/* Fallback to  */}
       <ScrollView showsVerticalScrollIndicator={false}>
         <View className="px-5 pt-6 pb-4">
           {/* Header */}

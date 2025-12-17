@@ -1,5 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import Octicons from "@expo/vector-icons/Octicons";
+import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -8,6 +9,7 @@ import { cartData } from "../../assets/cartData/Data";
 export default function Cart() {
   const [products, setProducts] = useState([]);
   const [quantities, setQuantities] = useState({});
+  const router = useRouter();
 
   useEffect(() => {
     setProducts(cartData);
@@ -89,6 +91,9 @@ export default function Cart() {
                   Your cart is empty
                 </Text>
                 <Text className="text-gray-500 text-center">Add some products to get started!</Text>
+                <TouchableOpacity onPress={() => router.replace("/")}>
+                  <Text className="bg-[#004CFF] px-5 py-3 mt-5 text-white rounded ">Shop Now</Text>
+                </TouchableOpacity>
               </View>
             ) : (
               products.map((product, index) => (
@@ -194,11 +199,11 @@ export default function Cart() {
                 </View>
               </View>
 
-              <TouchableOpacity
-                className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl py-4 items-center shadow-lg mt-2"
-                activeOpacity={0.8}>
+              <TouchableOpacity className="py-4 items-center shadow-lg mt-2" activeOpacity={0.8}>
                 <View className="flex-row items-center gap-2">
-                  <Text className="text-lg font-bold bg-[#004CFF] px-5 py-3 " style={{ fontFamily: "RalewayBold" }}>
+                  <Text
+                    className="text-lg font-bold bg-[#004CFF] rounded-lg text-white px-5 py-3 "
+                    style={{ fontFamily: "RalewayBold" }}>
                     Proceed to Checkout
                   </Text>
                   <Ionicons name="arrow-forward" size={20} color="black" />

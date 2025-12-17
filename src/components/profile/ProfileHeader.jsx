@@ -11,12 +11,12 @@ import Stories from "./stories/Stories";
 
 const profileData = {
   img: profileImage,
-  name: "Maxwell",
-  gmail: "maxwell12@gmail.com",
+  name: 'Maxwell',
+  gmail: 'maxwell12@gmail.com',
 };
 const leftSideIcons = [menu, vouchers, settings];
 
-const myOrdersCategoryButtons = ["To Pay", "To Receive", "To Review"];
+const myOrdersCategoryButtons = ['To Pay', 'To Receive', 'To Review'];
 
 export default function ProfileHeader() {
   return (
@@ -32,8 +32,9 @@ export default function ProfileHeader() {
             />
             <TouchableOpacity>
               <Text
-                style={{ fontFamily: "Poppins" }}
-                className="bg-[#004CFF] text-lg text-white py-3 px-5 rounded-full font-semibold">
+                style={{ fontFamily: 'Poppins' }}
+                className="bg-blue-700 text-lg text-white py-3 px-5 rounded-full font-semibold"
+              >
                 My Activity
               </Text>
             </TouchableOpacity>
@@ -43,27 +44,41 @@ export default function ProfileHeader() {
           <View className="flex-row items-center gap-2">
             {leftSideIcons.map((icon, index) => (
               <TouchableOpacity key={index}>
-                <Image source={icon} resizeMode="contain" className="w-[50px] h-[50px]" />
+                <Image
+                  source={icon}
+                  resizeMode="contain"
+                  className="w-[50px] h-[50px]"
+                />
               </TouchableOpacity>
             ))}
           </View>
         </View>
 
         {/* Profile name  */}
-        <Text style={{ fontFamily: "RalewayBold" }} className="text-4xl  mt-5 mb-3 ">
+        <Text
+          style={{ fontFamily: 'RalewayBold' }}
+          className="text-4xl  mt-5 mb-3 "
+        >
           Hello, {profileData.name}!
         </Text>
 
         {/* Announcement */}
         <View className="bg-[#F9F9F9] px-5 py-4 rounded-2xl mt-3">
-          <Text style={{ fontFamily: "PoppinsBold" }} className="mb-3 text-xl font-semibold">
+          <Text
+            style={{ fontFamily: 'PoppinsBold' }}
+            className="mb-3 text-xl font-semibold"
+          >
             Announcement
           </Text>
           <TouchableOpacity className="flex-row items-center gap-3">
             <View className="flex-1">
-              <Text style={{ fontFamily: "Poppins" }} className="text-sm leading-5">
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Error amet provident quae consequuntur,
-                exercitationem temporibus dolor mollitia optio dolorem quod.
+              <Text
+                style={{ fontFamily: 'Poppins' }}
+                className="text-sm leading-5"
+              >
+                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Error
+                amet provident quae consequuntur, exercitationem temporibus
+                dolor mollitia optio dolorem quod.
               </Text>
             </View>
             <View className="bg-[#004CFF] p-2 rounded-full">
@@ -75,7 +90,7 @@ export default function ProfileHeader() {
         <RecentlyViewProduct />
 
         {/* My orders category button */}
-        <Text style={{ fontFamily: "RalewayBold" }} className="text-2xl">
+        <Text style={{ fontFamily: 'RalewayBold' }} className="text-2xl">
           My Orders
         </Text>
         <View className="flex-row gap-5 justify-center mt-5">
@@ -83,8 +98,11 @@ export default function ProfileHeader() {
             <TouchableOpacity
               key={index}
               className="bg-blue-100 py-3 px-5 rounded-full"
-              onPress={() => console.log(buttonTitle)}>
-              <Text className="text-blue-500 text-center font-semibold text-xl ">{buttonTitle}</Text>
+              onPress={() => console.log(buttonTitle)}
+            >
+              <Text className="text-blue-500 text-center font-semibold text-xl ">
+                {buttonTitle}
+              </Text>
             </TouchableOpacity>
           ))}
         </View>
