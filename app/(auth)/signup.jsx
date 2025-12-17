@@ -1,9 +1,9 @@
 import { Feather, Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import { Image, Pressable, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Alert, Image, Pressable, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { signUp } from '../../src/store/slices/authSlice';
 
 export default function CreateAccountScreen() {
@@ -13,17 +13,14 @@ export default function CreateAccountScreen() {
     const [showPassword, setShowPassword] = useState(false);
     const router = useRouter();
     const dispatch = useDispatch();
-    const { user } = useSelector((state) => state.auth);
-
-    console.log(user);
 
     // handle signup
     const handleSignup = async () => {
         try {
-            await dispatch(signUp({ email, password, metadata: { name } }));
-            router.push('/');
+            await dispatch(signUp({ email, password, metadata: { name } })).unwrap();
+            router.push('/(tabs)');
         } catch (error) {
-            console.log(error?.message);
+            Alert.alert(error);
         }
     };
 
