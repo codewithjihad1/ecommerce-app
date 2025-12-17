@@ -8,9 +8,5 @@ module.exports = {
             },
         },
     },
-    extend: {
-      
-    },
-  },
-  plugins: [],
+    extend: {},
 };
