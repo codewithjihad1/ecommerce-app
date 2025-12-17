@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image, FlatList } from 'react-native';
+import { View, Text, Image, FlatList, TouchableOpacity } from 'react-native';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import bagImg from '../../../../assets/shopCategoriesImage/bag.png';
 
@@ -63,24 +63,22 @@ const JustForYou = () => {
           numColumns={2}
           columnWrapperStyle={{ gap: 5 }}
           renderItem={({ item }) => (
-            <View className='w-1/2 mt-2'>
-              <View className="shadow-md bg-[#FFFFFF] mb-1 relative rounded-lg">
-                <Image
-                  className="w-[180px] h-[180px] border-[6px] border-white rounded-lg"
-                  source={item.src}
-                ></Image>
+            <View className="w-1/2 mt-2">
+              <TouchableOpacity>
+                <View className="shadow-md bg-[#FFFFFF] mb-1 relative rounded-lg">
+                  <Image
+                    className="w-[180px] h-[180px] border-[6px] border-white rounded-lg"
+                    source={item.src}
+                  ></Image>
 
-                <View className="absolute right-1.5 top-1.5"></View>
-              </View>
+                  <View className="absolute right-1.5 top-1.5"></View>
+                </View>
 
-              <View className='mt-1'>
-                <Text>
-                    {item.description}
-                </Text>
-                <Text className='font-bold text-xl mt-1'>
-                    ${item.price}
-                </Text>
-              </View>
+                <View className="mt-1">
+                  <Text>{item.description}</Text>
+                  <Text className="font-bold text-xl mt-1">${item.price}</Text>
+                </View>
+              </TouchableOpacity>
             </View>
           )}
         ></FlatList>

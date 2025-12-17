@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image, FlatList, Pressable } from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  FlatList,
+  Pressable,
+  TouchableOpacity,
+} from 'react-native';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import bagImg from '../../../../assets/shopCategoriesImage/bag.png';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -92,10 +99,12 @@ const FlashSale = () => {
           columnWrapperStyle={{ gap: 5 }}
           renderItem={({ item }) => (
             <View className="shadow-md rounded-lg bg-[#FFFFFF] mb-1 relative">
-              <Image
-                className="w-[120px] h-[130px] border-[6px] border-white rounded-lg"
-                source={item.src}
-              ></Image>
+              <TouchableOpacity>
+                <Image
+                  className="w-[120px] h-[130px] border-[6px] border-white rounded-lg"
+                  source={item.src}
+                ></Image>
+              </TouchableOpacity>
 
               <View className="absolute right-1.5 top-1.5">
                 <LinearGradient
