@@ -1,39 +1,60 @@
 import { MaterialIcons } from "@expo/vector-icons";
+import Entypo from "@expo/vector-icons/Entypo";
 import { router } from "expo-router";
 import { useSearchParams } from "expo-router/build/hooks";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { recentlyViewedProducts } from "../../assets/recentlyViewProduct/Data";
 
-const PRODUCTS_PER_PAGE = 6
+const PRODUCTS_PER_PAGE = 6;
 
 export default function RecentlyViewedProduct() {
   const [displayedProducts, setDisplayedProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const { from } = useSearchParams();
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const [date, setDate] = useState(null);
 
+  // Date picker related
+  const showDatePicker = () => {
+    setDatePickerVisibility(true);
+  };
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
+  };
+  const handleConfirm = (date) => {
+    console.warn("A date has been picked: ", date);
+    setDate(date);
+    hideDatePicker();
+  };
+
+  // delete picker date so that i can see initial data
+  const handleDeleteDate = () => {
+    setDate(null);
+  };
+
+  // products related
   useEffect(() => {
     loadInitialProducts();
   }, []);
 
-
-  // How many product will load 
+  // How many product will load
   const loadInitialProducts = () => {
     const initial = recentlyViewedProducts.slice(0, PRODUCTS_PER_PAGE);
     setDisplayedProducts(initial);
   };
 
+  // load more products
   const loadMoreProducts = () => {
     if (loading) return;
-
     const startIndex = currentPage * PRODUCTS_PER_PAGE;
     const endIndex = startIndex + PRODUCTS_PER_PAGE;
 
     // Check if there are more products to load
     if (startIndex >= recentlyViewedProducts.length) return;
-
     setLoading(true);
 
     // Simulate network delay (remove in production if data is local)
@@ -70,6 +91,43 @@ export default function RecentlyViewedProduct() {
           Recently Viewed
         </Text>
 
+        {/* Pick a date for filter the data based on date */}
+        <View className="flex-row items-center justify-between ">
+          <TouchableOpacity className="w-[45%]">
+            <Text className="bg-blue-200 py-3 text-center text-[#004cff] font-bold rounded-full">Today</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={showDatePicker} className="w-[45%]">
+            <Text className="bg-blue-200 py-3 text-center text-[#004cff] font-bold rounded-full">Pick a Date</Text>
+          </TouchableOpacity>
+
+          {/* Date picker modal  */}
+          <DateTimePickerModal
+            isVisible={isDatePickerVisible}
+            mode="date"
+            date={new Date()}
+            onConfirm={handleConfirm}
+            onCancel={hideDatePicker}
+            display="spinner"
+            textColor="black"
+            themeVariant="light"
+            maximumDate={new Date()}
+            minimumDate={new Date(2000, 0, 1)}
+          />
+        </View>
+        <View className="my-5">
+          {date && (
+            <View className="flex-row items-center gap-5">
+              <Text className="text-lg">
+                Product is showing visited on:{" "}
+                <Text className="font-bold">{date ? date.toLocaleDateString() : "No date selected"}</Text>
+              </Text>
+              <TouchableOpacity onPress={() => handleDeleteDate()} className="">
+                <Entypo name="cross" size={24} color="white" className="bg-red-700 px-2 " />
+              </TouchableOpacity>
+            </View>
+          )}
+        </View>
         {/* Two products per row */}
         <View className="flex-row flex-wrap justify-between mt-10">
           {displayedProducts.map((product, index) => (
