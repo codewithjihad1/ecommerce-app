@@ -29,13 +29,18 @@ export default function Cart() {
   };
 
   const removeProduct = (index) => {
-    setProducts((prev) => prev.filter((_, i) => i !== index));
-    setQuantities((prev) => {
-      const newQuantities = { ...prev };
-      delete newQuantities[index];
-      return newQuantities;
+  setProducts((prev) => prev.filter((_, i) => i !== index));
+  setQuantities((prev) => {
+    const newQuantities = {};
+    Object.keys(prev).forEach((key) => {
+      const oldIndex = parseInt(key);
+      if (oldIndex !== index) {
+        newQuantities[oldIndex < index ? oldIndex : oldIndex - 1] = prev[key];
+      }
     });
-  };
+    return newQuantities;
+  });
+};
 
   const totalItems = Object.values(quantities).reduce((sum, qty) => sum + qty, 0);
   const subtotal = products.reduce((sum, product, index) => sum + product.price * (quantities[index] || 1), 0);
@@ -202,6 +207,7 @@ export default function Cart() {
               <TouchableOpacity className="py-4 items-center shadow-lg mt-2" activeOpacity={0.8}>
                 <View className="flex-row items-center gap-2">
                   <Text
+                  onPress={()=>router.push('/checkout')}
                     className="text-lg font-bold bg-[#004CFF] rounded-lg text-white px-5 py-3 "
                     style={{ fontFamily: "RalewayBold" }}>
                     Proceed to Checkout

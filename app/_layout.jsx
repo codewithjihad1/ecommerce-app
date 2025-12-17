@@ -17,7 +17,7 @@ export const unstable_settings = {
 export default function RootLayout() {
   const [fontsLoaded, fontsError] = useFonts({
     Poppins: require("../assets/font/Poppins-Regular.ttf"),
-    RalewayBold:require("../assets/font/Raleway-Bold.ttf"),
+    RalewayBold: require("../assets/font/Raleway-Bold.ttf"),
     Raleway: require("../assets/font/Raleway-Regular.ttf"),
     PoppinsBold: require("../assets/font/Poppins-Bold.ttf"),
   });
@@ -37,7 +37,8 @@ export default function RootLayout() {
     <Provider store={store}>
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="product" options={{headerShown:false }} />
+        <Stack.Screen name="product" options={{ headerShown: false }} />
+        <Stack.Screen name="checkout" options={{ headerShown: false }} />
       </Stack>
     </Provider>
   );
