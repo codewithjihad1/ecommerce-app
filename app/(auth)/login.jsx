@@ -17,9 +17,9 @@ export default function LoginScreen() {
     const handleLogin = async () => {
         try {
             await dispatch(signIn({ email, password }));
-            router.push('/');
+            router.push('/(tabs)/index');
         } catch (error) {
-            console.log(error?.message);
+            console.log(error);
         }
     };
 
