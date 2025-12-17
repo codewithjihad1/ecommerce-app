@@ -16,6 +16,7 @@ export const unstable_settings = {
     anchor: '(tabs)',
 };
 
+// check the user session are already exist
 function AuthGate() {
     const dispatch = useDispatch();
     const router = useRouter();
@@ -81,12 +82,6 @@ export default function RootLayout() {
 
     return (
         <Provider store={store}>
-            {/* <Stack>
-                <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-                <Stack.Screen name="product" options={{ headerShown: false }} />
-                <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-            </Stack> */}
-
             <AuthGate />
         </Provider>
     );
