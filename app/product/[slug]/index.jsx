@@ -44,10 +44,11 @@ export default function DynamicProductPage() {
                 <TouchableOpacity
                   onPress={() =>
                     router.push({
-                      pathname: `/product/${slug}/${newProduct.id}`,
+                      pathname: "/product/[slug]/[id]",
                       params: {
+                        slug,
+                        id: newProduct.id,
                         from: `product/${slug}`,
-                        categorySlug: slug,
                       },
                     })
                   }>

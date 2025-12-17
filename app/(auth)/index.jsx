@@ -1,10 +1,20 @@
 import { Feather } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
+import { useEffect } from 'react';
 import { Image, Pressable, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useDispatch, useSelector } from 'react-redux';
+import { checkSession } from '../../src/store/slices/authSlice';
 
 export default function AuthScreen() {
     const router = useRouter();
+    const { user, isAuthenticated } = useSelector((state) => state.auth);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(checkSession());
+    }, []);
+    console.log('User data', user, 'authenticated', isAuthenticated);
 
     return (
         <SafeAreaView className="flex-1 items-center justify-center">
