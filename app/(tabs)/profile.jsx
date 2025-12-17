@@ -4,7 +4,7 @@ import ProfileHeader from "../../src/components/profile/ProfileHeader";
 
 export default function Profile() {
   return (
-    <SafeAreaView>
+    <SafeAreaView className='bg-white'>
       {/* This is profile header  */}
       <ProfileHeader />
     </SafeAreaView>

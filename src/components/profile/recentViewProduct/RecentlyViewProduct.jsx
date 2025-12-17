@@ -1,43 +1,29 @@
+import { useEffect, useState } from "react";
 import { FlatList, Image, Text, TouchableOpacity, View } from "react-native";
-import product from "../../../../assets/recentlyViewProduct/kurta.png";
-const recentlyViewedProduct = [
-  {
-    title: "ProductOne",
-    img: product,
-  },
-  {
-    title: "ProductOne",
-    img: product,
-  },
-  {
-    title: "ProductOne",
-    img: product,
-  },
-  {
-    title: "ProductOne",
-    img: product,
-  },
-  {
-    title: "ProductOne",
-    img: product,
-  },
-  {
-    title: "ProductOne",
-    img: product,
-  },
-];
+import { recentlyViewedProducts } from "../../../../assets/recentlyViewProduct/Data";
+
 
 export default function RecentlyViewProduct() {
+  const [products, setProducts] = useState([]);
+
+  // fetch data
+  useEffect(() => {
+    setProducts(recentlyViewedProducts);
+  }, []);
   return (
-    <View className='my-5'>
-      <Text style={{fontFamily:'RalewayBold'}} className='text-2xl mb-3 '>Recently Viewed</Text>
+    <View className="my-5">
+      <Text style={{ fontFamily: "RalewayBold" }} className="text-2xl mb-3 ">
+        Recently Viewed
+      </Text>
       <FlatList
-        data={recentlyViewedProduct}
+        data={products}
         horizontal
         showsHorizontalScrollIndicator={false}
         renderItem={({ item }) => (
           <TouchableOpacity style={{ marginRight: 10 }}>
-            <Image source={item.img} className="rounded-full border-4 border-gray-50 px-5 w-[100px] h-[100px]" resizeMode="contain" />
+            <View className="border-3 border-blue-100 rounded-full p-1 bg-white shadow-sm">
+              <Image source={item.img} className="w-20 h-20 rounded-full" resizeMode="cover" />
+            </View>
           </TouchableOpacity>
         )}
       />

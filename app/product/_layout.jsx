@@ -7,6 +7,7 @@ export default function ProductLayout() {
       <Stack.Screen name="index" />
       {/* product/[slug]/index.jsx */}
       <Stack.Screen name="[slug]" />
+      <Stack.Screen name="recentlyviewedproduct"/>
 
     </Stack>
   );

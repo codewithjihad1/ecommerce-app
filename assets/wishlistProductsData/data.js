@@ -1,0 +1,42 @@
+export const wishlistProducts = [
+  {
+    img: require("../../assets/wishlist/WishlistProductImages/wishListProductOne.webp"),
+    price: 20,
+    title: "Product One",
+    color: "Green",
+    size: "M",
+    description: "This is a green shirt",
+  },
+  {
+    img: require("../../assets/wishlist/WishlistProductImages/wishlistProductTwo.webp"),
+    price: 20,
+    title: "Product One",
+    color: "Green",
+    size: "M",
+    description: "This is a green shirt",
+  },
+  {
+    img: require("../../assets/wishlist/WishlistProductImages/wishlistProductThree.webp"),
+    price: 20,
+    title: "Product One",
+    color: "Green",
+    size: "M",
+    description: "This is a green shirt",
+  },
+  {
+    img: require("../../assets/wishlist/WishlistProductImages/wishlistProductFour.webp"),
+    price: 20,
+    title: "Product One",
+    color: "Green",
+    size: "M",
+    description: "This is a green shirt",
+  },
+  {
+    img: require("../../assets/wishlist/WishlistProductImages/wishlistProductFive.webp"),
+    price: 20,
+    title: "Product One",
+    color: "Green",
+    size: "M",
+    description: "This is a green shirt",
+  },
+];
