@@ -6,12 +6,12 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 
 const flashProducts = [
-  { id: 1, src: bagImg },
-  { id: 2, src: bagImg },
-  { id: 3, src: bagImg },
-  { id: 4, src: bagImg },
-  { id: 5, src: bagImg },
-  { id: 6, src: bagImg },
+  { id: 1, src: bagImg, discount: '20' },
+  { id: 2, src: bagImg, discount: '40' },
+  { id: 3, src: bagImg, discount: '10' },
+  { id: 4, src: bagImg, discount: '30' },
+  { id: 5, src: bagImg, discount: '50' },
+  { id: 6, src: bagImg, discount: '20' },
 ];
 
 const FlashSale = () => {
