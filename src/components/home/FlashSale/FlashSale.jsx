@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, Image, FlatList, Pressable } from 'react-native';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import bagImg from '../../../../assets/shopCategoriesImage/bag.png';
@@ -16,6 +16,40 @@ const flashProducts = [
 
 const FlashSale = () => {
   const router = useRouter();
+
+  const [timeLeft, setTimeLeft] = useState({
+    hours: 0,
+    minutes: 30,
+    seconds: 0,
+  });
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTimeLeft((prevTime) => {
+        let { hours, minutes, seconds } = prevTime;
+
+        if (seconds > 0) {
+          seconds--;
+        } else if (minutes > 0) {
+          minutes--;
+          seconds = 59;
+        } else if (hours > 0) {
+          hours--;
+          minutes = 59;
+          seconds = 59;
+        } else {
+          clearInterval(timer);
+          return { hours: 0, minutes: 0, seconds: 0 };
+        }
+
+        return { hours, minutes, seconds };
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  const formatTime = (time) => String(time).padStart(2, '0');
 
   return (
     <View className="mt-4 bg-[#FFFFFF]">
@@ -39,13 +73,13 @@ const FlashSale = () => {
           <MaterialIcons name="access-alarm" size={24} color="#004CFF" />
 
           <View className="bg-[#F3F3F3] p-1">
-            <Text>00</Text>
+            <Text>{formatTime(timeLeft.hours)}</Text>
           </View>
           <View className="bg-[#F3F3F3] p-1">
-            <Text>36</Text>
+            <Text>{formatTime(timeLeft.minutes)}</Text>
           </View>
           <View className="bg-[#F3F3F3] p-1">
-            <Text>51</Text>
+            <Text>{formatTime(timeLeft.seconds)}</Text>
           </View>
         </View>
       </View>

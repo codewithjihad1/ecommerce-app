@@ -6,7 +6,7 @@ import {
   Pressable,
   TouchableOpacity,
 } from 'react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import b1Img from '../../../../assets/flashSaleImage/bubble-01.png';
 import b2Img from '../../../../assets/flashSaleImage/bubble-02.png';
@@ -74,6 +74,40 @@ const FlashSalePage = () => {
   const [products, setProducts] = useState(flashProducts);
   const router = useRouter();
 
+  const [timeLeft, setTimeLeft] = useState({
+    hours: 0,
+    minutes: 30,
+    seconds: 0,
+  });
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTimeLeft((prevTime) => {
+        let { hours, minutes, seconds } = prevTime;
+
+        if (seconds > 0) {
+          seconds--;
+        } else if (minutes > 0) {
+          minutes--;
+          seconds = 59;
+        } else if (hours > 0) {
+          hours--;
+          minutes = 59;
+          seconds = 59;
+        } else {
+          clearInterval(timer);
+          return { hours: 0, minutes: 0, seconds: 0 };
+        }
+
+        return { hours, minutes, seconds };
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  const formatTime = (time) => String(time).padStart(2, '0');
+
   const handleDiscountSelect = (idx) => {
     setDiscountSelect(idx);
 
@@ -118,14 +152,22 @@ const FlashSalePage = () => {
             <MaterialIcons name="access-alarm" size={24} color="white" />
 
             <View className="flex-row items-center gap-x-1">
-              <View className="bg-[#F3F3F3] p-1 rounded-lg">
-                <Text className="text-lg">00</Text>
+              <View className="bg-[#F3F3F3] p-1 rounded-lg min-w-[35px] items-center">
+                <Text className="text-lg font-bold">
+                  {formatTime(timeLeft.hours)}
+                </Text>
               </View>
-              <View className="bg-[#F3F3F3] p-1 rounded-lg">
-                <Text className="text-lg">36</Text>
+              <Text className="text-white font-bold">:</Text>
+              <View className="bg-[#F3F3F3] p-1 rounded-lg min-w-[35px] items-center">
+                <Text className="text-lg font-bold">
+                  {formatTime(timeLeft.minutes)}
+                </Text>
               </View>
-              <View className="bg-[#F3F3F3] p-1 rounded-lg">
-                <Text className="text-lg">51</Text>
+              <Text className="text-white font-bold">:</Text>
+              <View className="bg-[#F3F3F3] p-1 rounded-lg min-w-[35px] items-center">
+                <Text className="text-lg font-bold">
+                  {formatTime(timeLeft.seconds)}
+                </Text>
               </View>
             </View>
           </View>
