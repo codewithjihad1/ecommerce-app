@@ -1,18 +1,55 @@
-import { Redirect } from 'expo-router';
-import { Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useSelector } from 'react-redux';
+import ShopHeader from '../../src/components/home/ShopHeader/ShopHeader';
+import ShopSlider from '../../src/components/home/ShopSlider/ShopSlider';
+import ShopCategories from '../../src/components/home/ShopCategories/ShopCategories';
+import TopProducts from '../../src/components/home/TopProducts/TopProducts';
+import { FlatList, View } from 'react-native';
+import NewItems from '../../src/components/profile/newitem/NewProducts';
+import FlashSale from '../../src/components/home/FlashSale/FlashSale';
+import MostPopular from '../../src/components/profile/mostpopular/MostPopular';
+import JustForYou from '../../src/components/home/JustForYou/JustForYou';
 
 export default function HomeScreen() {
-    const { user } = useSelector((state) => state.auth);
+  const sections = [{ id: 'main' }];
 
-    // if (!user) return <Redirect href="/(auth)/index" />;
-
-    return (
-        <SafeAreaView>
-            <View>
-                <Text className="text-4xl text-red-500">Home route!</Text>
-            </View>
-        </SafeAreaView>
-    );
+  return (
+    <SafeAreaView className="bg-[#FFFFFF] flex-1">
+      <FlatList
+        data={sections}
+        keyExtractor={(item) => item.id}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{
+          paddingHorizontal: 20,
+          paddingTop: 16,
+          paddingBottom: 8,
+        }}
+        renderItem={() => (
+          <View>
+            <ShopHeader />
+            <ShopSlider />
+            <ShopCategories />
+            <TopProducts />
+            <NewItems />
+            <FlashSale />
+            <MostPopular />
+            <JustForYou />
+          </View>
+        )}
+      />
+    </SafeAreaView>
+  );
+  // return (
+  //   <SafeAreaView className="bg-[#FFFFFF] px-6 pb-2 pt-4">
+  //     <View>
+  //       <ScrollView>
+  //         <ShopHeader />
+  //         <ShopSlider />
+  //         <ShopCategories />
+  //         <TopProducts />
+  //         <NewItems />
+  //         <FlashSale />
+  //       </ScrollView>
+  //     </View>
+  //   </SafeAreaView>
+  // );
 }
