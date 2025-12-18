@@ -101,8 +101,9 @@ export default function Wishlist() {
                       style={{ fontFamily: "Raleway" }}>
                       {product.description}
                     </Text>
-                    <View className="flex-row items-center gap-10 mt-3">
-                      <Text className="text-sm bg-gray-200 text-black px-3 py-2 rounded">Size: {product.size}</Text>
+                    {/* color and size  */}
+                    <View className="flex-row items-center mt-3">
+                      <Text className="text-sm bg-gray-200 text-black px-3 py-2 mr-3 rounded">Size: {product.size}</Text>
                       <Text className="text-sm bg-gray-200 text-black px-3 py-2 rounded">Color: {product.color}</Text>
                     </View>
                   </View>

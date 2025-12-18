@@ -62,6 +62,7 @@ export default function DynamicProductPage() {
                 <Text className="text-gray-700">{newProduct.title}</Text>
                 <Text className="font-semibold">{newProduct.price} $</Text>
               </View>
+              
             ))}
           </View>
         </View>
