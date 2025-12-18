@@ -45,7 +45,7 @@ function AuthGate() {
             <Stack.Screen name="(auth)" />
             <Stack.Screen name="product" />
             <Stack.Screen name="checkout" />
-
+            <Stack.Screen name="settings" />
         </Stack>
     );
 }
@@ -72,13 +72,3 @@ export default function RootLayout() {
         </Provider>
     );
 }
-
-
-
-
-
-
-
-
-
-
