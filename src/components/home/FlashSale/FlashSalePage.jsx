@@ -165,7 +165,7 @@ const FlashSalePage = () => {
       >
         <View className="flex-row justify-between items-center mt-2">
           <View className="">
-            <Text className="text-[30px] font-semibold">Flash Sale</Text>
+            <Text className="text-[30px]" style={{ fontFamily: "RalewayBold" }}>Flash Sale</Text>
           </View>
 
           <View className="flex-row gap-x-3 items-center">
@@ -194,7 +194,7 @@ const FlashSalePage = () => {
         </View>
 
         <View>
-          <Text>Choose Your Discount</Text>
+          <Text style={{ fontFamily: "Raleway" }}>Choose Your Discount</Text>
         </View>
 
         <View className="mt-10 rounded-xl bg-[#F9F9F9] flex-row justify-between">
