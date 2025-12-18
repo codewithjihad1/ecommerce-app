@@ -11,7 +11,7 @@ export default function ProductDescription() {
   const [products, setProducts] = useState([]);
   const { from } = useSearchParams();
   const router = useRouter();
-
+// sanity added
   useEffect(() => {
     setProducts(productsData);
   }, []);

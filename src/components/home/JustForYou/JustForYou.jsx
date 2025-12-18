@@ -63,7 +63,7 @@ const JustForYou = () => {
           numColumns={2}
           columnWrapperStyle={{ gap: 5 }}
           renderItem={({ item }) => (
-            <View className='w-[180px] mt-2'>
+            <View className='w-1/2 mt-2'>
               <View className="shadow-md bg-[#FFFFFF] mb-1 relative rounded-lg">
                 <Image
                   className="w-[180px] h-[180px] border-[6px] border-white rounded-lg"
