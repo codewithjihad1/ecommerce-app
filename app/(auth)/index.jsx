@@ -8,13 +8,11 @@ import { checkSession } from '../../src/store/slices/authSlice';
 
 export default function AuthScreen() {
     const router = useRouter();
-    const { user, isAuthenticated } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(checkSession());
     }, []);
-    console.log('User data', user, 'authenticated', isAuthenticated);
 
     return (
         <SafeAreaView className="flex-1 items-center justify-center">
