@@ -6,7 +6,7 @@ import {
   Pressable,
   TouchableOpacity,
 } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import b1Img from '../../../../assets/flashSaleImage/bubble-01.png';
 import b2Img from '../../../../assets/flashSaleImage/bubble-02.png';
@@ -73,6 +73,20 @@ const FlashSalePage = () => {
   const [discountSelect, setDiscountSelect] = useState(0);
   const [products, setProducts] = useState(flashProducts);
   const router = useRouter();
+  const scrollAreaRef = useRef(null);
+  const [showScrollTop, setShowScrollTop] = useState(false);
+
+  const scrollToTop = () => {
+    scrollAreaRef.current?.scrollTo({
+      y: 0,
+      animated: true,
+    });
+  };
+
+  const handleScroll = (event) => {
+    const offsetY = event.nativeEvent.contentOffset.y;
+    setShowScrollTop(offsetY > 200);
+  };
 
   const [timeLeft, setTimeLeft] = useState({
     hours: 0,
@@ -142,7 +156,13 @@ const FlashSalePage = () => {
         </TouchableOpacity>
       </View>
 
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        onScroll={handleScroll}
+        ref={scrollAreaRef}
+        // ref={scrollRef}
+        // style={{ paddingTop: headerHight }}
+      >
         <View className="flex-row justify-between items-center mt-2">
           <View className="">
             <Text className="text-[30px] font-semibold">Flash Sale</Text>
@@ -215,6 +235,35 @@ const FlashSalePage = () => {
           </View>
         </View>
       </ScrollView>
+
+      {showScrollTop && (
+        <View
+          style={{
+            position: 'absolute',
+            bottom: 90,
+            right: 20,
+          }}
+        >
+          <Pressable
+            onPress={scrollToTop}
+            style={{
+              backgroundColor: '#004CFF',
+              width: 56,
+              height: 56,
+              borderRadius: 28,
+              justifyContent: 'center',
+              alignItems: 'center',
+              shadowColor: '#000',
+              shadowOffset: { width: 0, height: 4 },
+              shadowOpacity: 0.3,
+              shadowRadius: 5,
+              elevation: 8,
+            }}
+          >
+            <Ionicons name="arrow-up" size={28} color="white" />
+          </Pressable>
+        </View>
+      )}
 
       <Image
         className="w-full absolute top-0 -right-20 -z-10"
