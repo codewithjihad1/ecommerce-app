@@ -13,7 +13,6 @@ SplashScreen.preventAutoHideAsync();
 export const unstable_settings = {
     anchor: '(tabs)',
 };
-
 // check the user session are already exist
 function AuthGate() {
     const dispatch = useDispatch();
