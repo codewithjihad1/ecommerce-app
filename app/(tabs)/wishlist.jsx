@@ -8,6 +8,8 @@ import wishlistImageTwo from "../../assets/recentlyViewProduct/recently_viewedOn
 import wishlistImageOne from "../../assets/recentlyViewProduct/recently_viewedThree.webp";
 import wishlistImageThree from "../../assets/recentlyViewProduct/recently_viewedTwo.webp";
 import { wishlistProducts } from "../../assets/wishlistProductsData/data";
+import { useSanityProducts } from "../../src/components/hooks/useSanityProducts";
+import { testing } from '../../node_modules/rxjs/src/internal/umd';
 
 const wishlistImage = [
   wishlistImageFour,
@@ -23,6 +25,13 @@ const wishlistImage = [
 export default function Wishlist() {
   const [data, setData] = useState([]);
   const router = useRouter();
+
+  // this is just for testing sanity products fetching
+  
+  const {products} = useSanityProducts();
+  console.log("Sanity Products in Wishlist:", products);
+
+
 
   useEffect(() => {
     setData(wishlistProducts);
