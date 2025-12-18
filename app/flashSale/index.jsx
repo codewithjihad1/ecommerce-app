@@ -1,20 +1,18 @@
-import { Ionicons } from '@expo/vector-icons';
-import { router, Stack } from 'expo-router';
+// import { Ionicons } from '@expo/vector-icons';
+// import { router, Stack } from 'expo-router';
 import React from 'react';
-import { View, Text, Pressable } from 'react-native';
+// import { View, Pressable } from 'react-native';
+import FlashSalePage from '../../src/components/home/FlashSale/FlashSalePage';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const index = () => {
   return (
-    <>
-      <Stack.Screen
+    <SafeAreaView className='bg-[#FFFFFF] flex-1'>
+      {/* <Stack.Screen
         options={{
           headerShown: true,
           title: '',
           headerShadowVisible: false,
-
-          headerLeftContainerStyle: {
-            paddingLeft: 16,
-          },
 
           headerLeft: () => (
             <Pressable
@@ -25,13 +23,13 @@ const index = () => {
             </Pressable>
           ),
         }}
-      />
-      <View className="flex-1 bg-white">
-        <View className="px-6">
-          <Text>Index</Text>
-        </View>
-      </View>
-    </>
+      /> */}
+      {/* paddingHorizontal: 20,
+          paddingTop: 16,
+          paddingBottom: 8, */}
+  
+        <FlashSalePage />
+    </SafeAreaView>
   );
 };
 
