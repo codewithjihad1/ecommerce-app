@@ -22,11 +22,13 @@ export const productSchema = {
       validation: (Rule) => Rule.required().min(0),
     },
     {
-      name: 'images',
-      title: 'Images',
-      type: 'array',
-      of: [{type: 'image', options: {hotspot: true}}],
-      validation: (Rule) => Rule.required().min(1),
+      name: "image",
+      title: "Image",
+      type: "image",
+      options: {
+        hotspot: true,
+      },
+      validation: (Rule) => Rule.required(),
     },
     {
       name: 'category',
@@ -39,7 +41,7 @@ export const productSchema = {
       name: 'subcategory',
       title: 'SubCategory',
       type: 'reference',
-      to: [{type: 'category'}],
+      to: [{type: 'subcategory'}],
       validation: (Rule) => Rule.required(),
     },
     {
