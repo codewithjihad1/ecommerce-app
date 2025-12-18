@@ -10,46 +10,32 @@ import MostPopular from '../../src/components/profile/mostpopular/MostPopular';
 import JustForYou from '../../src/components/home/JustForYou/JustForYou';
 
 export default function HomeScreen() {
-  const sections = [{ id: 'main' }];
+    const sections = [{ id: 'main' }];
 
-  return (
-    <SafeAreaView className="bg-[#FFFFFF] flex-1">
-      <FlatList
-        data={sections}
-        keyExtractor={(item) => item.id}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{
-          paddingHorizontal: 20,
-          paddingTop: 16,
-          paddingBottom: 8,
-        }}
-        renderItem={() => (
-          <View>
-            <ShopHeader />
-            <ShopSlider />
-            <ShopCategories />
-            <TopProducts />
-            <NewItems />
-            <FlashSale />
-            <MostPopular />
-            <JustForYou />
-          </View>
-        )}
-      />
-    </SafeAreaView>
-  );
-  // return (
-  //   <SafeAreaView className="bg-[#FFFFFF] px-6 pb-2 pt-4">
-  //     <View>
-  //       <ScrollView>
-  //         <ShopHeader />
-  //         <ShopSlider />
-  //         <ShopCategories />
-  //         <TopProducts />
-  //         <NewItems />
-  //         <FlashSale />
-  //       </ScrollView>
-  //     </View>
-  //   </SafeAreaView>
-  // );
+    return (
+        <SafeAreaView className="bg-[#FFFFFF] flex-1">
+            <FlatList
+                data={sections}
+                keyExtractor={(item) => item.id}
+                showsVerticalScrollIndicator={false}
+                contentContainerStyle={{
+                    paddingHorizontal: 20,
+                    paddingTop: 16,
+                    paddingBottom: 8,
+                }}
+                renderItem={() => (
+                    <View>
+                        <ShopHeader />
+                        <ShopSlider />
+                        <ShopCategories />
+                        <TopProducts />
+                        <NewItems />
+                        <FlashSale />
+                        <MostPopular />
+                        <JustForYou />
+                    </View>
+                )}
+            />
+        </SafeAreaView>
+    );
 }

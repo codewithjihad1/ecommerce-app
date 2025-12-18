@@ -1,12 +1,10 @@
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { useLocalSearchParams, useRouter } from "expo-router";
+import { useSearchParams } from "expo-router/build/hooks";
 import { useEffect, useState } from "react";
-import { Dimensions, Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { productsData } from "../../../../assets/data/products";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import { useSearchParams } from "expo-router/build/hooks";
-
-const { width } = Dimensions.get("window");
 
 export default function ProductDescription() {
   const { id } = useLocalSearchParams();
@@ -29,7 +27,7 @@ export default function ProductDescription() {
     }
   };
   return (
-    <SafeAreaView className="flex-1 bg-gray-50 ">
+    <SafeAreaView className="bg-white ">
       <View className="mx-5">
         <TouchableOpacity onPress={handleGoBack} className="flex-row items-center">
           <MaterialIcons className="bg-gray-300 p-2 rounded-full" name="keyboard-arrow-left" size={24} color="black" />
@@ -39,8 +37,8 @@ export default function ProductDescription() {
         {findSingleProduct ? (
           <View className="flex-1">
             {/* Product Image */}
-            <View className="w-full bg-white rounded-b-[30px] overflow-hidden shadow-lg" style={{ height: width * 1 }}>
-              <Image source={findSingleProduct.img} className="w-full h-full" resizeMode="contain" />
+            <View className="w-full bg-white rounded-b-[30px] overflow-hidden shadow-lg">
+              <Image source={findSingleProduct.img} className="w-full h-[400px]" resizeMode="contain" />
             </View>
 
             {/* Product Details */}
@@ -81,11 +79,24 @@ export default function ProductDescription() {
           </View>
         )}
 
-        <View className='mx-5'>
-          <TouchableOpacity className='w-full'>
-            <Text className='bg-[#004CFF] text-center py-4 text-white' style={{fontFamily:'Poppins'}}>
+        <View className="mx-5">
+          <TouchableOpacity className="w-full">
+            <Text className="bg-[#004CFF] text-center py-4 text-white" style={{ fontFamily: "Poppins" }}>
               Add to cart
             </Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* Reviews Section */}
+        <View className="mx-5 mt-10">
+          <TouchableOpacity
+            onPress={() =>
+              router.push({
+                pathname: "/product/reviews",
+                params: { id },
+              })
+            }>
+            <Text className="text-center underline">See Reviews</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
