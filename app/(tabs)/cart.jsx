@@ -205,14 +205,14 @@ export default function Cart() {
               </View>
 
               <TouchableOpacity className="py-4 items-center shadow-lg mt-2" activeOpacity={0.8}>
-                <View className="flex-row items-center gap-2">
+                <View className="flex-row items-center gap-2 bg-[#004CFF] rounded-lg px-10 py-4">
                   <Text
                   onPress={()=>router.push('/checkout')}
-                    className="text-lg font-bold bg-[#004CFF] rounded-lg text-white px-5 py-3 "
+                    className="text-lg font-bold  text-white "
                     style={{ fontFamily: "RalewayBold" }}>
                     Proceed to Checkout
                   </Text>
-                  <Ionicons name="arrow-forward" size={20} color="black" />
+                  <Ionicons name="arrow-forward" size={20} color="white" />
                 </View>
               </TouchableOpacity>
             </View>
