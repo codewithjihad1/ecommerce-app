@@ -1,4 +1,5 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { useRouter } from 'expo-router';
 import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { ActivityIndicator } from 'react-native-paper';
 import { useSelector } from 'react-redux';
@@ -16,12 +17,12 @@ const profileData = {
     name: 'Maxwell',
     gmail: 'maxwell12@gmail.com',
 };
-const leftSideIcons = [menu, vouchers, settings];
 
 const myOrdersCategoryButtons = ['To Pay', 'To Receive', 'To Review'];
 
 export default function ProfileHeader() {
     const { user, loading } = useSelector((state) => state.auth);
+    const router = useRouter();
 
     if (loading) {
         return <ActivityIndicator color="blue" size="large" />;
@@ -56,11 +57,15 @@ export default function ProfileHeader() {
 
                     {/* Right Side */}
                     <View className="flex-row items-center gap-2">
-                        {leftSideIcons.map((icon, index) => (
-                            <TouchableOpacity key={index}>
-                                <Image source={icon} resizeMode="contain" className="w-[50px] h-[50px]" />
-                            </TouchableOpacity>
-                        ))}
+                        <TouchableOpacity onPress={() => router.push(`/dashboard`)}>
+                            <Image source={menu} resizeMode="contain" className="w-[50px] h-[50px]" />
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => router.push(`/vouchers`)}>
+                            <Image source={vouchers} resizeMode="contain" className="w-[50px] h-[50px]" />
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => router.push(`/settings`)}>
+                            <Image source={settings} resizeMode="contain" className="w-[50px] h-[50px]" />
+                        </TouchableOpacity>
                     </View>
                 </View>
 

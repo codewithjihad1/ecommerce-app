@@ -13,6 +13,7 @@ SplashScreen.preventAutoHideAsync();
 export const unstable_settings = {
     anchor: '(tabs)',
 };
+
 // check the user session are already exist
 function AuthGate() {
     const dispatch = useDispatch();
@@ -45,6 +46,7 @@ function AuthGate() {
             <Stack.Screen name="(auth)" />
             <Stack.Screen name="product" />
             <Stack.Screen name="checkout" />
+            <Stack.Screen name="settings" />
         </Stack>
     );
 }
