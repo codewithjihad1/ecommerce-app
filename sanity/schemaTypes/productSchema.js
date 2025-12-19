@@ -22,9 +22,9 @@ export const productSchema = {
       validation: (Rule) => Rule.required().min(0),
     },
     {
-      name: "image",
-      title: "Image",
-      type: "image",
+      name: 'image',
+      title: 'Image',
+      type: 'image',
       options: {
         hotspot: true,
       },
