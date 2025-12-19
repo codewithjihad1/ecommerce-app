@@ -8,9 +8,11 @@ import {
     TouchableOpacity,
     View,
 } from "react-native";
+import { ActivityIndicator } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
 import { signOut } from "../../src/store/slices/authSlice";
+
 const menuItems = [
     {
         id: 1,
@@ -45,7 +47,7 @@ const menuItems = [
 ];
 
 export default function ProfileScreen() {
-    const { user } = useSelector((state) => state.auth);
+    const { user, loading } = useSelector((state) => state.auth);
     const router = useRouter();
     const dispatch = useDispatch();
 
@@ -59,21 +61,42 @@ export default function ProfileScreen() {
         }
     };
 
+    if (loading && !user) {
+        return <ActivityIndicator size="large" />;
+    }
+
+    // Add fallback for when user is null (e.g., after signout)
+    if (!user) {
+        return (
+            <SafeAreaView className="flex-1 items-center justify-center bg-gray-50">
+                <Text className="text-lg text-gray-700">
+                    Please log in to view your profile.
+                </Text>
+                <TouchableOpacity
+                    className="mt-4 rounded-lg bg-blue-500 px-6 py-2"
+                    onPress={() => router.push("/(auth)")}
+                >
+                    <Text className="text-white">Go to Login</Text>
+                </TouchableOpacity>
+            </SafeAreaView>
+        );
+    }
+
     return (
         <SafeAreaView className="flex-1 bg-gray-50">
             <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
                 {/* Header */}
-                <View className="px-6 pt-4 pb-6 bg-white">
+                <View className="bg-white px-6 pb-6 pt-4">
                     <View className="flex-row items-center justify-between">
-                        <View className="flex-row items-center flex-1">
+                        <View className="flex-1 flex-row items-center">
                             {/* Profile Image */}
-                            <View className="w-16 h-16 rounded-full bg-pink-200 items-center justify-center overflow-hidden">
-                                {user.user_metadata?.avatar ? (
+                            <View className="h-16 w-16 items-center justify-center overflow-hidden rounded-full bg-pink-200">
+                                {user?.user_metadata?.avatar ? (
                                     <Image
                                         source={{
                                             uri: user.user_metadata?.avatar,
                                         }}
-                                        className="w-full h-full"
+                                        className="h-full w-full"
                                     />
                                 ) : (
                                     <Text className="text-4xl font-bold">
@@ -87,7 +110,7 @@ export default function ProfileScreen() {
                                 <Text className="text-lg font-semibold text-gray-900">
                                     {user?.user_metadata?.name}
                                 </Text>
-                                <Text className="text-sm text-gray-500 mt-0.5">
+                                <Text className="mt-0.5 text-sm text-gray-500">
                                     {user?.user_metadata?.email}
                                 </Text>
                             </View>
@@ -95,7 +118,7 @@ export default function ProfileScreen() {
 
                         {/* Settings Icon */}
                         <TouchableOpacity
-                            className="w-10 h-10 items-center justify-center"
+                            className="h-10 w-10 items-center justify-center"
                             onPress={() => router.push("/settings")}
                         >
                             <Ionicons
@@ -108,7 +131,7 @@ export default function ProfileScreen() {
                 </View>
 
                 {/* Menu Items */}
-                <View className="mt-4 mx-4 bg-white rounded-2xl shadow-sm">
+                <View className="mx-4 mt-4 rounded-2xl bg-white shadow-sm">
                     {menuItems.map((item, index) => {
                         const isLast = index === menuItems.length - 1;
 
@@ -121,7 +144,7 @@ export default function ProfileScreen() {
                                 onPress={item.onPress}
                                 activeOpacity={0.7}
                             >
-                                <View className="w-6 h-6 items-center justify-center">
+                                <View className="h-6 w-6 items-center justify-center">
                                     <Ionicons
                                         name={item.icon}
                                         size={20}
@@ -129,7 +152,7 @@ export default function ProfileScreen() {
                                     />
                                 </View>
 
-                                <Text className="flex-1 ml-4 text-base text-gray-700">
+                                <Text className="ml-4 flex-1 text-base text-gray-700">
                                     {item.label}
                                 </Text>
 
@@ -145,12 +168,12 @@ export default function ProfileScreen() {
 
                 {/* Logout Button */}
                 <TouchableOpacity
-                    className="mx-4 mt-4 mb-6 bg-white rounded-2xl shadow-sm"
+                    className="mx-4 mb-6 mt-4 rounded-2xl bg-white shadow-sm"
                     onPress={handleSignout}
                     activeOpacity={0.7}
                 >
                     <View className="flex-row items-center px-5 py-4">
-                        <View className="w-6 h-6 items-center justify-center">
+                        <View className="h-6 w-6 items-center justify-center">
                             <Ionicons
                                 name="log-out-outline"
                                 size={20}
@@ -158,7 +181,7 @@ export default function ProfileScreen() {
                             />
                         </View>
 
-                        <Text className="flex-1 ml-4 text-base text-gray-700">
+                        <Text className="ml-4 flex-1 text-base text-gray-700">
                             Log out
                         </Text>
                     </View>
