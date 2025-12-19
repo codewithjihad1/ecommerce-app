@@ -37,7 +37,7 @@ export default function CustomDrawer(props) {
       <View className="px-3">
         <DrawerItem
           label="Homepage"
-          route="/(tabs)/index"
+          route="/(tabs)"
           icon={<Ionicons name="home-outline" size={22} />}
         />
 
