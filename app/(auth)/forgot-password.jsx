@@ -1,9 +1,9 @@
-import { Text, View } from 'react-native';
+import { Text, View } from "react-native";
 
 export default function ForgetPasswordScreen() {
     return (
         <View>
-            <Text>ForgetPasswordScreen</Text>
+            <Text className="m-4 mb-1">ForgetPasswordScreen</Text>
         </View>
     );
 }

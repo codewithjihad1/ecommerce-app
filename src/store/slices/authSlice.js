@@ -1,5 +1,5 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { supabase } from '../../lib/supabase';
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { supabase } from "../../lib/supabase";
 
 /**
  * @param1 {string} Email
@@ -8,7 +8,7 @@ import { supabase } from '../../lib/supabase';
  * @returns {Object} authenticated user data
  */
 export const signUp = createAsyncThunk(
-    'auth/signUp',
+    "auth/signUp",
     async ({ email, password, metadata = {} }, { rejectWithValue }) => {
         try {
             const { data, error } = await supabase.auth.signUp({
@@ -24,7 +24,7 @@ export const signUp = createAsyncThunk(
         } catch (error) {
             return rejectWithValue(error.message);
         }
-    }
+    },
 );
 
 /**
@@ -32,82 +32,103 @@ export const signUp = createAsyncThunk(
  * @param2 {string} password
  * @returns {Object} User data
  */
-export const signIn = createAsyncThunk('auth/signIn', async ({ email, password }, { rejectWithValue }) => {
-    try {
-        const { data, error } = await supabase.auth.signInWithPassword({
-            email,
-            password,
-        });
+export const signIn = createAsyncThunk(
+    "auth/signIn",
+    async ({ email, password }, { rejectWithValue }) => {
+        try {
+            const { data, error } = await supabase.auth.signInWithPassword({
+                email,
+                password,
+            });
 
-        if (error) throw error;
-        return data;
-    } catch (error) {
-        return rejectWithValue(error.message);
-    }
-});
+            if (error) throw error;
+            return data;
+        } catch (error) {
+            return rejectWithValue(error.message);
+        }
+    },
+);
 
-export const signInWithOAuth = createAsyncThunk('auth/signInWithOAuth', async ({ provider }, { rejectWithValue }) => {
-    try {
-        const { data, error } = await supabase.auth.signInWithOAuth({
-            provider, // e.g., 'google', 'github', 'facebook'
-        });
+export const signInWithOAuth = createAsyncThunk(
+    "auth/signInWithOAuth",
+    async ({ provider }, { rejectWithValue }) => {
+        try {
+            const { data, error } = await supabase.auth.signInWithOAuth({
+                provider, // e.g., 'google', 'github', 'facebook'
+            });
 
-        if (error) throw error;
-        return data;
-    } catch (error) {
-        return rejectWithValue(error.message);
-    }
-});
+            if (error) throw error;
+            return data;
+        } catch (error) {
+            return rejectWithValue(error.message);
+        }
+    },
+);
 
-export const signOut = createAsyncThunk('auth/signOut', async (_, { rejectWithValue }) => {
-    try {
-        const { error } = await supabase.auth.signOut();
-        if (error) throw error;
-        return null;
-    } catch (error) {
-        return rejectWithValue(error.message);
-    }
-});
+export const signOut = createAsyncThunk(
+    "auth/signOut",
+    async (_, { rejectWithValue }) => {
+        try {
+            const { error } = await supabase.auth.signOut();
+            if (error) throw error;
+            return null;
+        } catch (error) {
+            return rejectWithValue(error.message);
+        }
+    },
+);
 
-export const resetPassword = createAsyncThunk('auth/resetPassword', async ({ email }, { rejectWithValue }) => {
-    try {
-        const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
-            redirectTo: `${window.location.origin}/reset-password`,
-        });
+export const resetPassword = createAsyncThunk(
+    "auth/resetPassword",
+    async ({ email }, { rejectWithValue }) => {
+        try {
+            const { data, error } = await supabase.auth.resetPasswordForEmail(
+                email,
+                {
+                    redirectTo: `${window.location.origin}/reset-password`,
+                },
+            );
 
-        if (error) throw error;
-        return data;
-    } catch (error) {
-        return rejectWithValue(error.message);
-    }
-});
+            if (error) throw error;
+            return data;
+        } catch (error) {
+            return rejectWithValue(error.message);
+        }
+    },
+);
 
-export const updatePassword = createAsyncThunk('auth/updatePassword', async ({ newPassword }, { rejectWithValue }) => {
-    try {
-        const { data, error } = await supabase.auth.updateUser({
-            password: newPassword,
-        });
+export const updatePassword = createAsyncThunk(
+    "auth/updatePassword",
+    async ({ newPassword }, { rejectWithValue }) => {
+        try {
+            const { data, error } = await supabase.auth.updateUser({
+                password: newPassword,
+            });
 
-        if (error) throw error;
-        return data;
-    } catch (error) {
-        return rejectWithValue(error.message);
-    }
-});
+            if (error) throw error;
+            return data;
+        } catch (error) {
+            return rejectWithValue(error.message);
+        }
+    },
+);
 
-export const checkSession = createAsyncThunk('auth/checkSession', async (_, { rejectWithValue }) => {
-    try {
-        const { data, error } = await supabase.auth.getSession();
-        if (error) throw error;
-        return data.session;
-    } catch (error) {
-        return rejectWithValue(error.message);
-    }
-});
+export const checkSession = createAsyncThunk(
+    "auth/checkSession",
+    async (_, { rejectWithValue }) => {
+        try {
+            const { data, error } = await supabase.auth.getSession();
+            if (error) throw error;
+            return data.session;
+        } catch (error) {
+            return rejectWithValue(error.message);
+        }
+    },
+);
 
 // Auth slice
 const authSlice = createSlice({
-    name: 'auth',
+    name: "auth",
     initialState: {
         user: null,
         session: null,
