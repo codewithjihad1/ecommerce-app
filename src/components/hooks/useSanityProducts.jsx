@@ -21,6 +21,7 @@ export const useSanityProducts = () => {
         const query = `*[_type == "product"]{
           _id,
           title,
+          description,
           price,
           stock,
           "categoryName": category->title,
@@ -28,6 +29,7 @@ export const useSanityProducts = () => {
           colors,
           sizes,
           tags,
+          producttype,
           featured,
           "image": image.asset->url
         }`;
