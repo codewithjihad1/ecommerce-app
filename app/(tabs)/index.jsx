@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import ShopHeader from '../../src/components/home/ShopHeader/ShopHeader';
+// import ShopHeader from '../../src/components/home/ShopHeader/ShopHeader';
 import ShopSlider from '../../src/components/home/ShopSlider/ShopSlider';
 import ShopCategories from '../../src/components/home/ShopCategories/ShopCategories';
 import TopProducts from '../../src/components/home/TopProducts/TopProducts';
@@ -10,6 +10,7 @@ import FlashSale from '../../src/components/home/FlashSale/FlashSale';
 import MostPopular from '../../src/components/profile/mostpopular/MostPopular';
 import JustForYou from '../../src/components/home/JustForYou/JustForYou';
 import { Ionicons } from '@expo/vector-icons';
+import ShopHeader from '../../src/components/home/ShopHeader2/ShopHeader2';
 
 export default function HomeScreen() {
   const sections = [{ id: 'main' }];
@@ -41,6 +42,7 @@ export default function HomeScreen() {
         }}
         renderItem={() => (
           <View>
+            {/* <ShopHeader /> */}
             <ShopHeader />
             <ShopSlider />
             <ShopCategories />
