@@ -22,9 +22,9 @@ export const productSchema = {
       validation: (Rule) => Rule.required().min(0),
     },
     {
-      name: "image",
-      title: "Image",
-      type: "image",
+      name: 'image',
+      title: 'Image',
+      type: 'image',
       options: {
         hotspot: true,
       },
@@ -45,6 +45,12 @@ export const productSchema = {
       validation: (Rule) => Rule.required(),
     },
     {
+      name: 'producttype',
+      title: 'Product Type',
+      type: 'string',
+      validation: (Rule) => Rule.required().min(2).max(50),
+    },
+    {
       name: 'tags',
       title: 'Tags',
       type: 'array',
@@ -61,22 +67,18 @@ export const productSchema = {
     },
     {
       name: 'sizes',
-      title: 'Sizes',
+      title: 'Sizes / Dimensions',
+      description: 'Enter S, M, L for clothes, or "One Size" for accessories like caps/watches.',
       type: 'array',
       of: [{type: 'string'}],
-      options: {
-        layout: 'tags',
-      },
-      validation: (Rule) => Rule.required().min(1),
+      // We remove .required() so accessories don't get blocked
+      validation: (Rule) => Rule.min(1).error('Please specify a size or "One Size"'),
     },
     {
       name: 'colors',
       title: 'Colors',
       type: 'array',
       of: [{type: 'string'}],
-      options: {
-        layout: 'tags',
-      },
       validation: (Rule) => Rule.required().min(1),
     },
     {

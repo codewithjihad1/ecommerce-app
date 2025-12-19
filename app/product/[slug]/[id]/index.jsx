@@ -1,105 +1,232 @@
+import AntDesign from "@expo/vector-icons/AntDesign";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { useSearchParams } from "expo-router/build/hooks";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { productsData } from "../../../../assets/data/products";
-
+import { useDispatch } from "react-redux";
+import { useSanityProducts } from "../../../../src/components/hooks/useSanityProducts";
+import { addToCart } from "../../../../src/store/slices/cartSlice";
 export default function ProductDescription() {
-  const { id } = useLocalSearchParams();
-  const [products, setProducts] = useState([]);
-  const { from } = useSearchParams();
-  const router = useRouter();
-// sanity added
-  useEffect(() => {
-    setProducts(productsData);
-  }, []);
+    const { id, from } = useLocalSearchParams();
+    const { products } = useSanityProducts();
+    const router = useRouter();
+    const dispatch = useDispatch();
 
-  const findSingleProduct = products.find((p) => p.id === Number(id));
-  const handleGoBack = () => {
-    if (from) {
-      router.replace(`/${from}`);
-    } else if (router.canGoBack()) {
-      router.back();
-    } else {
-      router.replace("/");
+    // selected options
+    const [selectedColor, setSelectedColor] = useState(product?.colors?.[0]);
+    const [selectedSize, setSelectedSize] = useState(product?.sizes?.[0]);
+
+    const handleAddToCart = () => {
+        dispatch(
+            addToCart({
+                _id: product._id,
+                title: product.title,
+                price: product.price,
+                image: product.image,
+                color: selectedColor,
+                size: selectedSize,
+            }),
+        );
+        router.push("/(tabs)/cart");
+    };
+
+    // filter product by id
+    const product = products.find((p) => p._id === id);
+
+    const handleGoBack = () => {
+        if (from) {
+            router.replace(`/${from}`);
+        } else if (router.canGoBack()) {
+            router.back();
+        } else {
+            router.replace("/");
+        }
+    };
+
+    if (!product) {
+        return (
+            <SafeAreaView className="flex-1 items-center justify-center bg-white">
+                <Text className="text-2xl font-bold">Product not found</Text>
+            </SafeAreaView>
+        );
     }
-  };
-  return (
-    <SafeAreaView className="bg-white ">
-      <View className="mx-5">
-        <TouchableOpacity onPress={handleGoBack} className="flex-row items-center">
-          <MaterialIcons className="bg-gray-300 p-2 rounded-full" name="keyboard-arrow-left" size={24} color="black" />
-        </TouchableOpacity>
-      </View>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        {findSingleProduct ? (
-          <View className="flex-1">
-            {/* Product Image */}
-            <View className="w-full bg-white rounded-b-[30px] overflow-hidden shadow-lg">
-              <Image source={findSingleProduct.img} className="w-full h-[400px]" resizeMode="contain" />
+
+    return (
+        <SafeAreaView className="flex-1 bg-white">
+            {/* Back button */}
+            <View className="mx-5 mt-3">
+                <TouchableOpacity
+                    onPress={handleGoBack}
+                    className="flex-row items-center"
+                >
+                    <MaterialIcons
+                        className="rounded-full bg-gray-200 p-2"
+                        name="keyboard-arrow-left"
+                        size={24}
+                        color="black"
+                    />
+                </TouchableOpacity>
             </View>
 
-            {/* Product Details */}
-            <View className="p-6">
-              <Text className="text-3xl font-bold text-gray-900 mb-4 leading-9">{findSingleProduct.title}</Text>
-              <Text className="mb-4 text-gray-700 font-semibold">{findSingleProduct.des}</Text>
-              <View className="bg-white p-5 rounded-2xl mb-6 shadow-sm">
-                <Text className="text-sm text-gray-500 mb-2 font-semibold">Price</Text>
-                <Text className="text-4xl font-bold text-blue-500">${findSingleProduct.price}</Text>
-              </View>
-
-              {/* Description Section */}
-              {findSingleProduct.description && (
-                <View className="bg-white p-5 rounded-2xl mb-6 shadow-sm">
-                  <Text className="text-lg font-bold text-gray-900 mb-3">Description</Text>
-                  <Text className="text-base text-gray-600 leading-6">{findSingleProduct.description}</Text>
+            <ScrollView showsVerticalScrollIndicator={false}>
+                {/* Image */}
+                <View className="w-full bg-white">
+                    <Image
+                        source={{ uri: product.image }}
+                        className="h-[400px] w-full"
+                        resizeMode="contain"
+                    />
                 </View>
-              )}
 
-              {/* Additional Details */}
-              <View className="flex-row gap-3">
-                <View className="flex-1 bg-white p-4 rounded-2xl shadow-sm">
-                  <Text className="text-xs text-gray-400 mb-1.5 font-semibold">Category</Text>
-                  <Text className="text-base font-bold text-gray-900">
-                    {findSingleProduct.category.toUpperCase() || "General"}
-                  </Text>
+                {/* Details */}
+                <View className="rounded-t-[30px] border border-gray-300 p-6 shadow-lg">
+                    {/* Title & Price */}
+                    <View className="mb-4 border-b border-gray-300">
+                        <View className="flex-row items-center justify-between">
+                            <Text
+                                style={{ fontFamily: "RalewayBold" }}
+                                className="mb-4 text-2xl font-bold text-gray-900"
+                            >
+                                {product.title}
+                            </Text>
+                            <Text
+                                style={{ fontFamily: "RalewayBold" }}
+                                className="text-3xl font-bold text-[#508A7B]"
+                            >
+                                ${product.price}
+                            </Text>
+                        </View>
+
+                        {/* Rating */}
+                        <View className="mb-8 mt-3 flex-row items-center gap-2">
+                            {Array.from({ length: 5 }).map((_, index) => (
+                                <AntDesign
+                                    key={index}
+                                    name="star"
+                                    size={20}
+                                    color="#508A7B"
+                                />
+                            ))}
+                            <Text className="text-lg text-gray-700">(30)</Text>
+                        </View>
+                    </View>
+
+                    {/* Color & Size */}
+                    <View className="mb-4 flex-row justify-between border-b border-gray-300">
+                        {/* Color */}
+                        <View>
+                            <Text
+                                style={{ fontFamily: "RalewayBold" }}
+                                className="mb-4"
+                            >
+                                Color
+                            </Text>
+
+                            <View className="mb-5 flex-row gap-3 pb-4">
+                                {product.colors.map((color) => {
+                                    const normalized = color
+                                        .trim()
+                                        .toLowerCase();
+                                    const isActive = selectedColor === color;
+
+                                    return (
+                                        <TouchableOpacity
+                                            key={color}
+                                            onPress={() =>
+                                                setSelectedColor(color)
+                                            }
+                                            style={{
+                                                backgroundColor: normalized,
+                                                width: 26,
+                                                height: 26,
+                                                borderRadius: 13,
+                                                borderWidth: isActive ? 2 : 0,
+                                                borderColor: "#000",
+                                            }}
+                                        />
+                                    );
+                                })}
+                            </View>
+                        </View>
+
+                        {/* Size */}
+                        <View>
+                            <Text
+                                style={{ fontFamily: "RalewayBold" }}
+                                className="mb-4"
+                            >
+                                Size
+                            </Text>
+
+                            <View className="mb-5 flex-row gap-3 pb-4">
+                                {product.sizes.map((size) => {
+                                    const isActive = selectedSize === size;
+
+                                    return (
+                                        <TouchableOpacity
+                                            key={size}
+                                            onPress={() =>
+                                                setSelectedSize(size)
+                                            }
+                                            className={`items-center justify-center rounded-full border px-4 py-1 ${
+                                                isActive
+                                                    ? "border-black bg-black"
+                                                    : "border-gray-400"
+                                            }`}
+                                        >
+                                            <Text
+                                                style={{
+                                                    fontFamily: "RalewayBold",
+                                                }}
+                                                className={
+                                                    isActive
+                                                        ? "text-white"
+                                                        : "text-black"
+                                                }
+                                            >
+                                                {size}
+                                            </Text>
+                                        </TouchableOpacity>
+                                    );
+                                })}
+                            </View>
+                        </View>
+                    </View>
+
+                    {/* Description */}
+                    {product.description && (
+                        <Text className="mb-4 text-gray-700">
+                            {product.description}
+                        </Text>
+                    )}
                 </View>
-                <View className="flex-1 bg-white p-4 rounded-2xl shadow-sm">
-                  <Text className="text-xs text-gray-400 mb-1.5 font-semibold">Stock</Text>
-                  <Text className="text-base font-bold text-gray-900">In Stock</Text>
+
+                {/* Add to cart */}
+                <View className="mx-5 mb-6">
+                    <TouchableOpacity onPress={handleAddToCart}>
+                        <Text className="rounded-lg bg-[#004CFF] py-4 text-center text-lg font-bold text-white">
+                            Add to cart
+                        </Text>
+                    </TouchableOpacity>
                 </View>
-              </View>
-            </View>
-          </View>
-        ) : (
-          <View className="flex-1 justify-center items-center p-10 mt-24">
-            <Text className="text-2xl font-bold text-gray-900 mb-2">Product not found</Text>
-          </View>
-        )}
 
-        <View className="mx-5">
-          <TouchableOpacity className="w-full">
-            <Text className="bg-[#004CFF] text-center py-4 text-white" style={{ fontFamily: "Poppins" }}>
-              Add to cart
-            </Text>
-          </TouchableOpacity>
-        </View>
-
-        {/* Reviews Section */}
-        <View className="mx-5 mt-10">
-          <TouchableOpacity
-            onPress={() =>
-              router.push({
-                pathname: "/product/reviews",
-                params: { id },
-              })
-            }>
-            <Text className="text-center underline">See Reviews</Text>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
+                {/* Reviews */}
+                <View className="mx-5 mb-10">
+                    <TouchableOpacity
+                        onPress={() =>
+                            router.push({
+                                pathname: "/product/reviews",
+                                params: { id },
+                            })
+                        }
+                    >
+                        <Text className="text-center underline">
+                            See Reviews
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+            </ScrollView>
+        </SafeAreaView>
+    );
 }
