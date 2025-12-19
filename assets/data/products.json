@@ -1,0 +1,223 @@
+[
+  {
+    "id": 107,
+    "name": "Men's Slim Fit Crewneck",
+    "category": "Men",
+    "subcategory": "Clothing",
+    "product_type": "T-shirt",
+    "tags": [
+      "New Products"
+    ],
+    "price": 22.00
+  },
+  {
+    "id": 108,
+    "name": "Women's High-Waisted Trousers",
+    "category": "Women",
+    "subcategory": "Clothing",
+    "product_type": "Pant",
+    "tags": [
+      "Top Products"
+    ],
+    "price": 55.00
+  },
+  {
+    "id": 109,
+    "name": "Luxury Gold Watch",
+    "category": "Accessories",
+    "subcategory": "Accessories",
+    "product_type": "Watch",
+    "tags": [
+      "Featured Product",
+      "Top Products"
+    ],
+    "price": 250.00
+  },
+  {
+    "id": 110,
+    "name": "Urban White Sneakers",
+    "category": "Men",
+    "subcategory": "Shoes",
+    "product_type": "Sneakers",
+    "tags": [
+      "Recommended Products"
+    ],
+    "price": 75.00
+  },
+  {
+    "id": 111,
+    "name": "Stiletto Evening Heels",
+    "category": "Women",
+    "subcategory": "Shoes",
+    "product_type": "Heels",
+    "tags": [
+      "New Products"
+    ],
+    "price": 95.00
+  },
+  {
+    "id": 112,
+    "name": "Men's Wool Blend Sweater",
+    "category": "Men",
+    "subcategory": "Clothing",
+    "product_type": "Sweater",
+    "tags": [
+      "Top Products"
+    ],
+    "price": 65.00
+  },
+  {
+    "id": 113,
+    "name": "Bifold Leather Wallet",
+    "category": "Accessories",
+    "subcategory": "Accessories",
+    "product_type": "Wallet",
+    "tags": [
+      "Recommended Products"
+    ],
+    "price": 40.00
+  },
+  {
+    "id": 114,
+    "name": "Summer Linen Shirt",
+    "category": "Men",
+    "subcategory": "Collection",
+    "product_type": "Summer Collection",
+    "tags": [
+      "Featured Product"
+    ],
+    "price": 48.00
+  },
+  {
+    "id": 115,
+    "name": "Moisturizing Face Serum",
+    "category": "Beauty",
+    "subcategory": "Beauty",
+    "product_type": "Skincare",
+    "tags": [
+      "New Products"
+    ],
+    "price": 34.00
+  },
+  {
+    "id": 116,
+    "name": "Suede Penny Loafers",
+    "category": "Men",
+    "subcategory": "Shoes",
+    "product_type": "Loafers",
+    "tags": [
+      "Top Products"
+    ],
+    "price": 110.00
+  },
+  {
+    "id": 117,
+    "name": "Classic Trench Coat",
+    "category": "Women",
+    "subcategory": "Clothing",
+    "product_type": "Jacket",
+    "tags": [
+      "Top Products"
+    ],
+    "price": 140.00
+  },
+  {
+    "id": 118,
+    "name": "Patterned Cotton Socks",
+    "category": "Accessories",
+    "subcategory": "Accessories",
+    "product_type": "Socks",
+    "tags": [
+      "New Products"
+    ],
+    "price": 12.00
+  },
+  {
+    "id": 119,
+    "name": "Winter Knit Scarf",
+    "category": "Women",
+    "subcategory": "Collection",
+    "product_type": "Winter Collection",
+    "tags": [
+      "Recommended Products"
+    ],
+    "price": 30.00
+  },
+  {
+    "id": 120,
+    "name": "Casual Oxford Shirt",
+    "category": "Men",
+    "subcategory": "Clothing",
+    "product_type": "Shirt",
+    "tags": [
+      "New Products"
+    ],
+    "price": 50.00
+  },
+  {
+    "id": 121,
+    "name": "Braided Leather Belt",
+    "category": "Men",
+    "subcategory": "Accessories",
+    "product_type": "Belt",
+    "tags": [
+      "Recommended Products"
+    ],
+    "price": 35.00
+  },
+  {
+    "id": 122,
+    "name": "Matte Finish Lipstick",
+    "category": "Beauty",
+    "subcategory": "Beauty",
+    "product_type": "Makeup",
+    "tags": [
+      "Top Products"
+    ],
+    "price": 18.00
+  },
+  {
+    "id": 123,
+    "name": "Denim Mini Skirt",
+    "category": "Women",
+    "subcategory": "Clothing",
+    "product_type": "Skirts",
+    "tags": [
+      "Featured Product"
+    ],
+    "price": 38.00
+  },
+  {
+    "id": 124,
+    "name": "Polarized Wayfarers",
+    "category": "Accessories",
+    "subcategory": "Accessories",
+    "product_type": "Sunglasses",
+    "tags": [
+      "Top Products"
+    ],
+    "price": 150.00
+  },
+  {
+    "id": 125,
+    "name": "Chukka Leather Boots",
+    "category": "Men",
+    "subcategory": "Shoes",
+    "product_type": "Boots",
+    "tags": [
+      "New Products"
+    ],
+    "price": 135.00
+  },
+  {
+    "id": 126,
+    "name": "Graphic Print Tee",
+    "category": "Women",
+    "subcategory": "Clothing",
+    "product_type": "T-shirt",
+    "tags": [
+      "Recommended Products"
+    ],
+    "price": 25.00
+  }
+]

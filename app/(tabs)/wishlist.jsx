@@ -9,7 +9,6 @@ import wishlistImageOne from "../../assets/recentlyViewProduct/recently_viewedTh
 import wishlistImageThree from "../../assets/recentlyViewProduct/recently_viewedTwo.webp";
 import { wishlistProducts } from "../../assets/wishlistProductsData/data";
 import { useSanityProducts } from "../../src/components/hooks/useSanityProducts";
-import { testing } from '../../node_modules/rxjs/src/internal/umd';
 
 const wishlistImage = [
   wishlistImageFour,
@@ -27,11 +26,10 @@ export default function Wishlist() {
   const router = useRouter();
 
   // this is just for testing sanity products fetching
-  
-  const {products} = useSanityProducts();
+
+  const { products } = useSanityProducts();
   console.log("Sanity Products in Wishlist:", products);
-
-
+  console.log("santi data")
 
   useEffect(() => {
     setData(wishlistProducts);
@@ -39,7 +37,6 @@ export default function Wishlist() {
 
   return (
     <SafeAreaView className="flex-1 bg-white">
-
       {/* Fallback for empty wishlist */}
       <ScrollView showsVerticalScrollIndicator={false}>
         <View className="px-5 pt-6 pb-4">
@@ -112,7 +109,9 @@ export default function Wishlist() {
                     </Text>
                     {/* color and size  */}
                     <View className="flex-row items-center mt-3">
-                      <Text className="text-sm bg-gray-200 text-black px-3 py-2 mr-3 rounded">Size: {product.size}</Text>
+                      <Text className="text-sm bg-gray-200 text-black px-3 py-2 mr-3 rounded">
+                        Size: {product.size}
+                      </Text>
                       <Text className="text-sm bg-gray-200 text-black px-3 py-2 rounded">Color: {product.color}</Text>
                     </View>
                   </View>
