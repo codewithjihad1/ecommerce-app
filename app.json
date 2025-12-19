@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "habit-tracker",
-    "slug": "habit-tracker",
+    "name": "ecommerce-app",
+    "slug": "ecommerce-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -10,7 +10,7 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.shojol.habit-tracker"
+      "bundleIdentifier": "com.shojol.ecommerce-app"
     },
     "android": {
       "adaptiveIcon": {
@@ -24,7 +24,7 @@
       "package": "com.shojol.habittracker"
     },
     "web": {
-      "output": "static",
+      "output": "single",
       "favicon": "./assets/images/favicon.png",
       "bundler": "metro"
     },
