@@ -79,9 +79,6 @@ export const productSchema = {
       title: 'Colors',
       type: 'array',
       of: [{type: 'string'}],
-      options: {
-        layout: 'tags',
-      },
       validation: (Rule) => Rule.required().min(1),
     },
     {
