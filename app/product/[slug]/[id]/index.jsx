@@ -12,7 +12,7 @@ export default function ProductDescription() {
     const { products } = useSanityProducts();
     const router = useRouter();
     const dispatch = useDispatch();
-
+    // add to cart is managed by redux
     // selected options
     const [selectedColor, setSelectedColor] = useState(product?.colors?.[0]);
     const [selectedSize, setSelectedSize] = useState(product?.sizes?.[0]);
