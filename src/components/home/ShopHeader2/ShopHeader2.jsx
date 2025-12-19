@@ -1,11 +1,14 @@
-import { View, Text, Image } from 'react-native';
-import React from 'react';
+import { View, Text, Image, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
 import drawerImg from '../../../../assets/HomeImage/navigation.png';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 const ShopHeader = () => {
+  const [selectCategory, setSelectCategory] = useState('woman');
+
   return (
     <View>
       <View className="flex-row justify-between items-center gap-x-6">
@@ -21,41 +24,81 @@ const ShopHeader = () => {
       </View>
 
       <View className="mt-6 flex-row justify-between">
-        <View className='flex-col items-center gap-1'>
-          <View className="border-[1px] border-[#004CFF] rounded-full p-0.5">
-            <View className="border-[1px] p-4 rounded-full bg-[#004CFF]">
-              <AntDesign name="woman" size={24} color="white" />
+        <TouchableOpacity onPress={() => setSelectCategory('woman')}>
+          <View className="flex-col items-center gap-1">
+            <View
+              className={`border-[1px] rounded-full p-0.5 ${selectCategory === 'woman' ? 'border-[#004CFF]' : 'border-[#F3F3F3]'}`}
+            >
+              <View
+                className={`border-[1px] p-4 rounded-full ${selectCategory === 'woman' ? 'bg-[#004CFF]' : 'bg-[#F3F3F3] opacity-30`'}`}
+              >
+                <AntDesign
+                  name="woman"
+                  size={24}
+                  color={`${selectCategory === 'woman' ? 'white' : 'black'}`}
+                />
+              </View>
             </View>
+            <Text>Woman</Text>
           </View>
-          <Text>Woman</Text>
-        </View>
+        </TouchableOpacity>
 
-        <View className='flex-col items-center gap-1'>
-          <View className="border-[1px] border-[#004CFF] rounded-full p-0.5">
-            <View className="border-[1px] p-4 rounded-full bg-[#004CFF]">
-              <AntDesign name="man" size={24} color="white" />
+        <TouchableOpacity onPress={() => setSelectCategory('man')}>
+          <View className="flex-col items-center gap-1">
+            <View
+              className={`border-[1px] rounded-full p-0.5 ${selectCategory === 'man' ? 'border-[#004CFF]' : 'border-[#F3F3F3]'}`}
+            >
+              <View
+                className={`border-[1px] p-4 rounded-full ${selectCategory === 'man' ? 'bg-[#004CFF]' : 'bg-[#F3F3F3] opacity-30`'}`}
+              >
+                <AntDesign
+                  name="man"
+                  size={24}
+                  color={`${selectCategory === 'man' ? 'white' : 'black'}`}
+                />
+              </View>
             </View>
+            <Text>Man</Text>
           </View>
-          <Text>Man</Text>
-        </View>
+        </TouchableOpacity>
 
-        <View className='flex-col items-center gap-1'>
-          <View className="border-[1px] border-[#004CFF] rounded-full p-0.5">
-            <View className="border-[1px] p-4 rounded-full bg-[#004CFF]">
-              <FontAwesome5 name="glasses" size={24} color="white" />
+        <TouchableOpacity onPress={() => setSelectCategory('accessories')}>
+          <View className="flex-col items-center gap-1">
+            <View
+              className={`border-[1px] rounded-full p-0.5 ${selectCategory === 'accessories' ? 'border-[#004CFF]' : 'border-[#F3F3F3]'}`}
+            >
+              <View
+                className={`border-[1px] p-4 rounded-full ${selectCategory === 'accessories' ? 'bg-[#004CFF]' : 'bg-[#F3F3F3] opacity-30`'}`}
+              >
+                <FontAwesome5
+                  name="glasses"
+                  size={24}
+                  color={`${selectCategory === 'accessories' ? 'white' : 'black'}`}
+                />
+              </View>
             </View>
+            <Text>Accessories</Text>
           </View>
-          <Text>Accessories</Text>
-        </View>
+        </TouchableOpacity>
 
-        <View className='flex-col items-center gap-1'>
-          <View className="border-[1px] border-[#004CFF] rounded-full p-0.5">
-            <View className="border-[1px] p-4 rounded-full bg-[#004CFF]">
-              <AntDesign name="woman" size={24} color="white" />
+        <TouchableOpacity onPress={() => setSelectCategory('beauty')}>
+          <View className="flex-col items-center gap-1">
+            <View
+              className={`border-[1px] rounded-full p-0.5 ${selectCategory === 'beauty' ? 'border-[#004CFF]' : 'border-[#F3F3F3]'}`}
+            >
+              <View
+                className={`border-[1px] p-4 rounded-full ${selectCategory === 'beauty' ? 'bg-[#004CFF]' : 'bg-[#F3F3F3] opacity-30`'}`}
+              >
+                <MaterialCommunityIcons
+                  name="lipstick"
+                  size={24}
+                  color={`${selectCategory === 'beauty' ? 'white' : 'black'}`}
+                />
+              </View>
             </View>
+            <Text>Beauty</Text>
           </View>
-          <Text>Woman</Text>
-        </View>
+        </TouchableOpacity>
       </View>
     </View>
   );
