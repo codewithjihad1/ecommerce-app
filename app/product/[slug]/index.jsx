@@ -10,7 +10,6 @@ export default function ProductListBySlug() {
     const { products } = useSanityProducts();
     const normalizedSlug = slug?.toLowerCase();
 
-
     // data fetch from sanity
 
     const handleGoBack = () => {

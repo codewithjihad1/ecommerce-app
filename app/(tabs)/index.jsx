@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import ShopHeader from "../../src/components/home/ShopHeader/ShopHeader";
-import ShopSlider from "../../src/components/home/ShopSlider/ShopSlider";
+
 // import ShopCategories from '../../src/components/home/ShopCategories/ShopCategories';
 import { FlatList, Pressable, View } from "react-native";
 // import FlashSale from "../../src/components/home/FlashSale/FlashSale";
@@ -10,13 +10,14 @@ import NewItems from "../../src/components/profile/newitem/NewProducts";
 // import MostPopular from '../../src/components/profile/mostpopular/MostPopular';
 import { Ionicons } from "@expo/vector-icons";
 import FeaturesProduct from "../../src/components/home/FeaturesProduct/FeaturesProduct";
+import ShopSlider from "../../src/components/home/ShopSlider/ShopSlider";
 // import JustForYou from "../../src/components/home/JustForYou/JustForYou";
 
 export default function HomeScreen() {
     const sections = [{ id: "main" }];
     const flatListRef = useRef(null);
     const [showScrollTop, setShowScrollTop] = useState(false);
-
+// nothing
     const scrollToTop = () => {
         flatListRef.current?.scrollToOffset({ offset: 0, animated: true });
     };
