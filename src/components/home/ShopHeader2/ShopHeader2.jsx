@@ -5,14 +5,22 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { useNavigation } from 'expo-router';
+import { DrawerActions } from '@react-navigation/native';
 
 const ShopHeader = () => {
+  const navigation = useNavigation();
   const [selectCategory, setSelectCategory] = useState('woman');
 
   return (
     <View>
       <View className="flex-row justify-between items-center gap-x-6">
-        <Image source={drawerImg} />
+        {/* Drawer Button */}
+        <TouchableOpacity
+          onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
+        >
+          <Image source={drawerImg} />
+        </TouchableOpacity>
 
         <Text className="text-2xl" style={{ fontFamily: 'RalewayBold' }}>
           Gemstore
