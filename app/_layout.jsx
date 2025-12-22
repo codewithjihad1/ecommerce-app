@@ -1,17 +1,18 @@
-import { store } from '@/src/store/index';
-import { useFonts } from 'expo-font';
-import { Stack, useRouter, useSegments } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
-import 'react-native-reanimated';
-import { Provider, useDispatch, useSelector } from 'react-redux';
-import '../global.css';
-import { supabase } from '../src/lib/supabase';
-import { checkSession, setSession } from '../src/store/slices/authSlice';
+import { persistor, store } from "@/src/store/index";
+import { useFonts } from "expo-font";
+import { Stack, useRouter, useSegments } from "expo-router";
+import * as SplashScreen from "expo-splash-screen";
+import { useEffect } from "react";
+import "react-native-reanimated";
+import { Provider, useDispatch, useSelector } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
+import "../global.css";
+import { supabase } from "../src/lib/supabase";
+import { checkSession, setSession } from "../src/store/slices/authSlice";
 // Prevent splash screen from auto-hiding
 SplashScreen.preventAutoHideAsync();
 export const unstable_settings = {
-    anchor: '(tabs)',
+    anchor: "(tabs)",
 };
 // check the user session are already exist
 function AuthGate() {
@@ -20,9 +21,11 @@ function AuthGate() {
     const segments = useSegments();
     const { isAuthenticated, loading } = useSelector((state) => state.auth);
     useEffect(() => {
-        const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
-            dispatch(setSession(session));
-        });
+        const { data: listener } = supabase.auth.onAuthStateChange(
+            (_event, session) => {
+                dispatch(setSession(session));
+            },
+        );
         return () => listener.subscription.unsubscribe();
     }, [dispatch]);
     // restore session on app start
@@ -31,12 +34,12 @@ function AuthGate() {
     }, [dispatch]);
     useEffect(() => {
         if (loading) return;
-        const inAuthGroup = segments[0] === '(auth)';
+        const inAuthGroup = segments[0] === "(auth)";
         if (!isAuthenticated && !inAuthGroup) {
-            router.replace('/(auth)/login');
+            router.replace("/(auth)/login");
         }
         if (isAuthenticated && inAuthGroup) {
-            router.replace('/(tabs)/home');
+            router.replace("/(tabs)/home");
         }
     }, [isAuthenticated, loading, router, segments]);
     return (
@@ -52,10 +55,10 @@ function AuthGate() {
 // Root layout
 export default function RootLayout() {
     const [fontsLoaded, fontsError] = useFonts({
-        Poppins: require('../assets/font/Poppins-Regular.ttf'),
-        RalewayBold: require('../assets/font/Raleway-Bold.ttf'),
-        Raleway: require('../assets/font/Raleway-Regular.ttf'),
-        PoppinsBold: require('../assets/font/Poppins-Bold.ttf'),
+        Poppins: require("../assets/font/Poppins-Regular.ttf"),
+        RalewayBold: require("../assets/font/Raleway-Bold.ttf"),
+        Raleway: require("../assets/font/Raleway-Regular.ttf"),
+        PoppinsBold: require("../assets/font/Poppins-Bold.ttf"),
     });
     useEffect(() => {
         // console.log(fontsError);
@@ -68,7 +71,9 @@ export default function RootLayout() {
     }
     return (
         <Provider store={store}>
-            <AuthGate />
+            <PersistGate loading={null} persistor={persistor}>
+                <AuthGate />
+            </PersistGate>
         </Provider>
     );
 }
