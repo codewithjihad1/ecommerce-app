@@ -2,6 +2,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { useRouter } from "expo-router";
 import { FlatList, Image, Text, TouchableOpacity, View } from "react-native";
 import { useSanityProducts } from "../../hooks/useSanityProducts";
+import { useSelector } from "react-redux";
 /**
  *
  *
@@ -10,16 +11,22 @@ import { useSanityProducts } from "../../hooks/useSanityProducts";
  */
 export default function NewItems() {
     const { products } = useSanityProducts();
-    const filterNewProducts = products.filter((product) =>
-        product.tags?.includes("new"),
+    const { categoryName } = useSelector((state) => state.categoryName);
+
+    const filterNewProducts = products.filter(
+        (product) =>
+            product.tags?.includes("new") &&
+            product.categoryName?.toLowerCase() === categoryName,
     );
+
     const router = useRouter();
     return (
         <View className="mb-5 mt-5">
             <View className="flex-row items-center justify-between">
                 <Text
                     className="text-2xl font-bold"
-                    style={{ fontFamily: "RalewayBold" }}>
+                    style={{ fontFamily: "RalewayBold" }}
+                >
                     New Products
                 </Text>
 
@@ -30,7 +37,8 @@ export default function NewItems() {
                             params: { from: "/" },
                         })
                     }
-                    className="flex-row items-center gap-x-3">
+                    className="flex-row items-center gap-x-3"
+                >
                     <Text className="text-lg font-bold">See All</Text>
                     <Ionicons
                         className="rounded-full bg-[#004CFF] p-2"
@@ -60,7 +68,8 @@ export default function NewItems() {
                                         id: item._id,
                                     },
                                 })
-                            }>
+                            }
+                        >
                             <Image
                                 source={{ uri: item.image }}
                                 className="h-40 w-full rounded-2xl"
@@ -70,12 +79,14 @@ export default function NewItems() {
                             <Text
                                 className="mt-2 text-base font-semibold text-gray-900"
                                 numberOfLines={2}
-                                style={{ fontFamily: "Raleway" }} >
+                                style={{ fontFamily: "Raleway" }}
+                            >
                                 {item.title}
                             </Text>
                             <Text
                                 className="mt-1 text-lg font-bold text-blue-600"
-                                style={{ fontFamily: "Raleway" }}>
+                                style={{ fontFamily: "Raleway" }}
+                            >
                                 ${item.price}
                             </Text>
                         </TouchableOpacity>

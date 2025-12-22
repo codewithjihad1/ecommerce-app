@@ -3,11 +3,16 @@ import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { FlatList, Image, Text, TouchableOpacity, View } from "react-native";
 import { useSanityProducts } from "../../hooks/useSanityProducts";
+import { useSelector } from "react-redux";
 
 const TopProducts = () => {
     const { products } = useSanityProducts();
-    const filterTopProducts = products.filter((product) =>
-        product.tags?.includes("top"),
+    const { categoryName } = useSelector((state) => state.categoryName);
+
+    const filterTopProducts = products.filter(
+        (product) =>
+            product.tags?.includes("top") &&
+            product.categoryName?.toLowerCase() === categoryName,
     );
     const router = useRouter();
     return (
