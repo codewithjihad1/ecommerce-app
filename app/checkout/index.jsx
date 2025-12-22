@@ -255,7 +255,7 @@ export default function Checkout() {
                 {/* Shipping method */}
                 <View>
                     <Text className="my-3 text-3xl font-bold">
-                        Shipping Options
+                        Shipping Method
                     </Text>
                     <ShippingOptions />
                 </View>
@@ -292,7 +292,7 @@ export default function Checkout() {
                                 : "Edit Shipping Address"}
                         </Text>
                         <Pressable onPress={() => setModalVisible(false)}>
-                            <FontAwesome name="times" size={24} color="black" />
+                            <FontAwesome name="times" size={24} color="red" />
                         </Pressable>
                     </View>
 
