@@ -48,22 +48,22 @@ const ShopHeader = () => {
             </View>
 
             <View className="mt-6 flex-row justify-between">
-                <TouchableOpacity onPress={() => handleCategory("woman")}>
+                <TouchableOpacity onPress={() => handleCategory("women")}>
                     <View className="flex-col items-center gap-1">
                         <View
-                            className={`rounded-full border-[1px] p-0.5 ${categoryName === "woman" ? "border-[#004CFF]" : "border-[#F3F3F3]"}`}
+                            className={`rounded-full border-[1px] p-0.5 ${categoryName === "women" ? "border-[#004CFF]" : "border-[#F3F3F3]"}`}
                         >
                             <View
-                                className={`rounded-full border-[1px] p-4 ${categoryName === "woman" ? "bg-[#004CFF]" : "opacity-30` bg-[#F3F3F3]"}`}
+                                className={`rounded-full border-[1px] p-4 ${categoryName === "women" ? "bg-[#004CFF]" : "opacity-30` bg-[#F3F3F3]"}`}
                             >
                                 <AntDesign
                                     name="woman"
                                     size={24}
-                                    color={`${categoryName === "woman" ? "white" : "black"}`}
+                                    color={`${categoryName === "women" ? "white" : "black"}`}
                                 />
                             </View>
                         </View>
-                        <Text>Woman</Text>
+                        <Text>Women</Text>
                     </View>
                 </TouchableOpacity>
 

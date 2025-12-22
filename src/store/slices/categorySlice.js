@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    categoryName: "woman",
+    categoryName: "men",
 };
 
 export const categorySlice = createSlice({

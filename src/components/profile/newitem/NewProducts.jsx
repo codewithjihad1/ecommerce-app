@@ -19,6 +19,8 @@ export default function NewItems() {
             product.categoryName?.toLowerCase() === categoryName,
     );
 
+    // console.log(filterNewProducts.length);
+
     const router = useRouter();
     return (
         <View className="mb-5 mt-5">
