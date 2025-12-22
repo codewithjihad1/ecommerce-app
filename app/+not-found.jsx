@@ -1,17 +1,20 @@
-import { PureComponent } from "react";
+import { useRouter } from "expo-router";
 import { Text, View } from "react-native";
+import { Button } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-export class NotFound extends PureComponent {
-    render() {
-        return (
-            <SafeAreaView>
-                <View>
-                    <Text>NotFound</Text>
-                </View>
-            </SafeAreaView>
-        );
-    }
-}
+export default function NotFoundScreen() {
+    const router = useRouter();
 
-export default NotFound;
+    return (
+        <SafeAreaView>
+            <View className="flex-1 justify-center">
+                <Text>404 page not found</Text>
+
+                <Button mode="contained" onPress={() => router.back()}>
+                    Go Back
+                </Button>
+            </View>
+        </SafeAreaView>
+    );
+}
