@@ -26,7 +26,7 @@ export default function ProductDescription() {
     const handleToggleDescription = () => {
         setIsDescriptionExpanded(!isDescriptionExpanded);
     };
-
+// product page updated
     // handler function for reviews section
     const handleToggleReviews = () => {
         setShowAllReviews(!showAllReviews);
