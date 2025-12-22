@@ -2,13 +2,22 @@ import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { FlatList, Image, Text, TouchableOpacity, View } from "react-native";
 import { useSanityProducts } from "../../hooks/useSanityProducts";
+import { useSelector } from "react-redux";
 
 export default function FeaturesProduct() {
     const { products } = useSanityProducts();
+    const { categoryName } = useSelector((state) => state.categoryName);
     const router = useRouter();
-    const filterFeaturesProducts = products.filter((product) =>
-        product.tags?.includes("features"),
+    const filterFeaturesProducts = products.filter(
+        (product) =>
+            product.tags?.includes("features") &&
+            product.categoryName?.toLowerCase() === categoryName,
     );
+
+    // const n = filterFeaturesProducts[0]?.categoryName;
+
+    // console.log(n?.toLowerCase());
+
     return (
         <View className="my-5 bg-white">
             {/* Header */}
