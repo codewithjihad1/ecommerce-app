@@ -1,18 +1,20 @@
 import { useRef, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import ShopHeader from "../../../src/components/home/ShopHeader2/ShopHeader2";
-import ShopSlider from "../../../src/components/home/ShopSlider/ShopSlider";
+import ShopHeader from "../../src/components/home/ShopHeader2/ShopHeader2";
+import ShopSlider from "../../src/components/home/ShopSlider/ShopSlider";
 import { FlatList, Pressable, View } from "react-native";
-import TopProducts from "../../../src/components/home/TopProducts/TopProducts";
-import NewItems from "../../../src/components/profile/newitem/NewProducts";
+import TopProducts from "../../src/components/home/TopProducts/TopProducts";
+import NewItems from "../../src/components/profile/newitem/NewProducts";
 import { Ionicons } from "@expo/vector-icons";
-import FeaturesProduct from "../../../src/components/home/FeaturesProduct/FeaturesProduct";
-
+import FeaturesProduct from "../../src/components/home/FeaturesProduct/FeaturesProduct";
+import DrawerMenu from "../../src/components/DrawerMenu/DrawerMenu";
+import LeftDrawer from "../../src/components/LeftDrawer/LeftDrawer";
 
 export default function HomeScreen() {
     const sections = [{ id: "main" }];
     const flatListRef = useRef(null);
     const [showScrollTop, setShowScrollTop] = useState(false);
+    const [drawerOpen, setDrawerOpen] = useState(false);
 
     const scrollToTop = () => {
         flatListRef.current?.scrollToOffset({ offset: 0, animated: true });
@@ -39,12 +41,11 @@ export default function HomeScreen() {
                 }}
                 renderItem={() => (
                     <View>
-                        <ShopHeader />
+                        <ShopHeader onOpenDrawer={() => setDrawerOpen(true)} />
                         <ShopSlider />
                         <FeaturesProduct />
                         <TopProducts />
                         <NewItems />
-                     
                     </View>
                 )}
             />
@@ -78,6 +79,12 @@ export default function HomeScreen() {
                     </Pressable>
                 </View>
             )}
+            <LeftDrawer
+                visible={drawerOpen}
+                onClose={() => setDrawerOpen(false)}
+            >
+                <DrawerMenu onClose={() => setDrawerOpen(false)} />
+            </LeftDrawer>
         </SafeAreaView>
     );
 }
