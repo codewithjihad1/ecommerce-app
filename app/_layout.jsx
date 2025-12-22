@@ -39,12 +39,12 @@ function AuthGate() {
             router.replace("/(auth)/login");
         }
         if (isAuthenticated && inAuthGroup) {
-            router.replace("/(tabs)");
+            router.replace('/(tabs)/home');
         }
     }, [isAuthenticated, loading, router, segments]);
     return (
         <Stack screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="(tabs)" />
+            <Stack.Screen name="(tabs)/home" />
             <Stack.Screen name="(auth)" />
             <Stack.Screen name="product" />
             <Stack.Screen name="checkout" />

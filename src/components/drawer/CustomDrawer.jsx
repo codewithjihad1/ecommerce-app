@@ -113,7 +113,7 @@ export default function CustomDrawer(props) {
             </View>
 
             {/* Theme Switch */}
-            <View className="mx-5 mt-10 flex-row rounded-full bg-gray-100 p-2 px-5">
+            <View className="mx-5 mt-10 flex-row rounded-full bg-gray-100 py-2 px-5">
                 <TouchableOpacity
                     className={`flex-1 items-center py-2 ${theme === "light" ? "rounded-full bg-white" : ""}`}
                     onPress={() => setTheme("light")}
