@@ -71,7 +71,7 @@ export default function CustomDrawer(props) {
 
                 <DrawerItem
                     label="Discover"
-                    route="/(tabs)/index/discover"
+                    route="/(tabs)/home/discover"
                     icon={<Ionicons name="search-outline" size={22} />}
                 />
 
