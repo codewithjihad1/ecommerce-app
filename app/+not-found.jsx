@@ -1,12 +1,15 @@
-import { PureComponent } from 'react';
-import { Text, View } from 'react-native';
+import { PureComponent } from "react";
+import { Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export class NotFound extends PureComponent {
     render() {
         return (
-            <View>
-                <Text>NotFound</Text>
-            </View>
+            <SafeAreaView>
+                <View>
+                    <Text>NotFound</Text>
+                </View>
+            </SafeAreaView>
         );
     }
 }
