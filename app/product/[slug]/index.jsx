@@ -10,6 +10,8 @@ export default function ProductListBySlug() {
     const { products } = useSanityProducts();
     const normalizedSlug = slug?.toLowerCase();
 
+    // data fetch from sanity
+
     const handleGoBack = () => {
         if (from) router.replace(from);
         else if (router.canGoBack()) router.back();

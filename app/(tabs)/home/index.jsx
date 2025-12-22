@@ -2,15 +2,12 @@ import { useRef, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import ShopHeader from "../../../src/components/home/ShopHeader2/ShopHeader2";
 import ShopSlider from "../../../src/components/home/ShopSlider/ShopSlider";
-// import ShopCategories from '../../src/components/home/ShopCategories/ShopCategories';
 import { FlatList, Pressable, View } from "react-native";
-// import FlashSale from "../../src/components/home/FlashSale/FlashSale";
 import TopProducts from "../../../src/components/home/TopProducts/TopProducts";
 import NewItems from "../../../src/components/profile/newitem/NewProducts";
-// import MostPopular from '../../src/components/profile/mostpopular/MostPopular';
 import { Ionicons } from "@expo/vector-icons";
 import FeaturesProduct from "../../../src/components/home/FeaturesProduct/FeaturesProduct";
-// import JustForYou from "../../src/components/home/JustForYou/JustForYou";
+
 
 export default function HomeScreen() {
     const sections = [{ id: "main" }];
@@ -44,13 +41,10 @@ export default function HomeScreen() {
                     <View>
                         <ShopHeader />
                         <ShopSlider />
-                        {/* <ShopCategories /> */}
                         <FeaturesProduct />
                         <TopProducts />
                         <NewItems />
-                        {/* <FlashSale /> */}
-                        {/* <MostPopular /> */}
-                        {/* <JustForYou /> */}
+                     
                     </View>
                 )}
             />
