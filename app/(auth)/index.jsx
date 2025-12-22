@@ -12,7 +12,7 @@ export default function AuthScreen() {
 
     useEffect(() => {
         dispatch(checkSession());
-    }, []);
+    }, [dispatch]);
 
     return (
         <SafeAreaView className="flex-1 items-center justify-center">
