@@ -1,6 +1,6 @@
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Discover from "../../../src/components/discover/Discover";
+import Discover from "../../src/components/discover/Discover";
 
 const discover = () => {
     return (
