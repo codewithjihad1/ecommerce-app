@@ -1,53 +1,60 @@
-import { EvilIcons, FontAwesome } from '@expo/vector-icons';
-import { useEffect, useState } from 'react';
-import { Image, Pressable, ScrollView, Text, View } from 'react-native';
-import { Button } from 'react-native-paper';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { cartData } from '../../assets/cartData/Data';
-import ShippingOptions from '../../src/components/checkout/ShippingOptions';
+import { EvilIcons, FontAwesome } from "@expo/vector-icons";
+import { Image, Pressable, ScrollView, Text, View } from "react-native";
+import { Button } from "react-native-paper";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { useSelector } from "react-redux";
+import ShippingOptions from "../../src/components/checkout/ShippingOptions";
 
 export default function Checkout() {
-    const [products, setProducts] = useState([]);
+    const { items: products } = useSelector((state) => state.cart);
 
-    useEffect(() => {
-        setProducts(cartData);
-    }, []);
-
+    console.log("prodidkjf kldj", products);
     return (
-        <SafeAreaView className="p-4 flex-1 justify-center">
+        <SafeAreaView className="flex-1 justify-center p-4">
             <View>
                 <Text className="text-3xl font-bold">Payment</Text>
             </View>
             <ScrollView showsVerticalScrollIndicator={false}>
                 {/* Shipping Address */}
-                <View className="flex-row items-center justify-between overflow-hidden gap-4 bg-slate-200 p-4 rounded-lg mt-5">
+                <View className="mt-5 flex-row items-center justify-between gap-4 overflow-hidden rounded-lg bg-slate-200 p-4">
                     <View className="flex-1">
-                        <Text className="text-lg font-bold">Shipping Address</Text>
+                        <Text className="text-lg font-bold">
+                            Shipping Address
+                        </Text>
                         <Text className="text-base">
-                            26, Duong So 2, Thao Dien Ward, An Phu, District 2, Ho Chi Minh city
+                            26, Duong So 2, Thao Dien Ward, An Phu, District 2,
+                            Ho Chi Minh city
                         </Text>
                     </View>
-                    <View className="rounded-full bg-primary text-white w-10 h-10 flex-row items-center justify-center">
+                    <View className="h-10 w-10 flex-row items-center justify-center rounded-full bg-primary text-white">
                         <EvilIcons name="pencil" size={28} color="white" />
                     </View>
                 </View>
                 {/* Contact Info */}
-                <View className="flex-row items-center justify-between overflow-hidden gap-4 bg-slate-200 p-4 rounded-lg mt-3">
+                <View className="mt-3 flex-row items-center justify-between gap-4 overflow-hidden rounded-lg bg-slate-200 p-4">
                     <View className="flex-1">
-                        <Text className="text-lg font-bold">Contact Information</Text>
+                        <Text className="text-lg font-bold">
+                            Contact Information
+                        </Text>
                         <Text className="text-base">+84932000000</Text>
-                        <Text className="text-base">amandamorgan@example.com</Text>
+                        <Text className="text-base">
+                            amandamorgan@example.com
+                        </Text>
                     </View>
-                    <View className="rounded-full bg-primary text-white w-10 h-10 flex-row items-center justify-center">
+                    <View className="h-10 w-10 flex-row items-center justify-center rounded-full bg-primary text-white">
                         <EvilIcons name="pencil" size={28} color="white" />
                     </View>
                 </View>
 
                 {/* Cart items */}
                 <View className="mt-4">
-                    <View className="mb-4 flex-row justify-between items-center flex-wrap">
-                        <Text className="text-3xl font-bold ">Items </Text>
-                        <Button mode="outlined" textColor="blue" style={{ borderColor: 'blue' }}>
+                    <View className="mb-4 flex-row flex-wrap items-center justify-between">
+                        <Text className="text-3xl font-bold">Items </Text>
+                        <Button
+                            mode="outlined"
+                            textColor="blue"
+                            style={{ borderColor: "blue" }}
+                        >
                             Apply Voucher
                         </Button>
                     </View>
@@ -55,10 +62,16 @@ export default function Checkout() {
                         {products?.map((item, index) => (
                             <View
                                 key={index}
-                                className="flex-row items-center justify-between p-3 bg-gray-200 mb-2 rounded-xl">
-                                <Image source={{ uri: item?.img }} className="w-12 h-12 rounded-full border-[3px]" />
+                                className="mb-2 flex-row items-center justify-between rounded-xl bg-gray-200 p-3"
+                            >
+                                <Image
+                                    source={{ uri: item?.image }}
+                                    className="h-12 w-12 rounded-full border-2 border-gray-300"
+                                />
                                 <Text>{item.title}</Text>
-                                <Text className="text-xl font-bold ">$ {item.price}</Text>
+                                <Text className="text-xl font-bold">
+                                    $ {item.price}
+                                </Text>
                             </View>
                         ))}
                     </View>
@@ -66,39 +79,48 @@ export default function Checkout() {
 
                 {/* Shipping method */}
                 <View>
-                    <Text className="text-3xl font-bold my-3">Shipping Options</Text>
+                    <Text className="my-3 text-3xl font-bold">
+                        Shipping Options
+                    </Text>
 
                     <ShippingOptions />
                 </View>
 
                 {/* Payment method */}
-                <View className="px-4 py-3 flex-row items-center justify-between">
+                <View className="flex-row items-center justify-between px-4 py-3">
                     {/* Left */}
                     <View>
-                        <Text className="text-lg font-semibold text-gray-900 mb-2">Payment Method</Text>
+                        <Text className="mb-2 text-lg font-semibold text-gray-900">
+                            Payment Method
+                        </Text>
 
-                        <View className="bg-indigo-50 px-4 py-2 rounded-full self-start">
-                            <Text className="text-indigo-600 font-semibold text-base">Card</Text>
+                        <View className="self-start rounded-full bg-indigo-50 px-4 py-2">
+                            <Text className="text-base font-semibold text-indigo-600">
+                                Card
+                            </Text>
                         </View>
                     </View>
 
                     {/* Edit button */}
-                    <Pressable className="h-12 w-12 rounded-full bg-blue-600 items-center justify-center">
+                    <Pressable className="h-12 w-12 items-center justify-center rounded-full bg-blue-600">
                         <FontAwesome name="pencil" size={18} color="white" />
                     </Pressable>
                 </View>
             </ScrollView>
 
             {/* Total amount */}
-            <View className="px-4 py-4 flex-row items-center justify-between bg-white border-t border-gray-200 rounded-xl shadow-current">
+            <View className="flex-row items-center justify-between rounded-xl border-t border-gray-200 bg-white px-4 py-4 shadow-current">
                 <Text className="text-xl font-semibold text-gray-900">
                     Total <Text className="font-bold">$34.00</Text>
                 </Text>
 
                 <Pressable
-                    onPress={() => console.log('Pay')}
-                    className="bg-neutral-900 px-10 py-4 rounded-2xl active:opacity-80">
-                    <Text className="text-white text-lg font-semibold">Pay</Text>
+                    onPress={() => console.log("Pay")}
+                    className="rounded-2xl bg-neutral-900 px-10 py-4 active:opacity-80"
+                >
+                    <Text className="text-lg font-semibold text-white">
+                        Pay
+                    </Text>
                 </Pressable>
             </View>
         </SafeAreaView>
