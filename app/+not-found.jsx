@@ -39,7 +39,7 @@ export default function NotFoundScreen() {
                 <View className="w-full gap-3">
                     <Button
                         mode="contained"
-                        onPress={() => router.push("/(tabs)/home")}
+                        onPress={() => router.push("/(tabs)")}
                         className="py-1"
                     >
                         Go Home
