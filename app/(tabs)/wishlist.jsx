@@ -16,7 +16,6 @@ import wishlistImageTwo from "../../assets/recentlyViewProduct/recently_viewedOn
 import wishlistImageOne from "../../assets/recentlyViewProduct/recently_viewedThree.webp";
 import wishlistImageThree from "../../assets/recentlyViewProduct/recently_viewedTwo.webp";
 import { wishlistProducts } from "../../assets/wishlistProductsData/data";
-import { useSanityProducts } from "../../src/components/hooks/useSanityProducts";
 
 const wishlistImage = [
     wishlistImageFour,
@@ -46,12 +45,6 @@ export default function Wishlist() {
         const offsetY = event.nativeEvent.contentOffset.y;
         setShowScrollTop(offsetY > 200);
     };
-
-    // this is just for testing sanity products fetching
-
-    const { products } = useSanityProducts();
-    console.log("Sanity Products in Wishlist:", products);
-    console.log("santi data");
 
     useEffect(() => {
         setData(wishlistProducts);

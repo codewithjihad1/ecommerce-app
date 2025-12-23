@@ -5,13 +5,13 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import { useNavigation } from "expo-router";
-import { DrawerActions } from "@react-navigation/native";
+// import { useNavigation } from "expo-router";
+// import { DrawerActions } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import { setCategoryName } from "../../../store/slices/categorySlice";
 
-const ShopHeader = () => {
-    const navigation = useNavigation();
+const ShopHeader = ({ onOpenDrawer }) => {
+    // const navigation = useNavigation();
     const { categoryName } = useSelector((state) => state.categoryName);
     const dispatch = useDispatch();
 
@@ -24,9 +24,10 @@ const ShopHeader = () => {
             <View className="flex-row items-center justify-between gap-x-6">
                 {/* Drawer Button */}
                 <TouchableOpacity
-                    onPress={() =>
-                        navigation.dispatch(DrawerActions.toggleDrawer())
-                    }
+                    onPress={onOpenDrawer}
+                    // onPress={() =>
+                    //     navigation.dispatch(DrawerActions.toggleDrawer())
+                    // }
                 >
                     <Image source={drawerImg} />
                 </TouchableOpacity>

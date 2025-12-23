@@ -1,17 +1,18 @@
 import {
-    View,
+    ActivityIndicator,
+    Image,
     Text,
     TouchableOpacity,
-    Image,
-    ActivityIndicator,
+    View,
 } from "react-native";
-import { DrawerContentScrollView } from "@react-navigation/drawer";
-import { Ionicons, Feather } from "@expo/vector-icons";
-import { useRouter } from "expo-router";
+import React, { useState } from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useSelector } from "react-redux";
-import { useState } from "react";
+import { usePathname, useRouter } from "expo-router";
+import { Feather, Ionicons } from "@expo/vector-icons";
 
-export default function CustomDrawer(props) {
+const DrawerMenu = ({ onClose }) => {
+    const pathname = usePathname();
     const { user, loading } = useSelector((state) => state.auth);
     const [theme, setTheme] = useState("light");
     const router = useRouter();
@@ -20,22 +21,21 @@ export default function CustomDrawer(props) {
         <TouchableOpacity
             onPress={() => {
                 router.push(route);
-                props.navigation.closeDrawer();
+                onClose();
             }}
-            className="flex-row items-center gap-4 rounded-xl px-5 py-4"
+            className={`flex-row items-center gap-4 rounded-xl px-5 py-4 ${pathname === route ? "bg-gray-200" : ""}`}
         >
             {icon}
             <Text className="text-base font-medium">{label}</Text>
         </TouchableOpacity>
     );
+    // console.log(pathname);
 
     if (loading && !user) {
         return <ActivityIndicator size="large" />;
     }
-
     return (
-        <DrawerContentScrollView {...props}>
-            {/* Profile */}
+        <SafeAreaView>
             <View className="flex-row items-center gap-4 px-5 pb-8 pt-6">
                 <View className="h-16 w-16 items-center justify-center overflow-hidden rounded-full bg-pink-200">
                     {user?.user_metadata?.avatar ? (
@@ -61,17 +61,16 @@ export default function CustomDrawer(props) {
                 </View>
             </View>
 
-            {/* Main */}
-            <View className="px-3">
+            <View className="mt-3 px-3">
                 <DrawerItem
                     label="Homepage"
-                    route="/(tabs)"
+                    route="/"
                     icon={<Ionicons name="home-outline" size={22} />}
                 />
 
                 <DrawerItem
                     label="Discover"
-                    route="/(tabs)/home/discover"
+                    route="/discover"
                     icon={<Ionicons name="search-outline" size={22} />}
                 />
 
@@ -113,23 +112,25 @@ export default function CustomDrawer(props) {
             </View>
 
             {/* Theme Switch */}
-            <View className="mx-5 mt-10 flex-row rounded-full bg-gray-100 py-2 px-5">
+            <View className="mx-5 mt-10 flex-row rounded-full bg-gray-100 px-5 py-2">
                 <TouchableOpacity
-                    className={`flex-1 items-center py-2 ${theme === "light" ? "rounded-full bg-white" : ""}`}
+                    className={`flex-1 flex-row items-center gap-4 px-4 ${theme === "light" ? "rounded-full bg-white" : ""}`}
                     onPress={() => setTheme("light")}
                 >
-                    <Ionicons name="sunny-outline" size={18} />
+                    <Ionicons name="sunny" size={18} color="black" />
                     <Text>Light</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                    className={`flex-1 items-center py-2 ${theme === "dark" ? "rounded-full bg-white" : ""}`}
+                    className={`flex-1 flex-row items-center gap-4 px-4 py-2 ${theme === "dark" ? "rounded-full bg-white" : ""}`}
                     onPress={() => setTheme("dark")}
                 >
-                    <Ionicons name="moon-outline" size={18} />
+                    <Ionicons name="moon" color="black" size={18} />
                     <Text>Dark</Text>
                 </TouchableOpacity>
             </View>
-        </DrawerContentScrollView>
+        </SafeAreaView>
     );
-}
+};
+
+export default DrawerMenu;
