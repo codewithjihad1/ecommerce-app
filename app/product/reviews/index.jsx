@@ -30,7 +30,6 @@ export default function ReviewsPage() {
         );
     }, [products, id]);
 
-
     const renderItem = ({ item }) => (
         <View className="mb-4 py-4">
             <View className="mb-2 flex-row items-center">
