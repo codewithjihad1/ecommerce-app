@@ -81,7 +81,6 @@ const Discover = () => {
 
     return (
         <View className="flex-1 bg-white">
-            {/* Header */}
             <View className="flex-row items-center justify-between px-5 py-4">
                 <TouchableOpacity
                     onPress={handleGoBack}
@@ -104,7 +103,6 @@ const Discover = () => {
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={{ paddingBottom: 20 }}
             >
-                {/* Search Bar */}
                 <View className="mx-5 mt-2">
                     <View className="relative">
                         <Ionicons
@@ -140,7 +138,6 @@ const Discover = () => {
                     </View>
                 </View>
 
-                {/* Category Count */}
                 <View className="mx-5 mt-6">
                     <Text className="text-sm text-gray-500">
                         {filteredCategories.length}{" "}
@@ -151,7 +148,6 @@ const Discover = () => {
                     </Text>
                 </View>
 
-                {/* Subcategory Cards */}
                 <View className="mx-5 mt-4">
                     {filteredCategories.length > 0 ? (
                         filteredCategories.map((category, index) => {
@@ -168,7 +164,7 @@ const Discover = () => {
                                     >
                                         {({ pressed }) => (
                                             <LinearGradient
-                                                colors={["#667eea", "#764ba2"]}
+                                                colors={["#004CFF", "#764ba2"]}
                                                 start={{ x: 0, y: 0 }}
                                                 end={{ x: 1, y: 1 }}
                                                 className={`overflow-hidden rounded-2xl ${pressed ? "opacity-90" : "opacity-100"}`}
