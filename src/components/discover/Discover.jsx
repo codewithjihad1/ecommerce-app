@@ -31,20 +31,26 @@ const Discover = () => {
 
         const newProductTypes = [];
         uniqueSubCategories.forEach((uc) => {
-            const categoryProducts = products.filter((p) => uc === p.subcategoryName);
-            console.log(categoryProducts.length)
-            
+            const categoryProducts = products.filter(
+                (p) => uc === p.subcategoryName,
+            );
+            console.log(categoryProducts.length);
+
             const typeCountMap = {};
             categoryProducts.forEach((p) => {
                 const type = p.producttype;
                 typeCountMap[type] = (typeCountMap[type] || 0) + 1;
             });
-            
-            const typesWithCount = Object.entries(typeCountMap).map(([type, count]) => ({
-                name: type,
-                count: count,
-            }));
-            
+
+            const typesWithCount = Object.entries(typeCountMap).map(
+                ([type, count]) => ({
+                    name: type,
+                    count: count,
+                }),
+            );
+
+            console.log(typesWithCount);
+
             newProductTypes.push({
                 name: uc,
                 types: typesWithCount,
@@ -90,7 +96,7 @@ const Discover = () => {
                     />
                 </TouchableOpacity>
 
-                <Text className="text-xl font-bold">Discover</Text>
+                <Text className="text-3xl font-bold">Discover</Text>
 
                 <View className="w-10" />
             </View>
@@ -156,8 +162,10 @@ const Discover = () => {
                             return (
                                 <View key={index} className="mb-4">
                                     <Pressable
-                                        onPress={() => handleCategoryPress(category)}
-                                        className='rounded-2xl overflow-hidden'
+                                        onPress={() =>
+                                            handleCategoryPress(category)
+                                        }
+                                        className="overflow-hidden rounded-2xl"
                                     >
                                         {({ pressed }) => (
                                             <LinearGradient
@@ -172,12 +180,20 @@ const Discover = () => {
                                                             {category}
                                                         </Text>
                                                         <Text className="mt-1 text-sm text-white/80">
-                                                            {types.length} product {types.length === 1 ? 'type' : 'types'}
+                                                            {types.length}{" "}
+                                                            product{" "}
+                                                            {types.length === 1
+                                                                ? "type"
+                                                                : "types"}
                                                         </Text>
                                                     </View>
                                                     <View className="h-12 w-12 items-center justify-center rounded-full bg-white/20">
                                                         <MaterialIcons
-                                                            name={isExpanded ? "keyboard-arrow-up" : "keyboard-arrow-down"}
+                                                            name={
+                                                                isExpanded
+                                                                    ? "keyboard-arrow-up"
+                                                                    : "keyboard-arrow-down"
+                                                            }
                                                             size={24}
                                                             color="white"
                                                         />
@@ -190,9 +206,6 @@ const Discover = () => {
                                     {/* Product Types - Expandable */}
                                     {isExpanded && types.length > 0 && (
                                         <View className="mt-2 rounded-xl bg-gray-50 p-4">
-                                            <Text className="mb-3 text-sm font-semibold text-gray-600">
-                                                Product Types:
-                                            </Text>
                                             {types.map((type, typeIndex) => (
                                                 <TouchableOpacity
                                                     key={typeIndex}
@@ -207,11 +220,17 @@ const Discover = () => {
                                                         />
                                                     </View>
                                                     <Text className="flex-1 text-base text-gray-700">
-                                                        {type.name}
+                                                        {type.name
+                                                            .charAt(0)
+                                                            .toUpperCase() +
+                                                            type.name.slice(1)}
                                                     </Text>
                                                     <View className="mr-2 rounded-full bg-purple-100 px-3 py-1">
                                                         <Text className="text-xs font-semibold text-purple-700">
-                                                            {type.count} {type.count === 1 ? 'product' : 'products'}
+                                                            {type.count}{" "}
+                                                            {type.count === 1
+                                                                ? "product"
+                                                                : "products"}
                                                         </Text>
                                                     </View>
                                                     <MaterialIcons
