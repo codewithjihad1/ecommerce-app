@@ -39,6 +39,7 @@ export default function ProductDescription() {
         else router.replace("/");
     };
 
+    // add to cart event handler
     const handleAddToCart = () => {
         if (!product) return;
 
