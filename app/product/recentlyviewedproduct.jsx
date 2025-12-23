@@ -197,7 +197,7 @@ export default function RecentlyViewedProduct() {
                             <Text className="text-2xl font-bold">
                                 ${product.price}
                             </Text>
-                            
+
                             {/* Viewed info */}
                             <Text className="py-2 text-xs text-gray-500">
                                 Viewed{" "}

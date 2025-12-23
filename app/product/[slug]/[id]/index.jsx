@@ -26,6 +26,7 @@ export default function ProductDescription() {
     const [clickHeart, setClickHeart] = useState(false);
 
     // Set default color and size when product loads
+    // something 
     useEffect(() => {
         if (product) {
             setSelectedColor(product.colors?.[0] || null);
