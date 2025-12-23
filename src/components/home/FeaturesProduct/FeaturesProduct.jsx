@@ -1,14 +1,28 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { FlatList, Image, Text, TouchableOpacity, View } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import { addRecentlyViewedProduct } from "../../../store/slices/recentlyViewedProductSlice";
 import { useSanityProducts } from "../../hooks/useSanityProducts";
 
 export default function FeaturesProduct() {
     const { products } = useSanityProducts();
+    const { categoryName } = useSelector((state) => state.categoryName);
     const router = useRouter();
-    const filterFeaturesProducts = products.filter((product) =>
-        product.tags?.includes("features"),
+    const dispatch = useDispatch();
+
+    const filterFeaturesProducts = products.filter(
+        (product) =>
+            product.tags?.includes("features") &&
+            product.categoryName?.toLowerCase() === categoryName,
     );
+
+    const addRecentlyViewed = (product) => {
+        dispatch(
+            addRecentlyViewedProduct(product),
+        );
+    };
+
     return (
         <View className="my-5 bg-white">
             {/* Header */}
@@ -52,15 +66,16 @@ export default function FeaturesProduct() {
                     return (
                         <TouchableOpacity
                             className="mr-4 w-48 rounded-2xl border border-gray-300 bg-white p-4"
-                            onPress={() =>
+                            onPress={() => {
+                                addRecentlyViewed(item);
                                 router.push({
                                     pathname: "/product/[slug]/[id]",
                                     params: {
                                         slug,
                                         id: item._id,
                                     },
-                                })
-                            }
+                                });
+                            }}
                         >
                             <Image
                                 source={{ uri: item.image }}
