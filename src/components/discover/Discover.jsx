@@ -12,7 +12,6 @@ import { useSanityProducts } from "../hooks/useSanityProducts";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 const Discover = () => {
     const { products } = useSanityProducts();
@@ -34,7 +33,7 @@ const Discover = () => {
             const categoryProducts = products.filter(
                 (p) => uc === p.subcategoryName,
             );
-            console.log(categoryProducts.length);
+            // console.log(categoryProducts.length);
 
             const typeCountMap = {};
             categoryProducts.forEach((p) => {
@@ -49,7 +48,7 @@ const Discover = () => {
                 }),
             );
 
-            console.log(typesWithCount);
+            // console.log(typesWithCount);
 
             newProductTypes.push({
                 name: uc,
@@ -81,7 +80,7 @@ const Discover = () => {
     };
 
     return (
-        <SafeAreaView className="flex-1 bg-white">
+        <View className="flex-1 bg-white">
             {/* Header */}
             <View className="flex-row items-center justify-between px-5 py-4">
                 <TouchableOpacity
@@ -262,7 +261,7 @@ const Discover = () => {
                     )}
                 </View>
             </ScrollView>
-        </SafeAreaView>
+        </View>
     );
 };
 
