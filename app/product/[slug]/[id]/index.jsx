@@ -8,16 +8,17 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch } from "react-redux";
 import { useSanityProducts } from "../../../../src/components/hooks/useSanityProducts";
 import { addToCart } from "../../../../src/store/slices/cartSlice";
+import { addItem } from "../../../../src/store/slices/wishlistSlice";
 
 export default function ProductDescription() {
     const { id, from } = useLocalSearchParams();
+
     const router = useRouter();
     const dispatch = useDispatch();
     const { products, loading } = useSanityProducts();
 
     const product = products.find((p) => p._id === id);
 
-    // Initialize state with null/undefined checks
     const [selectedColor, setSelectedColor] = useState(null);
     const [selectedSize, setSelectedSize] = useState(null);
     const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(true);
@@ -53,10 +54,18 @@ export default function ProductDescription() {
         );
         router.push("/(tabs)/cart");
     };
-
     const handleWishlist = () => {
         if (!product?._id) return;
-        console.log("Wishlist product id:", product._id);
+
+        dispatch(
+            addItem({
+                ...product,
+                color: selectedColor, 
+                size: selectedSize, 
+            }),
+        );
+
+        router.push("/(tabs)/wishlist");
         setClickHeart(!clickHeart);
     };
 
@@ -71,7 +80,7 @@ export default function ProductDescription() {
     if (!product) {
         return (
             <SafeAreaView className="flex-1 items-center justify-center bg-white">
-                <Text className="text-xl font-bold">Product not found</Text>
+                <Text className="text-xl font-bold">Product not found!</Text>
             </SafeAreaView>
         );
     }
