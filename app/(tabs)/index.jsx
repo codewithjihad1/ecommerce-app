@@ -4,11 +4,11 @@ import ShopHeader from "../../src/components/home/ShopHeader2/ShopHeader2";
 import ShopSlider from "../../src/components/home/ShopSlider/ShopSlider";
 import { FlatList, Pressable, View } from "react-native";
 import TopProducts from "../../src/components/home/TopProducts/TopProducts";
-import NewItems from "../../src/components/profile/newitem/NewProducts";
 import { Ionicons } from "@expo/vector-icons";
 import FeaturesProduct from "../../src/components/home/FeaturesProduct/FeaturesProduct";
 import DrawerMenu from "../../src/components/DrawerMenu/DrawerMenu";
 import LeftDrawer from "../../src/components/LeftDrawer/LeftDrawer";
+import NewItems from "../../src/components/home/newitem/NewProducts";
 
 export default function HomeScreen() {
     const sections = [{ id: "main" }];
