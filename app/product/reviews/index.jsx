@@ -29,7 +29,7 @@ export default function ReviewsPage() {
             []
         );
     }, [products, id]);
-
+    console.log("the product reviews: ",productReviews)
 
     const renderItem = ({ item }) => (
         <View className="mb-4 py-4">

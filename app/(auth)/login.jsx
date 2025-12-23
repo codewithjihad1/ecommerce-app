@@ -24,7 +24,7 @@ export default function LoginScreen() {
     const handleLogin = async () => {
         try {
             await dispatch(signIn({ email, password })).unwrap();
-            router.push("/(tabs)/home");
+            router.push("/(tabs)");
         } catch (error) {
             Alert.alert(error);
         }

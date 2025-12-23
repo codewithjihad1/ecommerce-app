@@ -7,7 +7,6 @@ export default function HomeDrawerLayout() {
       drawerContent={(props) => <CustomDrawer {...props} />}
       screenOptions={{
         headerShown: false,
-        drawerPosition: 'left',
         drawerType: "front",
         overlayColor: 'rgba(0,0,0,0.3)',
         drawerStyle: {
