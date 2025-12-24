@@ -75,7 +75,7 @@ const AboutUs = () => {
                     />
                 </TouchableOpacity>
 
-                <Text className="text-xl font-bold">About Gemstore</Text>
+                <Text className="text-2xl font-bold">About Gemstore</Text>
 
                 <View className="w-10" />
             </View>
@@ -90,10 +90,10 @@ const AboutUs = () => {
                     end={{ x: 1, y: 1 }}
                     className="mx-5 mt-6 overflow-hidden rounded-3xl"
                 >
-                    <View className="items-center py-8">
-                        <View className="mb-4 h-20 w-20 items-center justify-center rounded-full bg-white/20">
+                    <View className="items-center py-20">
+                        {/* <View className="mb-4 h-20 w-20 items-center justify-center rounded-full bg-white/20">
                             <Ionicons name="diamond" size={40} color="white" />
-                        </View>
+                        </View> */}
                         <Text className="mb-2 text-3xl font-bold text-white">
                             Gemstore
                         </Text>
@@ -195,7 +195,6 @@ const AboutUs = () => {
                     </View>
                 </View>
 
-                {/* Contact Section */}
                 <View className="mx-5 mt-8">
                     <Text className="mb-4 text-2xl font-bold text-gray-800">
                         Get in Touch

@@ -5,7 +5,7 @@ import {
     TextInput,
     TouchableOpacity,
     Pressable,
-    Image,
+    // Image,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -98,7 +98,7 @@ const Discover = () => {
                     />
                 </TouchableOpacity>
 
-                <Text className="text-3xl font-bold">Discover</Text>
+                <Text className="text-2xl font-bold">Discover</Text>
 
                 <View className="w-10" />
             </View>
