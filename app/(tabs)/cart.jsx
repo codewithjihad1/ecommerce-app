@@ -45,7 +45,7 @@ export default function Cart() {
                             </Text>
 
                             <TouchableOpacity
-                                onPress={() => router.replace("/(tabs)/home")}
+                                onPress={() => router.replace("/(tabs)")}
                                 className="mt-6 rounded-xl bg-[#004CFF] px-8 py-3"
                             >
                                 <Text className="font-bold text-white">
