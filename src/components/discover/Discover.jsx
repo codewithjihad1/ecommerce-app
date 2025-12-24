@@ -5,6 +5,7 @@ import {
     TextInput,
     TouchableOpacity,
     Pressable,
+    // Image,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -36,8 +37,10 @@ const Discover = () => {
             // console.log(categoryProducts.length);
 
             const typeCountMap = {};
+            // let imgURI;
             categoryProducts.forEach((p) => {
                 const type = p.producttype;
+                // imgURI = p.image;
                 typeCountMap[type] = (typeCountMap[type] || 0) + 1;
             });
 
@@ -54,6 +57,7 @@ const Discover = () => {
                 name: uc,
                 types: typesWithCount,
                 count: typesWithCount.length,
+                // imgURI: imgURI,
             });
         });
 
@@ -81,7 +85,6 @@ const Discover = () => {
 
     return (
         <View className="flex-1 bg-white">
-            {/* Header */}
             <View className="flex-row items-center justify-between px-5 py-4">
                 <TouchableOpacity
                     onPress={handleGoBack}
@@ -95,7 +98,7 @@ const Discover = () => {
                     />
                 </TouchableOpacity>
 
-                <Text className="text-3xl font-bold">Discover</Text>
+                <Text className="text-2xl font-bold">Discover</Text>
 
                 <View className="w-10" />
             </View>
@@ -104,7 +107,6 @@ const Discover = () => {
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={{ paddingBottom: 20 }}
             >
-                {/* Search Bar */}
                 <View className="mx-5 mt-2">
                     <View className="relative">
                         <Ionicons
@@ -140,7 +142,6 @@ const Discover = () => {
                     </View>
                 </View>
 
-                {/* Category Count */}
                 <View className="mx-5 mt-6">
                     <Text className="text-sm text-gray-500">
                         {filteredCategories.length}{" "}
@@ -151,12 +152,15 @@ const Discover = () => {
                     </Text>
                 </View>
 
-                {/* Subcategory Cards */}
                 <View className="mx-5 mt-4">
                     {filteredCategories.length > 0 ? (
                         filteredCategories.map((category, index) => {
                             const isExpanded = expandedCategory === category;
                             const types = getCategoryTypes(category);
+                            // const categoryData = productType.find(
+                            //     (pt) => pt.name === category,
+                            // );
+                            // const imgURI = categoryData?.imgURI;
 
                             return (
                                 <View key={index} className="mb-4">
@@ -168,12 +172,12 @@ const Discover = () => {
                                     >
                                         {({ pressed }) => (
                                             <LinearGradient
-                                                colors={["#667eea", "#764ba2"]}
+                                                colors={["#004CFF", "#764ba2"]}
                                                 start={{ x: 0, y: 0 }}
                                                 end={{ x: 1, y: 1 }}
                                                 className={`overflow-hidden rounded-2xl ${pressed ? "opacity-90" : "opacity-100"}`}
                                             >
-                                                <View className="flex-row items-center justify-between p-10">
+                                                <View className="flex-row items-center justify-between p-12">
                                                     <View className="flex-1">
                                                         <Text className="text-xl font-bold text-white">
                                                             {category}
@@ -186,7 +190,7 @@ const Discover = () => {
                                                                 : "types"}
                                                         </Text>
                                                     </View>
-                                                    <View className="h-12 w-12 items-center justify-center rounded-full bg-white/20">
+                                                    <View className="h-12 w-12 items-center justify-center rounded-full bg-white/10">
                                                         <MaterialIcons
                                                             name={
                                                                 isExpanded
@@ -202,7 +206,6 @@ const Discover = () => {
                                         )}
                                     </Pressable>
 
-                                    {/* Product Types - Expandable */}
                                     {isExpanded && types.length > 0 && (
                                         <View className="mt-2 rounded-xl bg-gray-50 p-4">
                                             {types.map((type, typeIndex) => (
