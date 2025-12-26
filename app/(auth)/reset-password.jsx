@@ -37,6 +37,7 @@ export default function CreateNewPassword() {
         });
 
         Alert.alert("Success", "Password has been updated successfully");
+        router.push("/");
         setNewPassword("");
         setConfirmPassword("");
     };
