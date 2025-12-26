@@ -43,3 +43,7 @@ app-example
 /android
 assets/*.jpg
 assets/*.png
+
+
+.env
+.env.local

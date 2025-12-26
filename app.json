@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "ecommerce-app",
-    "slug": "ecommerce-app",
+    "name": "ecommerce",
+    "slug": "ecommerce",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -10,7 +10,7 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.shojol.ecommerce-app"
+      "bundleIdentifier": "com.webappick.ecommerce"
     },
     "android": {
       "adaptiveIcon": {
@@ -21,7 +21,7 @@
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.shojol.habittracker"
+      "package": "com.webappick.ecommerce"
     },
     "web": {
       "output": "single",
