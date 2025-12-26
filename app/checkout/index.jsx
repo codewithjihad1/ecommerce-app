@@ -3,6 +3,7 @@ import {
     FontAwesome,
     MaterialCommunityIcons,
 } from "@expo/vector-icons";
+import { useStripe } from "@stripe/stripe-react-native";
 import axios from "axios";
 import * as Linking from "expo-linking";
 import { useRouter } from "expo-router";
@@ -17,17 +18,22 @@ import {
     TextInput,
     View,
 } from "react-native";
-import { Button } from "react-native-paper";
+import { ActivityIndicator, Button } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import WebView from "react-native-webview";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ShippingOptions from "../../src/components/checkout/ShippingOptions";
+import { paymentStatusUpdate, placeOrder } from "../../src/lib/manageOrders";
 import { supabase } from "../../src/lib/supabase";
+import { clearCart } from "../../src/store/slices/cartSlice";
 
 export default function Checkout() {
     const { items: products } = useSelector((state) => state.cart);
     const { user } = useSelector((state) => state.auth);
     const router = useRouter();
+    const dispatch = useDispatch();
+
+    const { presentPaymentSheet, initPaymentSheet } = useStripe();
 
     const [paymentUrl, setPaymentUrl] = useState(null);
     const [contactInfo, setContactInfo] = useState(null);
@@ -35,6 +41,7 @@ export default function Checkout() {
     const [loading, setLoading] = useState(true);
     const [modalVisible, setModalVisible] = useState(false);
     const [editType, setEditType] = useState(null);
+    const [deliveryFee, setDeliveryFee] = useState(0);
 
     // Form states
     const [phone, setPhone] = useState("");
@@ -49,6 +56,50 @@ export default function Checkout() {
         (sum, item) => sum + item.price * item.quantity,
         0,
     );
+
+    /**
+     *
+     * @returns {Object} {paymentIntent, ephemeralKey, customer}
+     */
+    const fetchPaymentSheetParams = async () => {
+        const response = await axios.post(
+            `http://localhost:5000/api/payment/init`,
+
+            {
+                user: {
+                    email: user?.user_metadata?.email,
+                    name: user?.user_metadata?.name,
+                },
+                amount: subtotal,
+            },
+        );
+        const { paymentIntent, ephemeralKey, customer } = await response.data;
+
+        return {
+            paymentIntent,
+            ephemeralKey,
+            customer,
+        };
+    };
+
+    const initializePaymentSheet = async () => {
+        const { paymentIntent, ephemeralKey, customer } =
+            await fetchPaymentSheetParams();
+
+        const { error } = await initPaymentSheet({
+            merchantDisplayName: "E-Commerce",
+            customerId: customer,
+            customerEphemeralKeySecret: ephemeralKey,
+            paymentIntentClientSecret: paymentIntent,
+            allowsDelayedPaymentMethods: true,
+            defaultBillingDetails: {
+                name: "Jane Doe",
+            },
+        });
+        if (!error) {
+            setLoading(false);
+        }
+    };
 
     useEffect(() => {
         fetchUserInfo();
@@ -82,6 +133,7 @@ export default function Checkout() {
             setLoading(false);
         }
     }, []);
+
     const openEditModal = (type) => {
         setEditType(type);
         if (type === "contact") {
@@ -137,33 +189,40 @@ export default function Checkout() {
     const hasShippingAddress =
         shippingAddress?.address && shippingAddress?.city;
 
-    const handleCheckout = async () => {
-        setLoading(true);
-        const paymentData = {
-            amount: 100,
-            customerName: "John Doe",
-            customerEmail: "john@example.com",
-            customerPhone: "+8801700000000",
-            productName: "Test Product",
-            productCategory: "general",
+    const openPaymentSheet = async () => {
+        const orderData = {
+            pricing: {
+                subtotal,
+                deliveryFee: 5,
+                discount: 0,
+                total: subtotal + deliveryFee,
+            },
+            shippingAddress,
+            payment_method: "stripe",
+            items: products,
         };
+
         try {
-            const res = await axios.post(
-                "http://localhost:5000/api/payment/initiate",
-                paymentData,
-            );
-            if (res?.data) setPaymentUrl(res.data);
+            const order = await placeOrder(orderData, user);
+            dispatch(clearCart());
+            await presentPaymentSheet();
+            await paymentStatusUpdate(order.order_id, user.id);
+            Alert.alert("Success", "Your order is confirmed!");
+            router.push("/orders");
         } catch (error) {
             console.log(error);
-        } finally {
-            setLoading(false);
+            Alert.alert(`Error code: ${error.code}`, error.message);
         }
     };
+
+    useEffect(() => {
+        initializePaymentSheet();
+    }, []);
 
     if (loading) {
         return (
             <SafeAreaView className="flex-1 items-center justify-center">
-                <Text>Loading...</Text>
+                <ActivityIndicator size={"large"} />
             </SafeAreaView>
         );
     }
@@ -318,7 +377,7 @@ export default function Checkout() {
                         </Text>
 
                         <Pressable
-                            onPress={handleCheckout}
+                            onPress={openPaymentSheet}
                             className="rounded-2xl bg-neutral-900 px-10 py-4 active:opacity-80"
                         >
                             <Text className="text-lg font-semibold text-white">
