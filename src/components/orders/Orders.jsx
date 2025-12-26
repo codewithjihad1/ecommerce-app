@@ -4,10 +4,13 @@ import {
     TouchableOpacity,
     ScrollView,
     Pressable,
+    ActivityIndicator,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
+import { useSelector } from "react-redux";
+import { supabase } from "../../lib/supabase";
 
 const myOrders = [
     {
@@ -62,20 +65,43 @@ const myOrders = [
 
 const Orders = () => {
     const router = useRouter();
-    const [status, setStatus] = useState("pending");
-    const [orders, setOrders] = useState(myOrders);
+    const { user, loading } = useSelector((state) => state.auth);
+    const [status, setStatus] = useState("Pending");
+    const [orders, setOrders] = useState([]);
 
     const handleGoBack = () => {
         router.back();
     };
 
+    const fetchOrders = useCallback(async () => {
+        const { data, error } = await supabase
+            .from("orders")
+            .select("*")
+            .eq("user_id", user.id);
+
+        if (error) {
+            console.error("Error fetching orders:", error);
+            return;
+        }
+
+        setOrders(data);
+    }, [user]);
+
+    useEffect(() => {
+        fetchOrders();
+    }, [fetchOrders]);
+
     const handleStatus = (currentStatus) => {
         setStatus(currentStatus);
-        const filteredOrders = myOrders.filter(
+        const filteredOrders = orders.filter(
             (order) => order.order_status === currentStatus,
         );
         setOrders(filteredOrders);
     };
+
+    if (loading && !user) {
+        return <ActivityIndicator size="large" />;
+    }
 
     return (
         <View className="flex-1 bg-white">
