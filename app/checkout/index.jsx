@@ -4,6 +4,7 @@ import {
     MaterialCommunityIcons,
 } from "@expo/vector-icons";
 import axios from "axios";
+import * as Linking from "expo-linking";
 import { useNavigation, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import {
@@ -172,7 +173,14 @@ export default function Checkout() {
         <>
             {paymentUrl ? (
                 <SafeAreaView className="flex-1 justify-center">
-                    <WebView source={{ uri: paymentUrl }} />
+                    <WebView
+                        source={{ uri: paymentUrl }}
+                        onNavigationStateChange={(navState) => {
+                            if (navState.url.includes("ecommerce://")) {
+                                Linking.openURL(navState.url);
+                            }
+                        }}
+                    />
                 </SafeAreaView>
             ) : (
                 <SafeAreaView className="flex-1 justify-center p-4">

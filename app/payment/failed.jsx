@@ -1,9 +1,9 @@
 import { Text, View } from "react-native";
 
-export default function OrderScreen() {
+export default function FailedScreen() {
     return (
         <View>
-            <Text>OrderScreen</Text>
+            <Text>FailedScreen</Text>
         </View>
     );
 }
