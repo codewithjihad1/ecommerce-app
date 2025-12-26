@@ -26,6 +26,7 @@ export default function ProductDescription() {
     const [clickHeart, setClickHeart] = useState(false);
 
     // Set default color and size when product loads
+    // something 
     useEffect(() => {
         if (product) {
             setSelectedColor(product.colors?.[0] || null);
@@ -39,6 +40,7 @@ export default function ProductDescription() {
         else router.replace("/");
     };
 
+    // add to cart event handler
     const handleAddToCart = () => {
         if (!product) return;
 

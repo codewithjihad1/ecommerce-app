@@ -50,6 +50,7 @@ function AuthGate() {
             <Stack.Screen name="checkout" />
             <Stack.Screen name="settings" />
             <Stack.Screen name="payment" />
+            <Stack.Screen name="discover" />
         </Stack>
     );
 }

@@ -5,8 +5,8 @@ import {
 } from "@expo/vector-icons";
 import axios from "axios";
 import * as Linking from "expo-linking";
-import { useNavigation, useRouter } from "expo-router";
-import { useEffect, useState } from "react";
+import { useRouter } from "expo-router";
+import { useCallback, useEffect, useState } from "react";
 import {
     Alert,
     Image,
@@ -28,7 +28,6 @@ export default function Checkout() {
     const { items: products } = useSelector((state) => state.cart);
     const { user } = useSelector((state) => state.auth);
     const router = useRouter();
-    const navigation = useNavigation();
 
     const [paymentUrl, setPaymentUrl] = useState(null);
     const [contactInfo, setContactInfo] = useState(null);
@@ -53,20 +52,21 @@ export default function Checkout() {
 
     useEffect(() => {
         fetchUserInfo();
-    }, [user?.id]);
+    }, [user?.id, fetchUserInfo]);
 
-    const fetchUserInfo = async () => {
+    const fetchUserInfo = useCallback(async () => {
         try {
             setLoading(true);
             const { data, error } = await supabase.auth.getUser();
 
             if (error) throw error;
 
+            // Ensure user exists before accessing metadata
             const metadata = data.user?.user_metadata || {};
 
             setContactInfo({
                 phone: metadata.contactInfo?.phone || "",
-                email: metadata.contactInfo?.email || user?.email || "",
+                email: metadata.contactInfo?.email || data.user?.email || "",
             });
 
             setShippingAddress({
@@ -81,8 +81,7 @@ export default function Checkout() {
         } finally {
             setLoading(false);
         }
-    };
-
+    }, []);
     const openEditModal = (type) => {
         setEditType(type);
         if (type === "contact") {

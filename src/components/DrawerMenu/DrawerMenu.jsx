@@ -76,13 +76,13 @@ const DrawerMenu = ({ onClose }) => {
 
                 <DrawerItem
                     label="My Order"
-                    route="/(tabs)/index/orders"
+                    route="/cart"
                     icon={<Feather name="shopping-bag" size={22} />}
                 />
 
                 <DrawerItem
                     label="My Profile"
-                    route="/(tabs)/profile"
+                    route="/profile"
                     icon={<Ionicons name="person-outline" size={22} />}
                 />
 

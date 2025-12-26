@@ -1,6 +1,6 @@
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { FlatList, Image, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useSanityProducts } from "../../../src/components/hooks/useSanityProducts";
 
@@ -8,9 +8,9 @@ export default function ProductListBySlug() {
     const { slug, from } = useLocalSearchParams();
     const router = useRouter();
     const { products } = useSanityProducts();
-    const normalizedSlug = slug?.toLowerCase();
 
-    // data fetch from sanity
+    // Safety check for slug
+    const normalizedSlug = slug ? slug.toLowerCase() : "";
 
     const handleGoBack = () => {
         if (from) router.replace(from);
@@ -19,66 +19,97 @@ export default function ProductListBySlug() {
     };
 
     const filteredProducts = products.filter((product) => {
-        if (["features", "new", "top","recommended"].includes(normalizedSlug)) {
+        if (
+            ["features", "new", "top", "recommended"].includes(normalizedSlug)
+        ) {
             return product.tags?.some(
                 (tag) => tag.toLowerCase() === normalizedSlug,
             );
         }
-
         return product.subcategoryName?.toLowerCase() === normalizedSlug;
     });
 
+    // Individual Product Card Component
+    const renderProduct = ({ item }) => (
+        <View className="flex-1 p-2">
+            <TouchableOpacity
+                className="rounded-2xl bg-white p-3 shadow-sm"
+                onPress={() =>
+                    router.push({
+                        pathname: "/product/[slug]/[id]",
+                        params: {
+                            slug: item.subcategoryName,
+                            id: item._id,
+                            from: `product/${slug}`,
+                        },
+                    })
+                }
+            >
+                <View className="items-center">
+                    <Image
+                        source={{ uri: item.image }}
+                        className="h-40 w-full"
+                        resizeMode="contain"
+                    />
+                </View>
+
+                <View className="mt-3">
+                    <Text
+                        numberOfLines={2}
+                        className="text-sm font-medium text-gray-800"
+                    >
+                        {item.title}
+                    </Text>
+                    <Text className="mt-1 text-lg font-bold text-black">
+                        ${item.price}
+                    </Text>
+                </View>
+            </TouchableOpacity>
+        </View>
+    );
+
     return (
-        <SafeAreaView>
-            {/* Back */}
-            <View className="mx-5 my-3 ">
-                <TouchableOpacity onPress={handleGoBack} className="flex-row items-center">
+        <SafeAreaView className="flex-1 bg-gray-50">
+            {/* Header Section */}
+            <View className="flex-row items-center justify-between px-5 py-3">
+                <TouchableOpacity
+                    onPress={handleGoBack}
+                    className="rounded-full bg-white p-2 shadow-sm"
+                >
                     <MaterialIcons
-                        className="rounded-full bg-gray-200 p-2"
                         name="keyboard-arrow-left"
                         size={24}
                         color="black"
                     />
                 </TouchableOpacity>
+
+                <Text className="text-xl font-bold capitalize text-gray-900">
+                    {normalizedSlug}
+                </Text>
+
+                {/* Empty view to balance the header centering */}
+                <View className="w-10" />
             </View>
 
-            {/* Title */}
-            <Text className="text-center text-2xl font-bold capitalize">
-                {normalizedSlug} products
-            </Text>
-
-            {/* Products */}
-            <ScrollView contentContainerStyle={{ padding: 20 }}>
-                <View className="flex-row flex-wrap gap-4">
-                    {filteredProducts.map((product) => (
-                        <View key={product._id} className="w-[130px]">
-                            <TouchableOpacity
-                                onPress={() =>
-                                    router.push({
-                                        pathname: "/product/[slug]/[id]",
-                                        params: {
-                                            slug: product.subcategoryName,
-                                            id: product._id,
-                                            from: `product/${slug}`,
-                                        },
-                                    })
-                                }
-                            >
-                                <Image
-                                    source={{ uri: product.image }}
-                                    className="h-[150px] w-[110px]"
-                                    resizeMode="contain"
-                                />
-                            </TouchableOpacity>
-
-                            <Text numberOfLines={2}>{product.title}</Text>
-                            <Text className="font-semibold">
-                                ${product.price}
-                            </Text>
-                        </View>
-                    ))}
-                </View>
-            </ScrollView>
+            {/* Responsive Grid Section */}
+            <FlatList
+                data={filteredProducts}
+                keyExtractor={(item) => item._id}
+                renderItem={renderProduct}
+                numColumns={2} 
+                contentContainerStyle={{
+                    paddingHorizontal: 8,
+                    paddingBottom: 20,
+                }}
+                showsVerticalScrollIndicator={false}
+                ListEmptyComponent={
+                    <View className="mt-20 items-center">
+                        <Text className="text-gray-400">
+                            No products found.
+                        </Text>
+                    </View>
+                }
+            />
         </SafeAreaView>
     );
 }
