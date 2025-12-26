@@ -63,8 +63,7 @@ export default function Checkout() {
      */
     const fetchPaymentSheetParams = async () => {
         const response = await axios.post(
-            `http://localhost:5000/api/payment/init`,
-
+            `${process.env.EXPO_PUBLIC_API}/api/payment/init`,
             {
                 user: {
                     email: user?.user_metadata?.email,
