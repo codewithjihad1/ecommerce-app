@@ -76,7 +76,7 @@ const DrawerMenu = ({ onClose }) => {
 
                 <DrawerItem
                     label="My Order"
-                    route="/cart"
+                    route="/orders"
                     icon={<Feather name="shopping-bag" size={22} />}
                 />
 

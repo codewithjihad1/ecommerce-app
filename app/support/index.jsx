@@ -3,7 +3,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Support from "../../src/components/support/Support";
 // import { ScrollView } from "react-native";
 
-const discover = () => {
+const SupportPage = () => {
     return (
         <SafeAreaView
             // contentInsetAdjustmentBehavior="automatic"
@@ -15,4 +15,4 @@ const discover = () => {
     );
 };
 
-export default discover;
+export default SupportPage;
