@@ -300,7 +300,7 @@ const Support = () => {
                         {/* Submit Button */}
                         <TouchableOpacity
                             onPress={handleSubmit}
-                            className="w-1/2 rounded-xl overflow-hidden"
+                            className="w-1/2 overflow-hidden rounded-xl"
                             activeOpacity={0.8}
                         >
                             <LinearGradient
