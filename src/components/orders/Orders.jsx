@@ -3,6 +3,7 @@ import { useRouter } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
 import {
     ActivityIndicator,
+    FlatList,
     Pressable,
     ScrollView,
     Text,
@@ -63,18 +64,28 @@ import { supabase } from "../../lib/supabase";
 //     },
 // ];
 
+const orderStatus = [
+    { id: "1", os: "All" },
+    { id: "2", os: "Pending" },
+    { id: "3", os: "Paid" },
+    { id: "4", os: "Delivered" },
+    { id: "5", os: "Cancelled" },
+];
+
 const Orders = () => {
     const router = useRouter();
-    const { user, loading } = useSelector((state) => state.auth);
+    const { user } = useSelector((state) => state.auth);
     const [status, setStatus] = useState("All");
     const [orders, setOrders] = useState([]);
     const [filterOrders, setFilterOrders] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     const handleGoBack = () => {
         router.back();
     };
 
     const fetchOrders = useCallback(async () => {
+        setLoading(true);
         const { data, error } = await supabase
             .from("orders")
             .select("*")
@@ -117,6 +128,7 @@ const Orders = () => {
 
         setOrders(ordersWithQty);
         setFilterOrders(ordersWithQty);
+        setLoading(false);
     }, [user]);
 
     useEffect(() => {
@@ -130,14 +142,16 @@ const Orders = () => {
             return;
         }
         const filteredOrders = orders.filter(
-            (order) => order.payment_status.toLowerCase() === currentStatus,
+            (order) =>
+                order.payment_status.toLowerCase() ===
+                currentStatus.toLowerCase(),
         );
         setFilterOrders(filteredOrders);
     };
 
     // We aggregate order item quantities when fetching orders
 
-    if (loading && !user) {
+    if (!user && loading) {
         return <ActivityIndicator size="large" />;
     }
 
@@ -166,8 +180,23 @@ const Orders = () => {
                 contentContainerStyle={{ paddingBottom: 30 }}
             >
                 {/* Order Status */}
-                <View className="mt-4 flex-row flex-wrap justify-around gap-y-2">
-                    <Pressable onPress={() => handleStatus("All")}>
+                <View className="mx-5 mt-4">
+                    <FlatList
+                        data={orderStatus}
+                        keyExtractor={(item) => item.id}
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                        renderItem={({ item }) => (
+                            <Pressable onPress={() => handleStatus(item.os)}>
+                                <Text
+                                    className={`rounded-full px-6 py-2 ${status === item.os ? "bg-[#43484B] text-white" : "bg-white text-black"}`}
+                                >
+                                    {item.os}
+                                </Text>
+                            </Pressable>
+                        )}
+                    ></FlatList>
+                    {/* <Pressable onPress={() => handleStatus("All")}>
                         <Text
                             className={`rounded-full px-6 py-2 ${status === "All" ? "bg-[#43484B] text-white" : "bg-white text-black"}`}
                         >
@@ -201,7 +230,7 @@ const Orders = () => {
                         >
                             Cancelled
                         </Text>
-                    </Pressable>
+                    </Pressable> */}
                 </View>
 
                 {/* Order Card */}
@@ -213,7 +242,10 @@ const Orders = () => {
                         >
                             <View className="flex-row flex-wrap items-center justify-between gap-3">
                                 <Text className="text-xl font-semibold">
-                                    Order #{order.order_id}
+                                    Order #
+                                    {order.order_id.slice(
+                                        order.order_id.length - 4,
+                                    )}
                                 </Text>
                                 <Text className="text-black/50">
                                     {new Date(
@@ -222,14 +254,16 @@ const Orders = () => {
                                 </Text>
                             </View>
 
-                            {/* <View className="mt-6 flex-row items-center">
+                            <View className="mt-6 flex-row items-center">
                                 <Text className="mr-2 text-black/50">
                                     Tracking Number:{" "}
                                 </Text>
                                 <Text className="font-medium">
-                                    {order.tracking_no}
+                                    {order?.trx_id?.slice(
+                                        order?.trx_id.length - 4,
+                                    )}
                                 </Text>
-                            </View> */}
+                            </View>
 
                             <View className="mt-6 flex-row items-center justify-between">
                                 <View className="flex-row">
@@ -254,7 +288,10 @@ const Orders = () => {
                                 <Text
                                     className={`${order.payment_status === "Pending" ? "text-[#CF6212]" : order.payment_status === "Delivered" ? "text-[#009254]" : "text-[#C50000]"} text-xl font-medium`}
                                 >
-                                    {order.payment_status}
+                                    {order.payment_status
+                                        .charAt(0)
+                                        .toUpperCase() +
+                                        order.payment_status.slice(1)}
                                 </Text>
                                 <TouchableOpacity
                                     onPress={() =>
