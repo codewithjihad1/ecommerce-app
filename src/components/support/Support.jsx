@@ -1,16 +1,16 @@
+import { useState } from "react";
 import {
-    View,
-    Text,
-    ScrollView,
-    TouchableOpacity,
-    TextInput,
     Linking,
+    ScrollView,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View,
 } from "react-native";
-import React, { useState } from "react";
-// import { SafeAreaView } from "react-native-safe-area-context";
-import { MaterialIcons, Ionicons } from "@expo/vector-icons";
-import { useRouter } from "expo-router";
+import { EmailJSResponseStatus, send } from "@emailjs/react-native";
+import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
+import { useRouter } from "expo-router";
 
 const quickActions = [
     {
@@ -81,17 +81,35 @@ const Support = () => {
         setExpandedFAQ(expandedFAQ === index ? null : index);
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         if (!name || !email || !message) {
             alert("Please fill in all fields");
             return;
         }
-        // Handle form submission
-        console.log({ name, email, message });
-        alert("Message sent! We'll get back to you soon.");
-        setName("");
-        setEmail("");
-        setMessage("");
+
+        try {
+            await send(
+                process.env.EXPO_PUBLIC_EMAIL_JS_SERVICE_ID,
+                process.env.EXPO_PUBLIC_EMAIL_JS_TEMPLATE_ID,
+                {
+                    name,
+                    email,
+                    message,
+                },
+                {
+                    publicKey: process.env.EXPO_PUBLIC_EMAIL_JS_PUBLIC_KEY,
+                },
+            );
+
+            alert("Message sent! We'll get back to you soon.");
+            setName("");
+            setEmail("");
+            setMessage("");
+        } catch (err) {
+            if (err instanceof EmailJSResponseStatus) {
+                console.log("EmailJS Request Failed...", err);
+            }
+        }
     };
 
     return (
