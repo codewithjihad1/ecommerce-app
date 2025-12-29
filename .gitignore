@@ -3,6 +3,9 @@
 # dependencies
 node_modules/
 
+.env
+.env.local
+
 # Expo
 .expo/
 dist/
@@ -30,9 +33,6 @@ yarn-error.*
 .DS_Store
 *.pem
 
-# local env files
-.env*.local
-
 # typescript
 *.tsbuildinfo
 
@@ -43,7 +43,3 @@ app-example
 /android
 assets/*.jpg
 assets/*.png
-
-
-.env
-.env.local
