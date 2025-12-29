@@ -74,16 +74,18 @@ const orderStatus = [
 
 const Orders = () => {
     const router = useRouter();
-    const { user, loading } = useSelector((state) => state.auth);
+    const { user } = useSelector((state) => state.auth);
     const [status, setStatus] = useState("All");
     const [orders, setOrders] = useState([]);
     const [filterOrders, setFilterOrders] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     const handleGoBack = () => {
         router.back();
     };
 
     const fetchOrders = useCallback(async () => {
+        setLoading(true);
         const { data, error } = await supabase
             .from("orders")
             .select("*")
@@ -126,6 +128,7 @@ const Orders = () => {
 
         setOrders(ordersWithQty);
         setFilterOrders(ordersWithQty);
+        setLoading(false);
     }, [user]);
 
     useEffect(() => {
@@ -148,7 +151,7 @@ const Orders = () => {
 
     // We aggregate order item quantities when fetching orders
 
-    if (loading && !user) {
+    if (!user && loading) {
         return <ActivityIndicator size="large" />;
     }
 
@@ -177,7 +180,7 @@ const Orders = () => {
                 contentContainerStyle={{ paddingBottom: 30 }}
             >
                 {/* Order Status */}
-                <View className="mt-4 mx-5">
+                <View className="mx-5 mt-4">
                     <FlatList
                         data={orderStatus}
                         keyExtractor={(item) => item.id}
@@ -251,14 +254,16 @@ const Orders = () => {
                                 </Text>
                             </View>
 
-                            {/* <View className="mt-6 flex-row items-center">
+                            <View className="mt-6 flex-row items-center">
                                 <Text className="mr-2 text-black/50">
                                     Tracking Number:{" "}
                                 </Text>
                                 <Text className="font-medium">
-                                    {order.tracking_no}
+                                    {order?.trx_id?.slice(
+                                        order?.trx_id.length - 4,
+                                    )}
                                 </Text>
-                            </View> */}
+                            </View>
 
                             <View className="mt-6 flex-row items-center justify-between">
                                 <View className="flex-row">
