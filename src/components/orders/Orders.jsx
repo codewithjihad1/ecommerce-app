@@ -2,7 +2,6 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
 import {
-    ActivityIndicator,
     FlatList,
     Pressable,
     ScrollView,
@@ -12,6 +11,7 @@ import {
 } from "react-native";
 import { useSelector } from "react-redux";
 import { supabase } from "../../lib/supabase";
+import * as Progress from "react-native-progress";
 
 // const myOrders = [
 //     {
@@ -79,6 +79,7 @@ const Orders = () => {
     const [orders, setOrders] = useState([]);
     const [filterOrders, setFilterOrders] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [progress, setProgress] = useState(0);
 
     const handleGoBack = () => {
         router.back();
@@ -128,7 +129,8 @@ const Orders = () => {
 
         setOrders(ordersWithQty);
         setFilterOrders(ordersWithQty);
-        setLoading(false);
+
+        setTimeout(() => setLoading(false), 3000);
     }, [user]);
 
     useEffect(() => {
@@ -149,10 +151,33 @@ const Orders = () => {
         setFilterOrders(filteredOrders);
     };
 
-    // We aggregate order item quantities when fetching orders
+    useEffect(() => {
+        if (!loading) {
+            setProgress(1);
+            return;
+        }
 
-    if (!user && loading) {
-        return <ActivityIndicator size="large" />;
+        setProgress(0);
+
+        const interval = setInterval(() => {
+            setProgress((prev) => {
+                if (prev >= 0.95) {
+                    clearInterval(interval);
+                    return 0.95;
+                }
+                return prev + 0.3;
+            });
+        }, 1000);
+
+        return () => clearInterval(interval);
+    }, [loading]);
+
+    if (loading) {
+        return (
+            <View className="flex-1 items-center justify-center bg-white">
+                <Progress.Bar progress={progress} width={200} />
+            </View>
+        );
     }
 
     return (
