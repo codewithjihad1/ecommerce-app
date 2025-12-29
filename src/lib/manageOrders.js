@@ -18,6 +18,7 @@ export const createOrder = async (orderData, userId) => {
                 total: orderData.pricing.total,
                 payment_method: orderData.payment_method,
                 shipping_address: orderData.shippingAddress,
+                trx_id: orderData.trxId,
             },
         ])
         .select()

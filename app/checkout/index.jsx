@@ -42,6 +42,7 @@ export default function Checkout() {
     const [modalVisible, setModalVisible] = useState(false);
     const [editType, setEditType] = useState(null);
     const [deliveryFee, setDeliveryFee] = useState(0);
+    const [paymentId, setPaymentId] = useState(null);
 
     // Form states
     const [phone, setPhone] = useState("");
@@ -98,6 +99,7 @@ export default function Checkout() {
         if (!error) {
             setLoading(false);
         }
+        setPaymentId(paymentIntent);
     };
 
     useEffect(() => {
@@ -199,6 +201,7 @@ export default function Checkout() {
             shippingAddress,
             payment_method: "stripe",
             items: products,
+            trxId: paymentId,
         };
 
         try {
