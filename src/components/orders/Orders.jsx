@@ -3,6 +3,7 @@ import { useRouter } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
 import {
     ActivityIndicator,
+    FlatList,
     Pressable,
     ScrollView,
     Text,
@@ -62,6 +63,14 @@ import { supabase } from "../../lib/supabase";
 //         order_status: "Delivered",
 //     },
 // ];
+
+const orderStatus = [
+    { id: "1", os: "All" },
+    { id: "2", os: "Pending" },
+    { id: "3", os: "Paid" },
+    { id: "4", os: "Delivered" },
+    { id: "5", os: "Cancelled" },
+];
 
 const Orders = () => {
     const router = useRouter();
@@ -130,7 +139,9 @@ const Orders = () => {
             return;
         }
         const filteredOrders = orders.filter(
-            (order) => order.payment_status.toLowerCase() === currentStatus,
+            (order) =>
+                order.payment_status.toLowerCase() ===
+                currentStatus.toLowerCase(),
         );
         setFilterOrders(filteredOrders);
     };
@@ -166,8 +177,23 @@ const Orders = () => {
                 contentContainerStyle={{ paddingBottom: 30 }}
             >
                 {/* Order Status */}
-                <View className="mt-4 flex-row flex-wrap justify-around gap-y-2">
-                    <Pressable onPress={() => handleStatus("All")}>
+                <View className="mt-4 mx-5">
+                    <FlatList
+                        data={orderStatus}
+                        keyExtractor={(item) => item.id}
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                        renderItem={({ item }) => (
+                            <Pressable onPress={() => handleStatus(item.os)}>
+                                <Text
+                                    className={`rounded-full px-6 py-2 ${status === item.os ? "bg-[#43484B] text-white" : "bg-white text-black"}`}
+                                >
+                                    {item.os}
+                                </Text>
+                            </Pressable>
+                        )}
+                    ></FlatList>
+                    {/* <Pressable onPress={() => handleStatus("All")}>
                         <Text
                             className={`rounded-full px-6 py-2 ${status === "All" ? "bg-[#43484B] text-white" : "bg-white text-black"}`}
                         >
@@ -201,7 +227,7 @@ const Orders = () => {
                         >
                             Cancelled
                         </Text>
-                    </Pressable>
+                    </Pressable> */}
                 </View>
 
                 {/* Order Card */}
