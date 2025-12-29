@@ -213,7 +213,10 @@ const Orders = () => {
                         >
                             <View className="flex-row flex-wrap items-center justify-between gap-3">
                                 <Text className="text-xl font-semibold">
-                                    Order #{order.order_id}
+                                    Order #
+                                    {order.order_id.slice(
+                                        order.order_id.length - 4,
+                                    )}
                                 </Text>
                                 <Text className="text-black/50">
                                     {new Date(
@@ -254,7 +257,10 @@ const Orders = () => {
                                 <Text
                                     className={`${order.payment_status === "Pending" ? "text-[#CF6212]" : order.payment_status === "Delivered" ? "text-[#009254]" : "text-[#C50000]"} text-xl font-medium`}
                                 >
-                                    {order.payment_status}
+                                    {order.payment_status
+                                        .charAt(0)
+                                        .toUpperCase() +
+                                        order.payment_status.slice(1)}
                                 </Text>
                                 <TouchableOpacity
                                     onPress={() =>
