@@ -78,7 +78,8 @@ const Orders = () => {
         const { data, error } = await supabase
             .from("orders")
             .select("*")
-            .eq("user_id", user.id);
+            .eq("user_id", user.id)
+            .order("created_at", { ascending: false });
         // const { data, error } = await supabase
         //     .from("order_items")
         //     .select()
