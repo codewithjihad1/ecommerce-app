@@ -4,8 +4,10 @@ import { useEffect, useState } from "react";
 import {
     Alert,
     Image,
+    Modal,
     ScrollView,
     Text,
+    TextInput,
     TouchableOpacity,
     View,
 } from "react-native";
@@ -58,31 +60,67 @@ export default function ProfileScreen() {
     const { user, loading } = useSelector((state) => state.auth);
     const router = useRouter();
     const dispatch = useDispatch();
+    
+    // Modal and edit states
+    const [modalVisible, setModalVisible] = useState(false);
+    const [editType, setEditType] = useState(null);
+    const [saving, setSaving] = useState(false);
+    
+    // Address states
+    const [address, setAddress] = useState("");
+    const [po, setPo] = useState("");
+    const [district, setDistrict] = useState("");
+    const [city, setCity] = useState("");
+    
+    // Contact states
+    const [phone, setPhone] = useState("");
+    const [email, setEmail] = useState("");
+    
+    // Stored data
+    const [shippingAddress, setShippingAddress] = useState({
+        address: "",
+        po: "",
+        district: "",
+        city: "",
+    });
+    const [contactInfo, setContactInfo] = useState({
+        phone: "",
+        email: "",
+    });
+    
+    const [expandedIndex, setExpandedIndex] = useState(null);
 
-    const [addresses, setAddresses] = useState([]);
-
-    // fetch addresses from supabase
+    // Fetch user info on mount
     useEffect(() => {
-        fetchUserInfo();
+        if (user?.id) {
+            fetchUserInfo();
+        }
     }, [user?.id]);
+
     const fetchUserInfo = async () => {
         try {
             const { data, error } = await supabase.auth.getUser();
             if (error) throw error;
+            
             const metadata = data.user?.user_metadata || {};
-            setAddresses({
+            const addressData = {
                 address: metadata.shippingAddress?.address || "",
                 po: metadata.shippingAddress?.po || "",
                 district: metadata.shippingAddress?.district || "",
                 city: metadata.shippingAddress?.city || "",
-            });
+            };
+            const contactData = {
+                phone: metadata.contactInfo?.phone || "",
+                email: metadata.contactInfo?.email || "",
+            };
+            
+            setShippingAddress(addressData);
+            setContactInfo(contactData);
         } catch (error) {
             console.error("Error fetching user info:", error.message);
             Alert.alert("Error", "Failed to load user information");
         }
     };
-
-    const [expandedIndex, setExpandedIndex] = useState(null);
 
     const handleToggleAccordion = (index) => {
         setExpandedIndex((prev) => (prev === index ? null : index));
@@ -94,6 +132,57 @@ export default function ProfileScreen() {
             router.replace("/(auth)");
         } catch (error) {
             Alert.alert("Error", error?.message || "Something went wrong");
+        }
+    };
+
+    const openEditModal = (type) => {
+        setEditType(type);
+        if (type === "contact") {
+            setPhone(contactInfo?.phone || "");
+            setEmail(contactInfo?.email || "");
+        } else {
+            setAddress(shippingAddress?.address || "");
+            setPo(shippingAddress?.po || "");
+            setDistrict(shippingAddress?.district || "");
+            setCity(shippingAddress?.city || "");
+        }
+        setModalVisible(true);
+    };
+
+    const saveUserInfo = async () => {
+        try {
+            setSaving(true);
+            const metadata =
+                editType === "contact"
+                    ? {
+                          contactInfo: { phone, email },
+                          shippingAddress: shippingAddress,
+                      }
+                    : {
+                          contactInfo: contactInfo,
+                          shippingAddress: { address, po, district, city },
+                      };
+
+            const { error } = await supabase.auth.updateUser({
+                data: metadata,
+            });
+
+            if (error) throw error;
+
+            // Update local state
+            if (editType === "contact") {
+                setContactInfo({ phone, email });
+            } else {
+                setShippingAddress({ address, po, district, city });
+            }
+
+            setModalVisible(false);
+            Alert.alert("Success", "Information updated successfully");
+        } catch (error) {
+            console.error("Error updating user info:", error.message);
+            Alert.alert("Error", error.message);
+        } finally {
+            setSaving(false);
         }
     };
 
@@ -139,28 +228,35 @@ export default function ProfileScreen() {
             <View className="mb-3 overflow-hidden rounded-xl bg-white shadow-sm">
                 <View className="flex-row items-center p-4">
                     <View className="mr-3 h-10 w-10 items-center justify-center rounded-full bg-pink-100">
-                        <Ionicons name="home" size={20} color="" />
+                        <Ionicons name="home" size={20} color="#F5576C" />
                     </View>
                     <View className="flex-1">
                         <Text className="font-semibold text-gray-800">
                             Home
                         </Text>
                         <Text className="text-sm text-gray-500">
-                            {`${addresses.address}, ${addresses.po}, ${addresses.district}, ${addresses.city}`}
+                            {shippingAddress.address || shippingAddress.po || shippingAddress.district || shippingAddress.city
+                                ? `${shippingAddress.address}, ${shippingAddress.po}, ${shippingAddress.district}, ${shippingAddress.city}`
+                                : "No address added yet"}
                         </Text>
                     </View>
-                    <Ionicons
-                        name="checkmark-circle"
-                        size={24}
-                        color="#10B981"
-                    />
+                    {shippingAddress.address && (
+                        <Ionicons
+                            name="checkmark-circle"
+                            size={24}
+                            color="#10B981"
+                        />
+                    )}
                 </View>
             </View>
 
-            <TouchableOpacity className="flex-row items-center justify-center rounded-xl border-2 border-dashed border-blue-300 bg-pink-50 py-3">
-                <Ionicons name="add-circle-outline" size={20} color="" />
+            <TouchableOpacity 
+                className="flex-row items-center justify-center rounded-xl border-2 border-dashed border-blue-300 bg-pink-50 py-3"
+                onPress={() => openEditModal("address")}
+            >
+                <Ionicons name="add-circle-outline" size={20} color="#667EEA" />
                 <Text className="ml-2 font-semibold text-blue-600">
-                    Add new address
+                    {shippingAddress.address ? "Edit address" : "Add new address"}
                 </Text>
             </TouchableOpacity>
         </View>
@@ -168,14 +264,14 @@ export default function ProfileScreen() {
 
     const PaymentAccordion = () => (
         <View className="pt-2">
-            <View className="b mb-3 overflow-hidden rounded-xl p-4 shadow-lg">
+            <View className="mb-3 overflow-hidden rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 p-4 shadow-lg">
                 <View className="flex-row items-center justify-between">
                     <View>
-                        <Text className="text-xs">Primary Card</Text>
-                        <Text className="mt-1 text-lg font-bold">
+                        <Text className="text-xs text-white opacity-80">Primary Card</Text>
+                        <Text className="mt-1 text-lg font-bold text-white">
                             •••• 4242
                         </Text>
-                        <Text className="mt-2 text-xs">Visa</Text>
+                        <Text className="mt-2 text-xs text-white opacity-80">Visa</Text>
                     </View>
                     <Ionicons
                         name="card"
@@ -260,10 +356,8 @@ export default function ProfileScreen() {
                                         />
                                     ) : (
                                         <View className="h-full w-full items-center justify-center bg-gradient-to-br from-purple-400 to-pink-400">
-                                            <Text className="text-3xl font-bold">
-                                                {user?.user_metadata?.name?.charAt(
-                                                    0,
-                                                )}
+                                            <Text className="text-3xl font-bold text-white">
+                                                {user?.user_metadata?.name?.charAt(0) || "U"}
                                             </Text>
                                         </View>
                                     )}
@@ -272,11 +366,11 @@ export default function ProfileScreen() {
 
                             {/* User info with better typography */}
                             <View className="ml-4 flex-1">
-                                <Text className="text-xl font-bold">
-                                    {user?.user_metadata?.name}
+                                <Text className="text-xl font-bold text-white">
+                                    {user?.user_metadata?.name || "User"}
                                 </Text>
-                                <Text className="mt-1 text-sm opacity-90">
-                                    {user?.user_metadata?.email}
+                                <Text className="mt-1 text-sm text-white opacity-90">
+                                    {user?.email || user?.user_metadata?.email}
                                 </Text>
                             </View>
                         </View>
@@ -284,7 +378,7 @@ export default function ProfileScreen() {
                         {/* Settings with backdrop */}
                         <TouchableOpacity
                             onPress={() => router.push("/settings")}
-                            className="h-10 w-10 items-center justify-center rounded-full bg-gray-500"
+                            className="h-10 w-10 items-center justify-center rounded-full bg-white bg-opacity-20"
                         >
                             <Ionicons
                                 name="settings-outline"
@@ -318,14 +412,12 @@ export default function ProfileScreen() {
                                     className="overflow-hidden rounded-2xl bg-white shadow-sm"
                                     activeOpacity={0.7}
                                 >
-                                    <View className="flex-row items-center px-5 py-3">
-                                        <View
-                                            className={`} mr-4 h-12 w-12 items-center justify-center rounded-xl`}
-                                        >
+                                    <View className="flex-row items-center px-5 py-4">
+                                        <View className="mr-4 h-12 w-12 items-center justify-center rounded-xl bg-gray-100">
                                             <Ionicons
                                                 name={item.icon}
                                                 size={22}
-                                                color=""
+                                                color="#667EEA"
                                             />
                                         </View>
 
@@ -383,6 +475,86 @@ export default function ProfileScreen() {
                     </View>
                 </TouchableOpacity>
             </ScrollView>
+
+            {/* Edit Modal */}
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => setModalVisible(false)}
+            >
+                <View className="flex-1 justify-end">
+                    <View className="rounded-t-3xl bg-white px-6 pb-8 pt-6 shadow-2xl">
+                        <View className="mb-6 flex-row items-center justify-between">
+                            <Text className="text-xl font-bold text-gray-800">
+                                {editType === "contact" ? "Edit Contact" : "Edit Address"}
+                            </Text>
+                            <TouchableOpacity onPress={() => setModalVisible(false)}>
+                                <Ionicons name="close" size={24} color="#9CA3AF" />
+                            </TouchableOpacity>
+                        </View>
+
+                        {editType === "contact" ? (
+                            <>
+                                <TextInput
+                                    className="mb-4 rounded-xl border border-gray-300 px-4 py-3"
+                                    placeholder="Phone"
+                                    value={phone}
+                                    onChangeText={setPhone}
+                                />
+                                <TextInput
+                                    className="mb-4 rounded-xl border border-gray-300 px-4 py-3"
+                                    placeholder="Email"
+                                    value={email}
+                                    onChangeText={setEmail}
+                                    keyboardType="email-address"
+                                />
+                            </>
+                        ) : (
+                            <>
+                                <TextInput
+                                    className="mb-4 rounded-xl border border-gray-300 px-4 py-3"
+                                    placeholder="Address"
+                                    value={address}
+                                    onChangeText={setAddress}
+                                />
+                                <TextInput
+                                    className="mb-4 rounded-xl border border-gray-300 px-4 py-3"
+                                    placeholder="PO Box"
+                                    value={po}
+                                    onChangeText={setPo}
+                                />
+                                <TextInput
+                                    className="mb-4 rounded-xl border border-gray-300 px-4 py-3"
+                                    placeholder="District"
+                                    value={district}
+                                    onChangeText={setDistrict}
+                                />
+                                <TextInput
+                                    className="mb-4 rounded-xl border border-gray-300 px-4 py-3"
+                                    placeholder="City"
+                                    value={city}
+                                    onChangeText={setCity}
+                                />
+                            </>
+                        )}
+
+                        <TouchableOpacity
+                            onPress={saveUserInfo}
+                            disabled={saving}
+                            className="rounded-xl bg-purple-600 py-4"
+                        >
+                            {saving ? (
+                                <ActivityIndicator color="#fff" />
+                            ) : (
+                                <Text className="text-center font-semibold text-white">
+                                    Save Changes
+                                </Text>
+                            )}
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </Modal>
         </SafeAreaView>
     );
 }
