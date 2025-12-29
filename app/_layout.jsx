@@ -1,4 +1,5 @@
 import { persistor, store } from "@/src/store/index";
+import { StripeProvider } from "@stripe/stripe-react-native";
 import { useFonts } from "expo-font";
 import { Stack, useRouter, useSegments } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
@@ -74,7 +75,12 @@ export default function RootLayout() {
     return (
         <Provider store={store}>
             <PersistGate loading={null} persistor={persistor}>
-                <AuthGate />
+                <StripeProvider
+                    publishableKey={process.env.EXPO_PUBLIC_STRIPE_PK}
+                    merchantIdentifier="E-Commerce"
+                >
+                    <AuthGate />
+                </StripeProvider>
             </PersistGate>
         </Provider>
     );

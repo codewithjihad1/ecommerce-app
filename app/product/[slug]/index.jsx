@@ -96,7 +96,7 @@ export default function ProductListBySlug() {
                 data={filteredProducts}
                 keyExtractor={(item) => item._id}
                 renderItem={renderProduct}
-                numColumns={2} // This creates the responsive 2-column layout
+                numColumns={2} 
                 contentContainerStyle={{
                     paddingHorizontal: 8,
                     paddingBottom: 20,

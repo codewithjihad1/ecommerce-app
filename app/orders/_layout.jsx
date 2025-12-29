@@ -1,12 +1,9 @@
 import { Stack } from "expo-router";
 
-export default function PaymentLayout() {
+export default function OrderLayout() {
     return (
         <Stack screenOptions={{ headerShown: false }}>
-            {/* product/index.jsx */}
             <Stack.Screen name="index" />
-            <Stack.Screen name="cancel" />
-            <Stack.Screen name="failed" />
         </Stack>
     );
 }
