@@ -1,73 +1,74 @@
-import {
-    View,
-    Text,
-    TouchableOpacity,
-    ScrollView,
-    Pressable,
-    ActivityIndicator,
-} from "react-native";
-import React, { useCallback, useEffect, useState } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
+import { useCallback, useEffect, useState } from "react";
+import {
+    ActivityIndicator,
+    Pressable,
+    ScrollView,
+    Text,
+    TouchableOpacity,
+    View,
+} from "react-native";
 import { useSelector } from "react-redux";
 import { supabase } from "../../lib/supabase";
 
-const myOrders = [
-    {
-        order_id: 1001,
-        date: "06/12/2025",
-        tracking_no: "TRK158002",
-        quantity: 3,
-        subtotal: 129.99,
-        order_status: "Delivered",
-    },
-    {
-        order_id: 1002,
-        date: "10/12/2025",
-        tracking_no: "TRK246977",
-        quantity: 1,
-        subtotal: 89.5,
-        order_status: "Delivered",
-    },
-    {
-        order_id: 1003,
-        date: "15/12/2025",
-        tracking_no: "TRK158003",
-        quantity: 5,
-        subtotal: 215.75,
-        order_status: "Pending",
-    },
-    {
-        order_id: 1004,
-        date: "20/12/2025",
-        tracking_no: "TRK158004",
-        quantity: 2,
-        subtotal: 45.0,
-        order_status: "Cancelled",
-    },
-    {
-        order_id: 1005,
-        date: "24/12/2025",
-        tracking_no: "TRK548962",
-        quantity: 4,
-        subtotal: 320.4,
-        order_status: "Pending",
-    },
-    {
-        order_id: 1006,
-        date: "26/12/2025",
-        tracking_no: "TRK158005",
-        quantity: 7,
-        subtotal: 189.25,
-        order_status: "Delivered",
-    },
-];
+// const myOrders = [
+//     {
+//         order_id: 1001,
+//         date: "06/12/2025",
+//         tracking_no: "TRK158002",
+//         quantity: 3,
+//         subtotal: 129.99,
+//         order_status: "Delivered",
+//     },
+//     {
+//         order_id: 1002,
+//         date: "10/12/2025",
+//         tracking_no: "TRK246977",
+//         quantity: 1,
+//         subtotal: 89.5,
+//         order_status: "Delivered",
+//     },
+//     {
+//         order_id: 1003,
+//         date: "15/12/2025",
+//         tracking_no: "TRK158003",
+//         quantity: 5,
+//         subtotal: 215.75,
+//         order_status: "Pending",
+//     },
+//     {
+//         order_id: 1004,
+//         date: "20/12/2025",
+//         tracking_no: "TRK158004",
+//         quantity: 2,
+//         subtotal: 45.0,
+//         order_status: "Cancelled",
+//     },
+//     {
+//         order_id: 1005,
+//         date: "24/12/2025",
+//         tracking_no: "TRK548962",
+//         quantity: 4,
+//         subtotal: 320.4,
+//         order_status: "Pending",
+//     },
+//     {
+//         order_id: 1006,
+//         date: "26/12/2025",
+//         tracking_no: "TRK158005",
+//         quantity: 7,
+//         subtotal: 189.25,
+//         order_status: "Delivered",
+//     },
+// ];
 
 const Orders = () => {
     const router = useRouter();
     const { user, loading } = useSelector((state) => state.auth);
-    const [status, setStatus] = useState("Pending");
+    const [status, setStatus] = useState("All");
     const [orders, setOrders] = useState([]);
+    const [filterOrders, setFilterOrders] = useState([]);
 
     const handleGoBack = () => {
         router.back();
@@ -78,13 +79,43 @@ const Orders = () => {
             .from("orders")
             .select("*")
             .eq("user_id", user.id);
+        // const { data, error } = await supabase
+        //     .from("order_items")
+        //     .select()
 
         if (error) {
             console.error("Error fetching orders:", error);
             return;
         }
 
-        setOrders(data);
+        if (!data || data.length === 0) {
+            setOrders([]);
+            setFilterOrders([]);
+            return;
+        }
+
+        const orderIds = data.map((o) => o.order_id);
+        const { data: items, error: itemsError } = await supabase
+            .from("order_items")
+            .select("order_id, quantity")
+            .in("order_id", orderIds);
+
+        if (itemsError) {
+            console.error("Error fetching order items:", itemsError);
+        }
+
+        const qtyMap = {};
+        (items || []).forEach((o) => {
+            qtyMap[o.order_id] = (qtyMap[o.order_id] || 0) + o.quantity;
+        });
+
+        const ordersWithQty = data.map((o) => ({
+            ...o,
+            totalQuantity: qtyMap[o.order_id],
+        }));
+
+        setOrders(ordersWithQty);
+        setFilterOrders(ordersWithQty);
     }, [user]);
 
     useEffect(() => {
@@ -93,11 +124,17 @@ const Orders = () => {
 
     const handleStatus = (currentStatus) => {
         setStatus(currentStatus);
+        if (currentStatus === "All") {
+            setFilterOrders(orders);
+            return;
+        }
         const filteredOrders = orders.filter(
-            (order) => order.order_status === currentStatus,
+            (order) => order.payment_status.toLowerCase() === currentStatus,
         );
-        setOrders(filteredOrders);
+        setFilterOrders(filteredOrders);
     };
+
+    // We aggregate order item quantities when fetching orders
 
     if (loading && !user) {
         return <ActivityIndicator size="large" />;
@@ -128,24 +165,38 @@ const Orders = () => {
                 contentContainerStyle={{ paddingBottom: 30 }}
             >
                 {/* Order Status */}
-                <View className="mt-4 flex-row justify-around">
-                    <Pressable onPress={() => handleStatus("Pending")}>
+                <View className="mt-4 flex-row flex-wrap justify-around gap-y-2">
+                    <Pressable onPress={() => handleStatus("All")}>
                         <Text
-                            className={`rounded-full px-6 py-2 ${status === "Pending" ? "bg-[#43484B] text-white" : "bg-white text-black"}`}
+                            className={`rounded-full px-6 py-2 ${status === "All" ? "bg-[#43484B] text-white" : "bg-white text-black"}`}
+                        >
+                            All
+                        </Text>
+                    </Pressable>
+                    <Pressable onPress={() => handleStatus("pending")}>
+                        <Text
+                            className={`rounded-full px-6 py-2 ${status === "pending" ? "bg-[#43484B] text-white" : "bg-white text-black"}`}
                         >
                             Pending
                         </Text>
                     </Pressable>
-                    <Pressable onPress={() => handleStatus("Delivered")}>
+                    <Pressable onPress={() => handleStatus("paid")}>
                         <Text
-                            className={`rounded-full px-6 py-2 ${status === "Delivered" ? "bg-[#43484B] text-white" : "bg-white text-black"}`}
+                            className={`rounded-full px-6 py-2 ${status === "paid" ? "bg-[#43484B] text-white" : "bg-white text-black"}`}
+                        >
+                            Paid
+                        </Text>
+                    </Pressable>
+                    <Pressable onPress={() => handleStatus("delivered")}>
+                        <Text
+                            className={`rounded-full px-6 py-2 ${status === "delivered" ? "bg-[#43484B] text-white" : "bg-white text-black"}`}
                         >
                             Delivered
                         </Text>
                     </Pressable>
-                    <Pressable onPress={() => handleStatus("Cancelled")}>
+                    <Pressable onPress={() => handleStatus("cancelled")}>
                         <Text
-                            className={`rounded-full px-6 py-2 ${status === "Cancelled" ? "bg-[#43484B] text-white" : "bg-white text-black"}`}
+                            className={`rounded-full px-6 py-2 ${status === "cancelled" ? "bg-[#43484B] text-white" : "bg-white text-black"}`}
                         >
                             Cancelled
                         </Text>
@@ -154,28 +205,30 @@ const Orders = () => {
 
                 {/* Order Card */}
                 <View className="mx-5 mt-8">
-                    {orders.map((order, i) => (
+                    {filterOrders.map((order, i) => (
                         <View
                             key={i}
                             className="mb-4 rounded-xl bg-white p-4 shadow-sm"
                         >
-                            <View className="flex-row items-center justify-between">
+                            <View className="flex-row flex-wrap items-center justify-between gap-3">
                                 <Text className="text-xl font-semibold">
                                     Order #{order.order_id}
                                 </Text>
                                 <Text className="text-black/50">
-                                    {order.date}
+                                    {new Date(
+                                        order.created_at,
+                                    ).toLocaleDateString()}
                                 </Text>
                             </View>
 
-                            <View className="mt-6 flex-row items-center">
+                            {/* <View className="mt-6 flex-row items-center">
                                 <Text className="mr-2 text-black/50">
                                     Tracking Number:{" "}
                                 </Text>
                                 <Text className="font-medium">
                                     {order.tracking_no}
                                 </Text>
-                            </View>
+                            </View> */}
 
                             <View className="mt-6 flex-row items-center justify-between">
                                 <View className="flex-row">
@@ -183,7 +236,7 @@ const Orders = () => {
                                         Quanlity:{" "}
                                     </Text>
                                     <Text className="font-medium">
-                                        {order.quantity}
+                                        {order.totalQuantity ?? 0}
                                     </Text>
                                 </View>
                                 <View className="flex-row">
@@ -198,9 +251,9 @@ const Orders = () => {
 
                             <View className="mt-6 flex-row items-center justify-between">
                                 <Text
-                                    className={`${order.order_status === "Pending" ? "text-[#CF6212]" : order.order_status === "Delivered" ? "text-[#009254]" : "text-[#C50000]"} text-xl font-medium`}
+                                    className={`${order.payment_status === "Pending" ? "text-[#CF6212]" : order.payment_status === "Delivered" ? "text-[#009254]" : "text-[#C50000]"} text-xl font-medium`}
                                 >
-                                    {order.order_status}
+                                    {order.payment_status}
                                 </Text>
                                 <TouchableOpacity
                                     onPress={() =>
