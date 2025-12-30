@@ -3,15 +3,20 @@ import { useLocalSearchParams } from "expo-router";
 import { useRouter, useSearchParams } from "expo-router/build/hooks";
 import { FlatList, Image, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useDispatch } from "react-redux";
 import { useSanityProducts } from "../../../src/components/hooks/useSanityProducts";
+import { addRecentlyViewedProduct } from "../../../src/store/slices/recentlyViewedProductSlice";
 
 export default function Products() {
     const { type } = useLocalSearchParams();
     const { from } = useSearchParams();
     const router = useRouter();
+    const dispatch = useDispatch();
 
     const { products } = useSanityProducts();
-    console.log(products);
+    const addRecentlyViewed = (product) => {
+        dispatch(addRecentlyViewedProduct(product));
+    };
 
     const handleGoBack = () => {
         if (from) {
@@ -71,15 +76,16 @@ export default function Products() {
                         <TouchableOpacity
                             style={{ maxWidth: "50%" }}
                             className="m-2 flex-1 p-3"
-                            onPress={() =>
+                            onPress={() => {
+                                addRecentlyViewed(item);
                                 router.push({
                                     pathname: "/product/[slug]/[id]",
                                     params: {
                                         slug,
                                         id: item._id,
                                     },
-                                })
-                            }
+                                });
+                            }}
                         >
                             {/* Image Container */}
                             <View className="mb-2 h-40 w-full">
