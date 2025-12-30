@@ -298,9 +298,7 @@ const Orders = () => {
                                         Tracking Number:{" "}
                                     </Text>
                                     <Text className="font-medium">
-                                        {order?.trx_id?.slice(
-                                            order?.trx_id.length - 4,
-                                        )}
+                                        {order?.trx_id?.slice(0, 10) || "N/A"}
                                     </Text>
                                 </View>
 

@@ -83,13 +83,12 @@ const Discover = () => {
         return categoryData?.types || [];
     };
 
-
     const handleGotoProducts = (type) => {
         router.push({
-            pathname: '/product/products',
-            params: { type: type.name }
+            pathname: "/product/products",
+            params: { type: type.name },
         });
-    }
+    };
     return (
         <View className="flex-1 bg-white">
             <View className="flex-row items-center justify-between px-5 py-4">
@@ -217,7 +216,9 @@ const Discover = () => {
                                         <View className="mt-2 rounded-xl bg-gray-50 p-4">
                                             {types.map((type, typeIndex) => (
                                                 <TouchableOpacity
-                                                onPress={()=>handleGotoProducts(type)}
+                                                    onPress={() =>
+                                                        handleGotoProducts(type)
+                                                    }
                                                     key={typeIndex}
                                                     className="mb-2 flex-row items-center rounded-lg bg-white p-3 shadow-sm"
                                                     activeOpacity={0.7}
