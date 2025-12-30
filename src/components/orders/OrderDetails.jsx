@@ -10,6 +10,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { supabase } from "../../lib/supabase";
 import Ionicons from '@expo/vector-icons/Ionicons';
+import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons';
 
 const OrderDetails = ({ id }) => {
     const router = useRouter();
@@ -85,10 +86,11 @@ const OrderDetails = ({ id }) => {
 
             <ScrollView>
                 {/* Order status */}
-                <View className="mx-5 mt-4 flex items-center justify-center rounded-xl bg-[#575757] p-10">
+                <View className="mx-5 mt-4 flex-row items-center justify-center gap-x-6 rounded-xl bg-[#575757] p-10">
                     <Text className="text-xl font-semibold text-white">
                         Your order is {order[0]?.payment_status}
                     </Text>
+                    <SimpleLineIcons name="handbag" size={34} color="white" />
                 </View>
 
                 {/* Order information */}
