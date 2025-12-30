@@ -163,6 +163,7 @@ const Orders = () => {
             setProgress((prev) => {
                 if (prev >= 0.95) {
                     clearInterval(interval);
+                    setLoading(false);
                     return 0.95;
                 }
                 return prev + 0.3;
@@ -179,6 +180,14 @@ const Orders = () => {
             </View>
         );
     }
+
+    // if (filterOrders.length === 0) {
+    //     return (
+    //         <View className="flex-1 items-center justify-center bg-white">
+    //             <Text>No orders place yet</Text>
+    //         </View>
+    //     );
+    // }
 
     return (
         <View className="flex-1 bg-white">
@@ -260,76 +269,84 @@ const Orders = () => {
 
                 {/* Order Card */}
                 <View className="mx-5 mt-8">
-                    {filterOrders.map((order, i) => (
-                        <View
-                            key={i}
-                            className="mb-4 rounded-xl bg-white p-4 shadow-sm"
-                        >
-                            <View className="flex-row flex-wrap items-center justify-between gap-3">
-                                <Text className="text-xl font-semibold">
-                                    Order #
-                                    {order.order_id.slice(
-                                        order.order_id.length - 4,
-                                    )}
-                                </Text>
-                                <Text className="text-black/50">
-                                    {new Date(
-                                        order.created_at,
-                                    ).toLocaleDateString()}
-                                </Text>
-                            </View>
-
-                            <View className="mt-6 flex-row items-center">
-                                <Text className="mr-2 text-black/50">
-                                    Tracking Number:{" "}
-                                </Text>
-                                <Text className="font-medium">
-                                    {order?.trx_id?.slice(
-                                        order?.trx_id.length - 4,
-                                    )}
-                                </Text>
-                            </View>
-
-                            <View className="mt-6 flex-row items-center justify-between">
-                                <View className="flex-row">
-                                    <Text className="mr-2 text-black/50">
-                                        Quanlity:{" "}
-                                    </Text>
-                                    <Text className="font-medium">
-                                        {order.totalQuantity ?? 0}
-                                    </Text>
-                                </View>
-                                <View className="flex-row">
-                                    <Text className="mr-2 text-black/50">
-                                        Subtotal:{" "}
-                                    </Text>
-                                    <Text className="font-medium">
-                                        ${order.subtotal}
-                                    </Text>
-                                </View>
-                            </View>
-
-                            <View className="mt-6 flex-row items-center justify-between">
-                                <Text
-                                    className={`${order.payment_status === "Pending" ? "text-[#CF6212]" : order.payment_status === "Delivered" ? "text-[#009254]" : "text-[#C50000]"} text-xl font-medium`}
-                                >
-                                    {order.payment_status
-                                        .charAt(0)
-                                        .toUpperCase() +
-                                        order.payment_status.slice(1)}
-                                </Text>
-                                <TouchableOpacity
-                                    onPress={() =>
-                                        router.push(`/orders/${order.order_id}`)
-                                    }
-                                >
-                                    <Text className="rounded-full border px-6 py-3">
-                                        Details
-                                    </Text>
-                                </TouchableOpacity>
-                            </View>
+                    {filterOrders.length === 0 ? (
+                        <View className="items-center justify-center">
+                            <Text>No Orders Place Yet</Text>
                         </View>
-                    ))}
+                    ) : (
+                        filterOrders.map((order, i) => (
+                            <View
+                                key={i}
+                                className="mb-4 rounded-xl bg-white p-4 shadow-sm"
+                            >
+                                <View className="flex-row flex-wrap items-center justify-between gap-3">
+                                    <Text className="text-xl font-semibold">
+                                        Order #
+                                        {order.order_id.slice(
+                                            order.order_id.length - 4,
+                                        )}
+                                    </Text>
+                                    <Text className="text-black/50">
+                                        {new Date(
+                                            order.created_at,
+                                        ).toLocaleDateString()}
+                                    </Text>
+                                </View>
+
+                                <View className="mt-6 flex-row items-center">
+                                    <Text className="mr-2 text-black/50">
+                                        Tracking Number:{" "}
+                                    </Text>
+                                    <Text className="font-medium">
+                                        {order?.trx_id?.slice(
+                                            order?.trx_id.length - 4,
+                                        )}
+                                    </Text>
+                                </View>
+
+                                <View className="mt-6 flex-row items-center justify-between">
+                                    <View className="flex-row">
+                                        <Text className="mr-2 text-black/50">
+                                            Quanlity:{" "}
+                                        </Text>
+                                        <Text className="font-medium">
+                                            {order.totalQuantity ?? 0}
+                                        </Text>
+                                    </View>
+                                    <View className="flex-row">
+                                        <Text className="mr-2 text-black/50">
+                                            Subtotal:{" "}
+                                        </Text>
+                                        <Text className="font-medium">
+                                            ${order.subtotal}
+                                        </Text>
+                                    </View>
+                                </View>
+
+                                <View className="mt-6 flex-row items-center justify-between">
+                                    <Text
+                                        className={`${order.payment_status === "Pending" ? "text-[#CF6212]" : order.payment_status === "Delivered" ? "text-[#009254]" : "text-[#C50000]"} text-xl font-medium`}
+                                    >
+                                        {order.payment_status
+                                            .charAt(0)
+                                            .toUpperCase() +
+                                            order.payment_status.slice(1)}
+                                    </Text>
+                                    <TouchableOpacity
+                                        onPress={() =>
+                                            router.push(
+                                                `/orders/${order.order_id}`,
+                                            )
+                                        }
+                                    >
+                                        <Text className="rounded-full border px-6 py-3">
+                                            Details
+                                        </Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        ))
+                    )}
                 </View>
             </ScrollView>
         </View>
