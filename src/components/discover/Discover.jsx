@@ -1,26 +1,28 @@
+import { MaterialIcons } from "@expo/vector-icons";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { LinearGradient } from "expo-linear-gradient";
+import { useRouter } from "expo-router";
+import { useEffect, useState } from "react";
 import {
-    View,
-    Text,
+    Pressable,
     ScrollView,
+    Text,
     TextInput,
     TouchableOpacity,
-    Pressable,
-    // Image,
+    View,
 } from "react-native";
-import React, { useEffect, useState } from "react";
-import Ionicons from "@expo/vector-icons/Ionicons";
+import { ActivityIndicator } from "react-native-paper";
 import { useSanityProducts } from "../hooks/useSanityProducts";
-import { MaterialIcons } from "@expo/vector-icons";
-import { useRouter } from "expo-router";
-import { LinearGradient } from "expo-linear-gradient";
 
 const Discover = () => {
-    const { products } = useSanityProducts();
+    const { products, loading } = useSanityProducts();
     const [subCategory, setSubCategory] = useState([]);
     const [productType, setProductType] = useState([]);
     const [searchQuery, setSearchQuery] = useState("");
     const [expandedCategory, setExpandedCategory] = useState(null);
     const router = useRouter();
+
+    console.log(loading);
 
     useEffect(() => {
         if (!products) return;
@@ -83,13 +85,23 @@ const Discover = () => {
         return categoryData?.types || [];
     };
 
-
     const handleGotoProducts = (type) => {
         router.push({
-            pathname: '/product/products',
-            params: { type: type.name }
+            pathname: "/product/products",
+            params: { type: type.name },
         });
+    };
+    if (loading) {
+        return (
+            <View className="flex-1 items-center justify-center bg-white">
+                <ActivityIndicator size="large" color="#764ba2" />
+                <Text className="mt-3 text-gray-500">
+                    Loading categories...
+                </Text>
+            </View>
+        );
     }
+
     return (
         <View className="flex-1 bg-white">
             <View className="flex-row items-center justify-between px-5 py-4">
@@ -217,7 +229,9 @@ const Discover = () => {
                                         <View className="mt-2 rounded-xl bg-gray-50 p-4">
                                             {types.map((type, typeIndex) => (
                                                 <TouchableOpacity
-                                                onPress={()=>handleGotoProducts(type)}
+                                                    onPress={() =>
+                                                        handleGotoProducts(type)
+                                                    }
                                                     key={typeIndex}
                                                     className="mb-2 flex-row items-center rounded-lg bg-white p-3 shadow-sm"
                                                     activeOpacity={0.7}
