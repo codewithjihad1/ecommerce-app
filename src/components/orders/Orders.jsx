@@ -69,7 +69,7 @@ const orderStatus = [
     { id: "2", os: "Pending" },
     { id: "3", os: "Paid" },
     { id: "4", os: "Delivered" },
-    { id: "5", os: "Cancelled" },
+    { id: "5", os: "Canceled" },
 ];
 
 const Orders = () => {
