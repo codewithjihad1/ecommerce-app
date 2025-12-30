@@ -18,6 +18,8 @@ export default function Products() {
         dispatch(addRecentlyViewedProduct(product));
     };
 
+    console.log(type);
+
     const handleGoBack = () => {
         if (from) {
             router.replace(`${from}`);
@@ -33,7 +35,7 @@ export default function Products() {
         (product) => product.producttype.toLowerCase() === type.toLowerCase(),
     );
 
-    console.log(filterProductsByProductType);
+    // console.log(filterProductsByProductType);
 
     return (
         <SafeAreaView className="flex-1 bg-white">
