@@ -4,6 +4,7 @@ import { useSearchParams } from "expo-router/build/hooks";
 import { useMemo } from "react";
 import { FlatList, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+// import {  } from "../../../../src/components/hooks/useSanityProducts";
 import { useSanityProducts } from "../../../src/components/hooks/useSanityProducts";
 
 export default function ReviewsPage() {
