@@ -33,7 +33,6 @@ export default function Checkout() {
 
     const { presentPaymentSheet, initPaymentSheet } = useStripe();
 
-    const [paymentUrl, setPaymentUrl] = useState(null);
     const [contactInfo, setContactInfo] = useState(null);
     const [shippingAddress, setShippingAddress] = useState(null);
     const [loading, setLoading] = useState(true);
