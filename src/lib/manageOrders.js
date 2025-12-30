@@ -68,12 +68,12 @@ export const placeOrder = async (orderData, user) => {
  * @param {string} userId
  * @param {string} status
  */
-export const paymentStatusUpdate = async (orderId, userId) => {
+export const paymentStatusUpdate = async (orderId, userId, status) => {
     try {
         const { error } = await supabase
             .from("orders")
             .update({
-                payment_status: "paid",
+                payment_status: status,
             })
             .eq("order_id", orderId)
             .eq("user_id", userId);
