@@ -10,7 +10,6 @@ const recentlyViewed = createSlice({
     reducers: {
         addRecentlyViewedProduct: (state, action) => {
             const product = action.payload;
-            console.log("Reducer payload:", action.payload);
             if (!product?._id) return;
             const now = Date.now();
 
