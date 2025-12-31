@@ -12,6 +12,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch } from "react-redux";
 import { signIn } from "../../src/store/slices/authSlice";
+import SocialLogin from "../../src/components/auth/SocialLogin";
 
 export default function LoginScreen() {
     const [email, setEmail] = useState("");
@@ -28,6 +29,10 @@ export default function LoginScreen() {
         } catch (error) {
             Alert.alert(error);
         }
+    };
+
+    const handleSocialLoginSuccess = () => {
+        router.replace("/");
     };
 
     return (
@@ -100,6 +105,9 @@ export default function LoginScreen() {
                         Login
                     </Text>
                 </TouchableOpacity>
+
+                {/* Social Login */}
+                <SocialLogin onSuccess={handleSocialLoginSuccess} />
 
                 <TouchableOpacity
                     className="mt-8 flex-row items-center justify-center gap-3"
