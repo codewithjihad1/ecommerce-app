@@ -4,6 +4,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import {
+    ActivityIndicator,
     Pressable,
     ScrollView,
     Text,
@@ -11,22 +12,24 @@ import {
     TouchableOpacity,
     View,
 } from "react-native";
-import { ActivityIndicator } from "react-native-paper";
+import { useSelector } from "react-redux"; // Added to get category
 import { useSanityProducts } from "../hooks/useSanityProducts";
 
 const Discover = () => {
-    const { products, loading } = useSanityProducts();
+    const { categoryName } = useSelector((state) => state.categoryName);
+    const router = useRouter();
+    const { products, loading } = useSanityProducts({
+        category: categoryName,
+        limit: 1000,
+    });
+
     const [subCategory, setSubCategory] = useState([]);
     const [productType, setProductType] = useState([]);
     const [searchQuery, setSearchQuery] = useState("");
     const [expandedCategory, setExpandedCategory] = useState(null);
-    const router = useRouter();
-
-    console.log(loading);
 
     useEffect(() => {
-        if (!products) return;
-
+        if (!products || products.length === 0) return;
         const uniqueSubCategories = [
             ...new Set(products.map((p) => p.subcategoryName).filter(Boolean)),
         ];
@@ -36,14 +39,13 @@ const Discover = () => {
             const categoryProducts = products.filter(
                 (p) => uc === p.subcategoryName,
             );
-            // console.log(categoryProducts.length);
 
             const typeCountMap = {};
-            // let imgURI;
             categoryProducts.forEach((p) => {
                 const type = p.producttype;
-                // imgURI = p.image;
-                typeCountMap[type] = (typeCountMap[type] || 0) + 1;
+                if (type) {
+                    typeCountMap[type] = (typeCountMap[type] || 0) + 1;
+                }
             });
 
             const typesWithCount = Object.entries(typeCountMap).map(
@@ -53,13 +55,10 @@ const Discover = () => {
                 }),
             );
 
-            // console.log(typesWithCount);
-
             newProductTypes.push({
                 name: uc,
                 types: typesWithCount,
                 count: typesWithCount.length,
-                // imgURI: imgURI,
             });
         });
 
@@ -72,7 +71,6 @@ const Discover = () => {
     };
 
     const handleCategoryPress = (category) => {
-        // Toggle: if same category clicked, close it. Otherwise, open new one
         setExpandedCategory(expandedCategory === category ? null : category);
     };
 
@@ -85,16 +83,21 @@ const Discover = () => {
         return categoryData?.types || [];
     };
 
-    const handleGotoProducts = (type) => {
+    // 3. Updated Navigation: Pass both Subcategory and Product Type
+    const handleGotoProducts = (subcat, type) => {
         router.push({
             pathname: "/product/products",
-            params: { type: type.name },
+            params: {
+                subcategory: subcat.toLowerCase(),
+                type: type.name.toLowerCase(),
+            },
         });
     };
+
     if (loading) {
         return (
             <View className="flex-1 items-center justify-center bg-white">
-                <ActivityIndicator size="large" color="#764ba2" />
+                <ActivityIndicator size="large" color="#004CFF" />
                 <Text className="mt-3 text-gray-500">
                     Loading categories...
                 </Text>
@@ -104,11 +107,11 @@ const Discover = () => {
 
     return (
         <View className="flex-1 bg-white">
+            {/* Header */}
             <View className="flex-row items-center justify-between px-5 py-4">
                 <TouchableOpacity
                     onPress={handleGoBack}
                     className="h-10 w-10 items-center justify-center rounded-full bg-gray-100"
-                    activeOpacity={0.7}
                 >
                     <MaterialIcons
                         name="keyboard-arrow-left"
@@ -116,9 +119,9 @@ const Discover = () => {
                         color="black"
                     />
                 </TouchableOpacity>
-
-                <Text className="text-2xl font-bold">Discover</Text>
-
+                <Text className="text-2xl font-bold">
+                    Discover {categoryName}
+                </Text>
                 <View className="w-10" />
             </View>
 
@@ -126,6 +129,7 @@ const Discover = () => {
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={{ paddingBottom: 20 }}
             >
+                {/* Search Bar */}
                 <View className="mx-5 mt-2">
                     <View className="relative">
                         <Ionicons
@@ -142,148 +146,88 @@ const Discover = () => {
                         <TextInput
                             className="rounded-2xl bg-gray-100 py-3.5 pl-12 pr-4 text-base"
                             placeholder="Search subcategories..."
-                            placeholderTextColor="#9CA3AF"
                             value={searchQuery}
                             onChangeText={setSearchQuery}
                         />
-                        {searchQuery.length > 0 && (
-                            <TouchableOpacity
-                                onPress={() => setSearchQuery("")}
-                                className="absolute right-4 top-3.5"
-                            >
-                                <Ionicons
-                                    name="close-circle"
-                                    size={20}
-                                    color="#9CA3AF"
-                                />
-                            </TouchableOpacity>
-                        )}
                     </View>
                 </View>
 
-                <View className="mx-5 mt-6">
-                    <Text className="text-sm text-gray-500">
-                        {filteredCategories.length}{" "}
-                        {filteredCategories.length === 1
-                            ? "category"
-                            : "categories"}{" "}
-                        found
-                    </Text>
-                </View>
-
+                {/* Categories List */}
                 <View className="mx-5 mt-4">
-                    {filteredCategories.length > 0 ? (
-                        filteredCategories.map((category, index) => {
-                            const isExpanded = expandedCategory === category;
-                            const types = getCategoryTypes(category);
-                            // const categoryData = productType.find(
-                            //     (pt) => pt.name === category,
-                            // );
-                            // const imgURI = categoryData?.imgURI;
+                    {filteredCategories.map((category, index) => {
+                        const isExpanded = expandedCategory === category;
+                        const types = getCategoryTypes(category);
 
-                            return (
-                                <View key={index} className="mb-4">
-                                    <Pressable
-                                        onPress={() =>
-                                            handleCategoryPress(category)
-                                        }
-                                        className="overflow-hidden rounded-2xl"
+                        return (
+                            <View key={index} className="mb-4">
+                                <Pressable
+                                    onPress={() =>
+                                        handleCategoryPress(category)
+                                    }
+                                >
+                                    <LinearGradient
+                                        colors={["#004CFF", "#764ba2"]}
+                                        start={{ x: 0, y: 0 }}
+                                        end={{ x: 1, y: 1 }}
+                                        className="rounded-2xl"
                                     >
-                                        {({ pressed }) => (
-                                            <LinearGradient
-                                                colors={["#004CFF", "#764ba2"]}
-                                                start={{ x: 0, y: 0 }}
-                                                end={{ x: 1, y: 1 }}
-                                                className={`overflow-hidden rounded-2xl ${pressed ? "opacity-90" : "opacity-100"}`}
-                                            >
-                                                <View className="flex-row items-center justify-between p-12">
-                                                    <View className="flex-1">
-                                                        <Text className="text-xl font-bold text-white">
-                                                            {category}
-                                                        </Text>
-                                                        <Text className="mt-1 text-sm text-white/80">
-                                                            {types.length}{" "}
-                                                            product{" "}
-                                                            {types.length === 1
-                                                                ? "type"
-                                                                : "types"}
-                                                        </Text>
-                                                    </View>
-                                                    <View className="h-12 w-12 items-center justify-center rounded-full bg-white/10">
-                                                        <MaterialIcons
-                                                            name={
-                                                                isExpanded
-                                                                    ? "keyboard-arrow-up"
-                                                                    : "keyboard-arrow-down"
-                                                            }
-                                                            size={24}
-                                                            color="white"
-                                                        />
-                                                    </View>
-                                                </View>
-                                            </LinearGradient>
-                                        )}
-                                    </Pressable>
-
-                                    {isExpanded && types.length > 0 && (
-                                        <View className="mt-2 rounded-xl bg-gray-50 p-4">
-                                            {types.map((type, typeIndex) => (
-                                                <TouchableOpacity
-                                                    onPress={() =>
-                                                        handleGotoProducts(type)
-                                                    }
-                                                    key={typeIndex}
-                                                    className="mb-2 flex-row items-center rounded-lg bg-white p-3 shadow-sm"
-                                                    activeOpacity={0.7}
-                                                >
-                                                    <View className="mr-3 h-8 w-8 items-center justify-center rounded-full bg-purple-100">
-                                                        <Ionicons
-                                                            name="pricetag"
-                                                            size={16}
-                                                            color="#764ba2"
-                                                        />
-                                                    </View>
-                                                    <Text className="flex-1 text-base text-gray-700">
-                                                        {type.name
-                                                            .charAt(0)
-                                                            .toUpperCase() +
-                                                            type.name.slice(1)}
-                                                    </Text>
-                                                    <View className="mr-2 rounded-full bg-purple-100 px-3 py-1">
-                                                        <Text className="text-xs font-semibold text-purple-700">
-                                                            {type.count}{" "}
-                                                            {type.count === 1
-                                                                ? "product"
-                                                                : "products"}
-                                                        </Text>
-                                                    </View>
-                                                    <MaterialIcons
-                                                        name="arrow-forward-ios"
-                                                        size={16}
-                                                        color="#9CA3AF"
-                                                    />
-                                                </TouchableOpacity>
-                                            ))}
+                                        <View className="flex-row items-center justify-between p-10">
+                                            <View className="flex-1">
+                                                <Text className="text-xl font-bold text-white">
+                                                    {category}
+                                                </Text>
+                                                <Text className="mt-1 text-sm text-white/80">
+                                                    {types.length} types
+                                                </Text>
+                                            </View>
+                                            <MaterialIcons
+                                                name={
+                                                    isExpanded
+                                                        ? "keyboard-arrow-up"
+                                                        : "keyboard-arrow-down"
+                                                }
+                                                size={24}
+                                                color="white"
+                                            />
                                         </View>
-                                    )}
-                                </View>
-                            );
-                        })
-                    ) : (
-                        <View className="mt-20 items-center">
-                            <Ionicons
-                                name="search-outline"
-                                size={64}
-                                color="#D1D5DB"
-                            />
-                            <Text className="mt-4 text-base text-gray-500">
-                                No categories found
-                            </Text>
-                            <Text className="mt-1 text-sm text-gray-400">
-                                Try searching with different keywords
-                            </Text>
-                        </View>
-                    )}
+                                    </LinearGradient>
+                                </Pressable>
+
+                                {isExpanded && (
+                                    <View className="mt-2 rounded-xl bg-gray-50 p-4">
+                                        {types.map((type, typeIndex) => (
+                                            <TouchableOpacity
+                                                onPress={() =>
+                                                    handleGotoProducts(
+                                                        category,
+                                                        type,
+                                                    )
+                                                }
+                                                key={typeIndex}
+                                                className="mb-2 flex-row items-center rounded-lg bg-white p-3 shadow-sm"
+                                            >
+                                                <View className="mr-3 h-8 w-8 items-center justify-center rounded-full bg-blue-100">
+                                                    <Ionicons
+                                                        name="pricetag"
+                                                        size={16}
+                                                        color="#004CFF"
+                                                    />
+                                                </View>
+                                                <Text className="flex-1 text-base capitalize text-gray-700">
+                                                    {type.name}
+                                                </Text>
+                                                <View className="rounded-full bg-blue-50 px-3 py-1">
+                                                    <Text className="text-xs font-semibold text-blue-600">
+                                                        {type.count}
+                                                    </Text>
+                                                </View>
+                                            </TouchableOpacity>
+                                        ))}
+                                    </View>
+                                )}
+                            </View>
+                        );
+                    })}
                 </View>
             </ScrollView>
         </View>
