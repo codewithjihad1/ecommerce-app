@@ -3,10 +3,17 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { formatDistanceToNow } from "date-fns";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
-import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import {
+    ActivityIndicator,
+    Image,
+    ScrollView,
+    Text,
+    TouchableOpacity,
+    View,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch } from "react-redux";
-import { useSanityProducts } from "../../../../src/components/hooks/useSanityProducts";
+import { useSanitySingleProduct } from "../../../../src/components/hooks/useSingleSanityProduct";
 import { addToCart } from "../../../../src/store/slices/cartSlice";
 import { addItem } from "../../../../src/store/slices/wishlistSlice";
 
@@ -15,9 +22,7 @@ export default function ProductDescription() {
 
     const router = useRouter();
     const dispatch = useDispatch();
-    const { products, loading } = useSanityProducts();
-
-    const product = products.find((p) => p._id === id);
+    const { product, loading } = useSanitySingleProduct(id);
 
     const [selectedColor, setSelectedColor] = useState(null);
     const [selectedSize, setSelectedSize] = useState(null);
@@ -26,7 +31,7 @@ export default function ProductDescription() {
     const [clickHeart, setClickHeart] = useState(false);
 
     // Set default color and size when product loads
-    // something 
+    // something
     useEffect(() => {
         if (product) {
             setSelectedColor(product.colors?.[0] || null);
@@ -62,8 +67,8 @@ export default function ProductDescription() {
         dispatch(
             addItem({
                 ...product,
-                color: selectedColor, 
-                size: selectedSize, 
+                color: selectedColor,
+                size: selectedSize,
             }),
         );
 
@@ -74,7 +79,7 @@ export default function ProductDescription() {
     if (loading) {
         return (
             <SafeAreaView className="flex-1 items-center justify-center bg-white">
-                <Text className="text-xl font-bold">Loading...</Text>
+                <ActivityIndicator size="large" color="#000" />
             </SafeAreaView>
         );
     }
