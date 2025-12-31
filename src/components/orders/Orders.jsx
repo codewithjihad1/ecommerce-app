@@ -130,7 +130,8 @@ const Orders = () => {
         setOrders(ordersWithQty);
         setFilterOrders(ordersWithQty);
 
-        setTimeout(() => setLoading(false), 3000);
+        // setTimeout(() => setLoading(false), 3000);
+        setLoading(false);
     }, [user]);
 
     useEffect(() => {
