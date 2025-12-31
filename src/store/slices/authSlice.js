@@ -54,7 +54,7 @@ export const signInWithOAuth = createAsyncThunk(
     async ({ provider }, { rejectWithValue }) => {
         try {
             const { data, error } = await supabase.auth.signInWithOAuth({
-                provider, // e.g., 'google', 'github', 'facebook'
+                provider, 
             });
 
             if (error) throw error;
