@@ -342,6 +342,23 @@ const Orders = () => {
                                             Details
                                         </Text>
                                     </TouchableOpacity>
+                                    {/* <TouchableOpacity
+                                        activeOpacity={0.85}
+                                        className="rounded-2xl bg-[#F9FaF8] px-6 py-5"
+                                        style={{
+                                            shadowColor: "red",
+                                            shadowOffset: {
+                                                width: 6,
+                                                height: 6,
+                                            },
+                                            shadowOpacity: 0.7,
+                                            shadowRadius: 10,
+                                        }}
+                                    >
+                                        <Text className="text-xl font-semibold text-gray-800">
+                                            Details
+                                        </Text>
+                                    </TouchableOpacity> */}
                                 </View>
                             </View>
                         ))

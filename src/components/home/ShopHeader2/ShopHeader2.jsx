@@ -1,5 +1,5 @@
 import { View, Text, Image, TouchableOpacity } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import drawerImg from "../../../../assets/HomeImage/navigation.png";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import AntDesign from "@expo/vector-icons/AntDesign";
@@ -9,11 +9,28 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 // import { DrawerActions } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import { setCategoryName } from "../../../store/slices/categorySlice";
+import { ProductService } from "../../../services/ProductService";
 
 const ShopHeader = ({ onOpenDrawer }) => {
     // const navigation = useNavigation();
     const { categoryName } = useSelector((state) => state.categoryName);
     const dispatch = useDispatch();
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const data = await ProductService.getProducts({
+                    per_page: 10,
+                    page: 1,
+                });
+                console.log("✅ Loaded", data.length, "products");
+                console.log(data[0].name)
+            } catch (error) {
+                console.log(error);
+            } finally {
+            }
+        };
+        fetchProducts();
+    }, []);
 
     const handleCategory = (category) => {
         dispatch(setCategoryName(category));
