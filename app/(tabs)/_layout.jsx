@@ -1,4 +1,4 @@
-import { Ionicons } from "@expo/vector-icons";
+import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
 
 export default function TabLayout() {
@@ -18,6 +18,15 @@ export default function TabLayout() {
                 }}
             />
             <Tabs.Screen
+                name="productsWp"
+                options={{
+                    title: "Products",
+                    tabBarIcon: ({ color, size }) => (
+                        <AntDesign name="shop" size={size} color={color} />
+                    ),
+                }}
+            />
+            <Tabs.Screen
                 name="wishlist"
                 options={{
                     title: "Wishlist",
@@ -27,20 +36,20 @@ export default function TabLayout() {
                 }}
             />
             <Tabs.Screen
-                name="profile"
-                options={{
-                    title: "Profile",
-                    tabBarIcon: ({ color, size }) => (
-                        <Ionicons name="person" size={size} color={color} />
-                    ),
-                }}
-            />
-            <Tabs.Screen
                 name="cart"
                 options={{
                     title: "Cart",
                     tabBarIcon: ({ color, size }) => (
                         <Ionicons name="cart" size={size} color={color} />
+                    ),
+                }}
+            />
+            <Tabs.Screen
+                name="profile"
+                options={{
+                    title: "Profile",
+                    tabBarIcon: ({ color, size }) => (
+                        <Ionicons name="person" size={size} color={color} />
                     ),
                 }}
             />
