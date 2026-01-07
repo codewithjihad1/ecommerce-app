@@ -27,6 +27,13 @@ export default function TabLayout() {
                 }}
             />
             <Tabs.Screen
+                name="productsWp/[id]"
+                options={{
+                    href: null,
+                }}
+                redirect={false}
+            />
+            <Tabs.Screen
                 name="wishlist"
                 options={{
                     title: "Wishlist",

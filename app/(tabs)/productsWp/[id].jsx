@@ -1,6 +1,6 @@
 import { FontAwesome } from "@expo/vector-icons";
 import axios from "axios";
-import { useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import {
     Alert,
@@ -18,6 +18,7 @@ const ProductDetailsPage = () => {
     const [isFavorite, setIsFavorite] = useState(false);
     const [product, setProduct] = useState({});
     const [isLoading, setIsLoading] = useState(true);
+    const router = useRouter();
 
     const { id } = useLocalSearchParams();
     console.log("product", product, "id", id);
@@ -66,9 +67,17 @@ const ProductDetailsPage = () => {
             <ScrollView className="flex-1 bg-white">
                 {/* Header */}
                 <View className="flex-row items-center justify-between bg-gray-50 px-4 py-4">
-                    <Text className="text-lg font-semibold text-gray-800">
-                        Product Details
-                    </Text>
+                    <View className="flex-row items-center gap-3">
+                        <FontAwesome
+                            name="angle-left"
+                            size={28}
+                            color={"blue"}
+                            onPress={() => router.back()}
+                        />
+                        <Text className="text-lg font-semibold text-gray-800">
+                            Product Details
+                        </Text>
+                    </View>
                     <TouchableOpacity onPress={handleShare} className="p-2">
                         <FontAwesome name="share" size={24} color="#666" />
                     </TouchableOpacity>
