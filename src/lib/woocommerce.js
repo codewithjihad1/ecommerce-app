@@ -31,8 +31,8 @@ WooCommerceAPI.interceptors.request.use(
       ...oauthParams,
     };
     
-    console.log('🔵 API Request:', config.method.toUpperCase(), config.url);
-    console.log('📦 Params:', config.params);
+    // console.log('🔵 API Request:', config.method.toUpperCase(), config.url);
+    // console.log('📦 Params:', config.params);
     
     return config;
   },

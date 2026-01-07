@@ -1,7 +1,11 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
+import { useSelector } from "react-redux";
 
 export default function TabLayout() {
+    const wishListItems = useSelector((state) => state.wishlist.items || []);
+    const cartItems = useSelector((state) => state.cart.items);
+
     return (
         <Tabs
             screenOptions={{
@@ -21,9 +25,16 @@ export default function TabLayout() {
                 name="wishlist"
                 options={{
                     title: "Wishlist",
+                    tabBarBadge: wishListItems.length,
                     tabBarIcon: ({ color, size }) => (
                         <Ionicons name="heart" size={size} color={color} />
                     ),
+                }}
+            />
+            <Tabs.Screen
+                name="products"
+                options={{
+                    href: null,
                 }}
             />
             <Tabs.Screen
@@ -39,6 +50,7 @@ export default function TabLayout() {
                 name="cart"
                 options={{
                     title: "Cart",
+                    tabBarBadge: cartItems.length,
                     tabBarIcon: ({ color, size }) => (
                         <Ionicons name="cart" size={size} color={color} />
                     ),
