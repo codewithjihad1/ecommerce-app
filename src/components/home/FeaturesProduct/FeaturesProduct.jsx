@@ -1,9 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import { useEffect } from "react";
 import { FlatList, Image, Text, TouchableOpacity, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import WooCommerceApi from "../../../lib/WooCommerceApi";
 import { addRecentlyViewedProduct } from "../../../store/slices/recentlyViewedProductSlice";
 import { useSanityProducts } from "../../hooks/useSanityProducts";
 
@@ -22,19 +20,6 @@ export default function FeaturesProduct() {
     const addRecentlyViewed = (product) => {
         dispatch(addRecentlyViewedProduct(product));
     };
-
-    const fetchWpProducts = async () => {
-        try {
-            const res = await WooCommerceApi.get("products");
-            console.log("WP products: ", res);
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
-    useEffect(() => {
-        fetchWpProducts();
-    }, []);
 
     return (
         <View className="my-5 bg-white">
