@@ -75,8 +75,6 @@ const FlashSalePage = () => {
     const router = useRouter();
     const scrollAreaRef = useRef(null);
     const [showScrollTop, setShowScrollTop] = useState(false);
-    // const { products:p } = useSanityProducts();
-    // console.log(p.length);
 
     const scrollToTop = () => {
         scrollAreaRef.current?.scrollTo({
@@ -137,8 +135,6 @@ const FlashSalePage = () => {
         );
         setProducts(newProducts);
     };
-
-    // console.log(products.length);
 
     const handleGoBack = () => {
         router.back();

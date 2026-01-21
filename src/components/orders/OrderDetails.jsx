@@ -16,7 +16,6 @@ const OrderDetails = ({ id }) => {
     const router = useRouter();
     const [order, setOrder] = useState({});
     const [items, setItems] = useState([]);
-    // console.log(id);
 
     const handleGoBack = () => {
         router.back();
@@ -45,7 +44,6 @@ const OrderDetails = ({ id }) => {
             console.error("Error fetching order items:", itError);
         }
 
-        // console.log(data);
         setItems(it);
         setOrder(data);
     }, [id]);

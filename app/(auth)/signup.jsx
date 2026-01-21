@@ -28,7 +28,6 @@ export default function CreateAccountScreen() {
     const router = useRouter();
     const dispatch = useDispatch();
 
-    // console.log(imgUri, 'img uri');
     // handle signup
     const handleSignup = async () => {
         if (!imgUri) return;

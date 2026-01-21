@@ -29,7 +29,6 @@ const DrawerMenu = ({ onClose }) => {
             <Text className="text-base font-medium">{label}</Text>
         </TouchableOpacity>
     );
-    // console.log(pathname);
 
     if (loading && !user) {
         return <ActivityIndicator size="large" />;

@@ -42,7 +42,6 @@ export default function Wishlist() {
 
     const handleRemove = (id) => {
         dispatch(removeItem(id));
-        console.log("Remove:", id);
     };
 
     const handleAddToCart = (product) => {
